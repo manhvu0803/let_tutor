@@ -1,4 +1,3 @@
-
 import 'package:flutter/material.dart';
 
 class Screen extends StatelessWidget {
@@ -19,7 +18,4 @@ class Screen extends StatelessWidget {
       ),
     );
   }
-  
 }
-
-void doNothing() {}
