@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/login.dart';
+import 'package:let_tutor/login_screen.dart';
 
 void main() {
   runApp(const LetTutorApp());
@@ -16,7 +16,7 @@ class LetTutorApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const LoginPage(),
+      home: const LoginScreen(),
     );
   }
 }
