@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/screen.dart';
-import 'package:let_tutor/tutor_list_screen.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/screens/tutor_list_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -51,8 +51,7 @@ class LoginScreen extends StatelessWidget {
               Icon(Icons.g_translate, size: 48)
             ]
           ),
-          const Text(
-            "Create an account", style: TextStyle(color: Colors.blue), textAlign: TextAlign.center),
+          const Text("Create an account", style: TextStyle(color: Colors.blue), textAlign: TextAlign.center),
         ],
       ),
     );
