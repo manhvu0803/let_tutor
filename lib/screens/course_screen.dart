@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/widgets/course_card.dart';
+import 'package:let_tutor/widgets/course_screen_card.dart';
 import 'package:let_tutor/widgets/search_bar.dart';
 
 const _levels = ["Any level", "Beginner", "Advance", "Intermediate"];
@@ -63,14 +63,14 @@ class _CourseScreenState extends State<CourseScreen> {
               children: [
                 const Text("English for traveling", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 Wrap(
-                  children: [
-                    _courseCard(
+                  children: const [
+                    CourseScreenCard(
                       name: "Life in the Internet Age",
                       description: "Let's discuss how technology is changing the way we live",
                       level: "Intermediate",
                       lessonCount: 9,
                     ),
-                    _courseCard(
+                    CourseScreenCard(
                       name: "Caring for Our Planet",
                       description: "Let's discuss our relationship as humans with our planet, Earth",
                       lessonCount: 1,
@@ -82,13 +82,13 @@ class _CourseScreenState extends State<CourseScreen> {
                   child: Text("English For Beginners", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
                 ),
                 Wrap(
-                  children: [
-                    _courseCard(
+                  children: const [
+                    CourseScreenCard(
                       name: "Basic Conversation Topics",
                       description: "Gain confidence speaking about familiar topics",
                       lessonCount: 9,
                     ),
-                    _courseCard(
+                    CourseScreenCard(
                       name: "Caring for Our Planet",
                       description: "Let's discuss our relationship as humans with our planet, Earth",
                       lessonCount: 1,
@@ -118,27 +118,4 @@ List<DropdownMenuItem<T>> _menuItemFrom<T>(List<T> list) {
   }
 
   return menuItems;
-}
-
-Widget _courseCard({
-  ImageProvider? image,
-  String? name,
-  String? description,
-  String? level,
-  int? lessonCount = 0,
-  double? width = 400,
-  double? heigth
-}) {
-  return Padding(
-    padding: const EdgeInsets.all(10),
-    child: CourseCard(
-      width: width,
-      heigth: heigth,
-      name: name,
-      image: image,
-      description: description,
-      level: level,
-      lessonCount: lessonCount,
-    ),
-  );
 }

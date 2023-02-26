@@ -9,11 +9,9 @@ class Screen extends StatelessWidget {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        body: Center(
-          child: Padding(
-            padding: const EdgeInsets.all(10),
-            child: child
-          ),
+        body: Padding(
+          padding: const EdgeInsets.all(10),
+          child: child
         ),
       ),
     );
