@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/screens/course_screen.dart';
 import 'package:let_tutor/screens/schedule_screen.dart';
 import 'package:let_tutor/screens/tutor_list_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
@@ -19,6 +20,7 @@ class BottomTabScreen extends StatelessWidget{
       screens: const [
         ScheduleScreen(),
         TutorListScreen(),
+        CourseScreen()
       ],
       items: [
         PersistentBottomNavBarItem(
@@ -30,6 +32,11 @@ class BottomTabScreen extends StatelessWidget{
           inactiveColorPrimary: _inactiveColor,
           icon: const Icon(Icons.person),
           title: "Tutors"
+        ),
+        PersistentBottomNavBarItem(
+          inactiveColorPrimary: _inactiveColor,
+          icon: const Icon(Icons.article),
+          title: "Courses"
         )
       ],
     );

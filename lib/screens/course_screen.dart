@@ -1,0 +1,144 @@
+import 'package:flutter/material.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/widgets/course_card.dart';
+import 'package:let_tutor/widgets/search_bar.dart';
+
+const _levels = ["Any level", "Beginner", "Advance", "Intermediate"];
+const _categories = ["Any category", "Business", "Kid", "TOEICS", "IELTS"];
+const _sortOrder = ["Level ascending", "Level descending"];
+
+class CourseScreen extends StatefulWidget {
+  const CourseScreen({super.key});
+
+  @override
+  State<StatefulWidget> createState() {
+    return _CourseScreenState();
+  }
+}
+
+class _CourseScreenState extends State<CourseScreen> {
+  String _chosenLevel = _levels.first;
+  String _chosenCategory = _categories.first;
+  String _chosenSortOrder = _sortOrder.first;
+
+  @override
+  Widget build(BuildContext context) {
+    return Screen(
+      child: Column(
+        children: [
+          SearchBar(onSubmitted: (str) => print("search $str")),
+          Row(
+            children: [
+              Flexible(
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value: _chosenLevel,
+                  onChanged: (value) => setState(() => _chosenLevel = value!),
+                  items: _menuItemFrom(_levels)
+                ),
+              ),
+              Flexible(
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 10, right: 10),
+                  child: DropdownButton<String>(
+                    isExpanded: true,
+                    value: _chosenCategory,
+                    onChanged: (value) => setState(() => _chosenCategory = value!),
+                    items: _menuItemFrom(_categories)
+                  ),
+                ),
+              ),
+              Flexible(
+                child: DropdownButton<String>(
+                  isExpanded: true,
+                  value: _chosenSortOrder,
+                  onChanged: (value) => setState(() => _chosenSortOrder = value!),
+                  items: _menuItemFrom(_sortOrder)
+                ),
+              )
+            ],
+          ),
+          Flexible(
+            child: ListView(
+              children: [
+                const Text("English for traveling", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+                Wrap(
+                  children: [
+                    _courseCard(
+                      name: "Life in the Internet Age",
+                      description: "Let's discuss how technology is changing the way we live",
+                      level: "Intermediate",
+                      lessonCount: 9,
+                    ),
+                    _courseCard(
+                      name: "Caring for Our Planet",
+                      description: "Let's discuss our relationship as humans with our planet, Earth",
+                      lessonCount: 1,
+                    )
+                  ],
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 20),
+                  child: Text("English For Beginners", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+                ),
+                Wrap(
+                  children: [
+                    _courseCard(
+                      name: "Basic Conversation Topics",
+                      description: "Gain confidence speaking about familiar topics",
+                      lessonCount: 9,
+                    ),
+                    _courseCard(
+                      name: "Caring for Our Planet",
+                      description: "Let's discuss our relationship as humans with our planet, Earth",
+                      lessonCount: 1,
+                    )
+                  ],
+                )
+
+              ]
+            ),
+          ),
+        ]
+      ),
+    );
+  }
+}
+
+List<DropdownMenuItem<T>> _menuItemFrom<T>(List<T> list) {
+  List<DropdownMenuItem<T>> menuItems = [];
+
+  for (var item in list) {
+    menuItems.add(
+      DropdownMenuItem(
+        value: item,
+        child: Text(item.toString()),
+      )
+    );
+  }
+
+  return menuItems;
+}
+
+Widget _courseCard({
+  ImageProvider? image,
+  String? name,
+  String? description,
+  String? level,
+  int? lessonCount = 0,
+  double? width = 400,
+  double? heigth
+}) {
+  return Padding(
+    padding: const EdgeInsets.all(10),
+    child: CourseCard(
+      width: width,
+      heigth: heigth,
+      name: name,
+      image: image,
+      description: description,
+      level: level,
+      lessonCount: lessonCount,
+    ),
+  );
+}
