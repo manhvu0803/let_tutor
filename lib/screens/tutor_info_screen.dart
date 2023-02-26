@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/widgets/timetable.dart';
 import 'package:let_tutor/widgets/tutor_card.dart';
 
 class TutorInfoScreen extends StatelessWidget {
@@ -7,12 +8,12 @@ class TutorInfoScreen extends StatelessWidget {
 
   static const _boldTitleStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
 
-  static const _tabLabelStyle = TextStyle(fontSize: 20);
+  static const _tabLabelStyle = TextStyle(fontSize: 15);
 
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 2,
+      length: 4,
       child: Screen(
         child: Column(
           children: [
@@ -25,29 +26,35 @@ class TutorInfoScreen extends StatelessWidget {
                 indicator: BoxDecoration(color: Colors.blueAccent),
                 tabs: [
                   Text("Info"),
-                  Text("Timetable")
+                  Text("Timetable"),
+                  Text("Schedule"),
+                  Text("History")
                 ]
               ),
             ),
-            SizedBox(
-              height: 200,
-              child: TabBarView(children: [
-                DefaultTextStyle.merge(
-                  style: _boldTitleStyle,
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    crossAxisAlignment: CrossAxisAlignment.stretch,
-                    children: const [
-                      Text("Languages"),
-                      Text("Specialties"),
-                      Text("Suggested courses"),
-                      Text("Interests"),
-                      Text("Experience"),
-                    ]
+            Expanded(
+              child: TabBarView(
+                physics: const NeverScrollableScrollPhysics(),
+                children: [
+                  DefaultTextStyle.merge(
+                    style: _boldTitleStyle,
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: const [
+                        Text("Languages"),
+                        Text("Specialties"),
+                        Text("Suggested courses"),
+                        Text("Interests"),
+                        Text("Experience"),
+                      ]
+                    ),
                   ),
-                ),
-                Column()
-              ]),
+                  const Timetable(),
+                  Column(),
+                  Column(),
+                ]
+              ),
             )
           ],
         )
