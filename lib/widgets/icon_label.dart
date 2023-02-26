@@ -17,10 +17,10 @@ class IconLable extends StatelessWidget {
       TextSpan(
         style: style,
         children: [
-          WidgetSpan(child: Icon(icon)),
+          WidgetSpan(child: Icon(icon), alignment: PlaceholderAlignment.middle),
           TextSpan(text: text, style: textStyle)
         ]
-      )
+      ),
     );
   }
 }

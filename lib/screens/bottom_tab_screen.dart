@@ -4,6 +4,8 @@ import 'package:let_tutor/screens/tutor_list_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class BottomTabScreen extends StatelessWidget{
+  static const _inactiveColor = Colors.grey;
+
   final PersistentTabController _tabController = PersistentTabController();
 
   BottomTabScreen({super.key});
@@ -20,10 +22,12 @@ class BottomTabScreen extends StatelessWidget{
       ],
       items: [
         PersistentBottomNavBarItem(
+          inactiveColorPrimary: _inactiveColor,
           icon: const Icon(Icons.calendar_month),
           title: "Schedule"
         ),
         PersistentBottomNavBarItem(
+          inactiveColorPrimary: _inactiveColor,
           icon: const Icon(Icons.person),
           title: "Tutors"
         )

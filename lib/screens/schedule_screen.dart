@@ -14,17 +14,16 @@ class ScheduleScreen extends StatelessWidget {
           Card(
             child: Row(
               children: [
-                Flexible(
-                  child: Column(
-                    children: const [
-                      Text("Wed, 15-Mar-2023"),
-                      Text("2 lessons"),
-                    ]
-                  ),
+                Column(
+                  children: const [
+                    Text("Wed, 15-Mar-2023"),
+                    Text("2 lessons"),
+                  ]
                 ),
-                const Flexible(
+                const Expanded(
                   child: UserInfoBox(
-                    name: "Somone", 
+                    name: "Somone",
+                    countryName: "Viet Nam",
                     lastChild: IconLable(icon: Icons.message, text: "Message")
                   ),
                 )
