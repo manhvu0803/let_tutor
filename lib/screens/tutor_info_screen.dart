@@ -13,7 +13,7 @@ class TutorInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return DefaultTabController(
-      length: 4,
+      length: 3,
       child: Screen(
         child: Column(
           children: [
@@ -26,7 +26,6 @@ class TutorInfoScreen extends StatelessWidget {
                 indicator: BoxDecoration(color: Colors.blueAccent),
                 tabs: [
                   Text("Info"),
-                  Text("Timetable"),
                   Text("Schedule"),
                   Text("History")
                 ]
@@ -51,7 +50,6 @@ class TutorInfoScreen extends StatelessWidget {
                     ),
                   ),
                   const Timetable(),
-                  Column(),
                   Column(),
                 ]
               ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/screens/bottom_tab_screen.dart';
 import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/screens/tutor_list_screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -40,7 +40,7 @@ class LoginScreen extends StatelessWidget {
           ),
           const Text("Forgot password?", style: TextStyle(color: Colors.blue)),
           ElevatedButton(
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const TutorListScreen())),
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => BottomTabScreen())),
             child: const Text("LOGIN")
           ),
           const Text("Or login with", textAlign: TextAlign.center),

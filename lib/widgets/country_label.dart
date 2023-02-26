@@ -9,13 +9,11 @@ class CountryLabel extends StatelessWidget {
   
   @override
   Widget build(BuildContext context) {
-    var children = <Widget>[];
-    
-    if (flag != null) {
-      children.add(Image(image: flag!));
-    }
-
-    children.add(Text(countryName));
-    return Row(children: children);
+    return Row(
+      children: [
+        if (flag != null) Image(image: flag!),
+        Text(countryName)
+      ],
+    );
   }
 }

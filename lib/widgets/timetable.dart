@@ -9,7 +9,7 @@ class Timetable extends StatelessWidget {
     for (int i = 0; i < 1440; i += 30) {
       var hour = i ~/ 60;
       var min = i % 60;
-      rows.add(DataCell(Text("$hour:${min.toString().padLeft(2, '0')} - $hour:${(min == 30) ? 25 : 55}")));
+      rows.add(DataCell(Text("$hour:${min.toString().padLeft(2, '0')} - $hour:${(min == 30) ? 55 : 25}")));
     }
 
     return rows;
