@@ -26,8 +26,7 @@ class TutorInfoScreen extends StatelessWidget {
                 indicator: BoxDecoration(color: Colors.blueAccent),
                 tabs: [
                   Text("Info"),
-                  Text("Schedule"),
-                  Text("History")
+                  Text("Schedule")
                 ]
               ),
             ),
@@ -37,10 +36,10 @@ class TutorInfoScreen extends StatelessWidget {
                 children: [
                   DefaultTextStyle.merge(
                     style: _boldTitleStyle,
-                    child: Column(
+                    child: const Column(
                       mainAxisAlignment: MainAxisAlignment.start,
                       crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: const [
+                      children: [
                         Text("Languages"),
                         Text("Specialties"),
                         Text("Suggested courses"),
@@ -50,7 +49,7 @@ class TutorInfoScreen extends StatelessWidget {
                     ),
                   ),
                   const Timetable(),
-                  Column(),
+                  const Column(),
                 ]
               ),
             )

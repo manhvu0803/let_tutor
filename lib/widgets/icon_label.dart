@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-class IconLable extends StatelessWidget {
+class IconLabel extends StatelessWidget {
   final IconData icon;
 
   final String text;
@@ -9,7 +9,7 @@ class IconLable extends StatelessWidget {
 
   final TextStyle? textStyle;
 
-  const IconLable({super.key, required this.icon, required this.text, this.style, this.textStyle});
+  const IconLabel({super.key, required this.icon, required this.text, this.style, this.textStyle});
 
   @override
   Widget build(BuildContext context) {

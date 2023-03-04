@@ -1,7 +1,7 @@
+import 'package:let_tutor/widgets/search_bar.dart' as let_tutor;
 import 'package:flutter/material.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/widgets/course_screen_card.dart';
-import 'package:let_tutor/widgets/search_bar.dart';
 
 const _levels = ["Any level", "Beginner", "Advance", "Intermediate"];
 const _categories = ["Any category", "Business", "Kid", "TOEICS", "IELTS"];
@@ -26,7 +26,7 @@ class _CourseScreenState extends State<CourseScreen> {
     return Screen(
       child: Column(
         children: [
-          SearchBar(onSubmitted: (str) => print("search $str")),
+          let_tutor.SearchBar(onSubmitted: (str) => print("search $str")),
           Row(
             children: [
               Flexible(
@@ -60,10 +60,10 @@ class _CourseScreenState extends State<CourseScreen> {
           ),
           Flexible(
             child: ListView(
-              children: [
-                const Text("English for traveling", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
+              children: const [
+                Text("English for traveling", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
                 Wrap(
-                  children: const [
+                  children: [
                     CourseScreenCard(
                       name: "Life in the Internet Age",
                       description: "Let's discuss how technology is changing the way we live",
@@ -77,12 +77,12 @@ class _CourseScreenState extends State<CourseScreen> {
                     )
                   ],
                 ),
-                const Padding(
+                Padding(
                   padding: EdgeInsets.only(top: 20),
                   child: Text("English For Beginners", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
                 ),
                 Wrap(
-                  children: const [
+                  children: [
                     CourseScreenCard(
                       name: "Basic Conversation Topics",
                       description: "Gain confidence speaking about familiar topics",

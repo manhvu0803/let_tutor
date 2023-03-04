@@ -44,9 +44,9 @@ class LoginScreen extends StatelessWidget {
             child: const Text("LOGIN")
           ),
           const Text("Or login with", textAlign: TextAlign.center),
-          Row(
+          const Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: const [
+            children: [
               Icon(Icons.facebook, size: 48), 
               Icon(Icons.g_translate, size: 48)
             ]
