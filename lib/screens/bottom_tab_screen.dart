@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/screens/course_screen.dart';
+import 'package:let_tutor/screens/course_list_screen.dart';
 import 'package:let_tutor/screens/history_screen.dart';
 import 'package:let_tutor/screens/schedule_screen.dart';
 import 'package:let_tutor/screens/tutor_list_screen.dart';
@@ -21,7 +21,7 @@ class BottomTabScreen extends StatelessWidget{
       screens: const [
         ScheduleScreen(),
         TutorListScreen(),
-        CourseScreen(),
+        CourseListScreen(),
         HistoryScreen()
       ],
       items: [

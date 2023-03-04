@@ -7,16 +7,16 @@ const _levels = ["Any level", "Beginner", "Advance", "Intermediate"];
 const _categories = ["Any category", "Business", "Kid", "TOEICS", "IELTS"];
 const _sortOrder = ["Level ascending", "Level descending"];
 
-class CourseScreen extends StatefulWidget {
-  const CourseScreen({super.key});
+class CourseListScreen extends StatefulWidget {
+  const CourseListScreen({super.key});
 
   @override
   State<StatefulWidget> createState() {
-    return _CourseScreenState();
+    return _CourseListScreenState();
   }
 }
 
-class _CourseScreenState extends State<CourseScreen> {
+class _CourseListScreenState extends State<CourseListScreen> {
   String _chosenLevel = _levels.first;
   String _chosenCategory = _categories.first;
   String _chosenSortOrder = _sortOrder.first;

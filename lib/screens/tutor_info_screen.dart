@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/screens/course_detail_screen.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/widgets/rounded_box.dart';
 import 'package:let_tutor/widgets/timetable.dart';
+import 'package:let_tutor/widgets/title_text.dart';
 import 'package:let_tutor/widgets/tutor_card.dart';
 
 class TutorInfoScreen extends StatelessWidget {
-  const TutorInfoScreen({super.key});
-
-  static const _boldTitleStyle = TextStyle(fontSize: 30, fontWeight: FontWeight.bold);
-
   static const _tabLabelStyle = TextStyle(fontSize: 15);
+
+  const TutorInfoScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -35,17 +35,32 @@ class TutorInfoScreen extends StatelessWidget {
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        const Text("Languages", style: _boldTitleStyle),
-                        RoundedBox.text("English"),
-                        const Text("Specialties", style: _boldTitleStyle),
-                        const Text("Suggested courses", style: _boldTitleStyle),
-                        const Text("Interests", style: _boldTitleStyle),
-                        const Text("Experience", style: _boldTitleStyle),
-                      ]
+                  SingleChildScrollView(
+                    child: Column(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TitleText("Languages"),
+                          RoundedBox.text("English"),
+                          const TitleText("Specialties"),
+                          Wrap(
+                            children: [
+                              RoundedBox.text("English for business"),
+                              RoundedBox.text("English for conversation"),
+                              RoundedBox.text("IELTS"),
+                            ]
+                          ),
+                          const TitleText("Suggested courses"),
+                          TextButton(
+                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CourseDetailSreen())),
+                            child: const Text("Life in the internet age", style: TextStyle(fontSize: 18))
+                          ),
+                          const TitleText("Interests"),
+                          const Text("I loved the weather, the scenery and the laid-back lifestyle of the locals."),
+                          const TitleText("Experience"),
+                          const Text("I have more than 10 years of teaching english experience")
+                        ]
+                    ),
                   ),
                   const Timetable(),
                   const Column(),

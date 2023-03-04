@@ -34,9 +34,9 @@ class ScheduleScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: ElevatedButton(
-                              onPressed: () => print("Cancel"),
+                              onPressed: () => print("Cancel lesson"),
                               style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-                              child: const Text("Cancel"),
+                              child: const Text("Cancel lesson"),
                             ),
                           ),
                         )
