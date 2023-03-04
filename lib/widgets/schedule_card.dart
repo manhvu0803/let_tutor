@@ -1,16 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/widgets/user_info_box.dart';
-
-import 'icon_label.dart';
+import 'package:let_tutor/utils.dart';
 
 class ScheduleCard extends StatelessWidget {
-  static final weekdayString = ["", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-
-  static final monthString = ["", "Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
-
-  final DateTime from;
-
-  final DateTime to;
+  final DateTime date;
 
   final String subtitleText;
 
@@ -18,25 +11,27 @@ class ScheduleCard extends StatelessWidget {
 
   final String countryName;
 
+  final List<Widget> children;
+
   const ScheduleCard({
     super.key,
     this.username = "",
-    required this.from,
-    required this.to,
+    this.countryName = "",
+    required this.date,
     this.subtitleText = "",
-    this.countryName = ""
+    this.children = const <Widget>[]
   });
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      child: Row(
+    return ExpansionTile(
+      title: Row(
         children: [
           Expanded(
             child: Column(
               children: [
-                Text(toDateString(from)),
-                Text(subtitleText),
+                Text(toDateString(date)),
+                Text(subtitleText)
               ]
             ),
           ),
@@ -45,24 +40,10 @@ class ScheduleCard extends StatelessWidget {
               name: username,
               countryName: countryName
             ),
-          ),
-          Expanded(
-            child: Text("${toHourString(from)} - ${toHourString(to)}", textAlign: TextAlign.center)
           )
         ],
-      )
+      ),
+      children: children,
     );
-  }
-
-  static String toDateString(DateTime time) {
-    return "${weekdayString[time.weekday]}, ${time.day}-${monthString[time.month]}-${time.year}";
-  }
-
-  static String toHourString(DateTime time) {
-    return "${time.hour}:${pad1Left(time.minute)}";
-  }
-
-  static String pad1Left(Object object) {
-    return object.toString().padLeft(2, '0');
   }
 }

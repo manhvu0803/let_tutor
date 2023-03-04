@@ -18,7 +18,7 @@ class TutorInfoScreen extends StatelessWidget {
       child: Screen(
         child: Column(
           children: [
-            const TutorCard(name: "name"),
+            const TutorCard(name: "name", country: "Viet Nam" ),
             const ColoredBox(
               color: Color.fromARGB(223, 59, 174, 255),
               child: TabBar(
