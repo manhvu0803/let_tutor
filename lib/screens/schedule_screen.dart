@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/widgets/icon_label.dart';
 import 'package:let_tutor/widgets/schedule_card.dart';
-import 'package:let_tutor/widgets/user_info_box.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});

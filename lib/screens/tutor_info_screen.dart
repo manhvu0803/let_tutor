@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/widgets/rounded_box.dart';
 import 'package:let_tutor/widgets/timetable.dart';
 import 'package:let_tutor/widgets/tutor_card.dart';
 
@@ -34,19 +35,17 @@ class TutorInfoScreen extends StatelessWidget {
               child: TabBarView(
                 physics: const NeverScrollableScrollPhysics(),
                 children: [
-                  DefaultTextStyle.merge(
-                    style: _boldTitleStyle,
-                    child: const Column(
+                  Column(
                       mainAxisAlignment: MainAxisAlignment.start,
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("Languages"),
-                        Text("Specialties"),
-                        Text("Suggested courses"),
-                        Text("Interests"),
-                        Text("Experience"),
+                        const Text("Languages", style: _boldTitleStyle),
+                        RoundedBox.text("English"),
+                        const Text("Specialties", style: _boldTitleStyle),
+                        const Text("Suggested courses", style: _boldTitleStyle),
+                        const Text("Interests", style: _boldTitleStyle),
+                        const Text("Experience", style: _boldTitleStyle),
                       ]
-                    ),
                   ),
                   const Timetable(),
                   const Column(),
