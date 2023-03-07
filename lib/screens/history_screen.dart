@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/widgets/schedule_card.dart';
+
+import '../widgets/schedule_card.dart';
+import 'screen.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});

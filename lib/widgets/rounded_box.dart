@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 
 class RoundedBox extends StatelessWidget {
   final Widget? child;
-
   final double outerPadding;
 
   const RoundedBox({super.key, this.child, this.outerPadding = 4});

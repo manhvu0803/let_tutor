@@ -1,15 +1,12 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/widgets/country_label.dart';
+
+import 'country_label.dart';
 
 class UserInfoBox extends StatelessWidget {
   final ImageProvider? avatar;
-  
   final Widget? lastChild;
-
   final String name;
-
   final String countryName;
-
   final ImageProvider? countryFlag;
 
   const UserInfoBox({super.key, this.name = "", this.avatar, this.lastChild, this.countryName = "", this.countryFlag});

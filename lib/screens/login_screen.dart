@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/screens/bottom_tab_screen.dart';
-import 'package:let_tutor/screens/screen.dart';
+
+import 'bottom_tab_screen.dart';
+import 'screen.dart';
 
 class LoginScreen extends StatelessWidget {
   const LoginScreen({super.key});
@@ -47,7 +48,7 @@ class LoginScreen extends StatelessWidget {
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Icon(Icons.facebook, size: 48), 
+              Icon(Icons.facebook, size: 48),
               Icon(Icons.g_translate, size: 48)
             ]
           ),

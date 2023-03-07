@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/screens/login_screen.dart';
+import '../screens/login_screen.dart';
 
 void main() {
   runApp(const LetTutorApp());

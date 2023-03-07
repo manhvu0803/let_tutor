@@ -2,11 +2,8 @@ import 'package:flutter/material.dart';
 
 class IconLabel extends StatelessWidget {
   final IconData icon;
-
   final String text;
-
   final TextStyle? style;
-
   final TextStyle? textStyle;
 
   const IconLabel({super.key, required this.icon, required this.text, this.style, this.textStyle});

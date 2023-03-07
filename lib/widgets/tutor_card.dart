@@ -1,21 +1,17 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/widgets/rating_label.dart';
-import 'package:let_tutor/screens/tutor_info_screen.dart';
-import 'package:let_tutor/widgets/user_info_box.dart';
+
+import '../screens/tutor_info_screen.dart';
+import 'rating_label.dart';
+import 'rounded_box.dart';
+import 'user_info_box.dart';
 
 class TutorCard extends StatelessWidget {
   final String name;
-
   final ImageProvider? avatar;
-
   final String country;
-
   final ImageProvider? countryFlag;
-
   final String introduction;
-
   final int rating;
-
   final List<String>? tags;
 
   const TutorCard({
@@ -39,6 +35,7 @@ class TutorCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
+            // Tutor info
             Row(
               children: [
                 Expanded(
@@ -56,13 +53,26 @@ class TutorCard extends StatelessWidget {
                 )
               ]
             ),
+            // Tags
+            if (tags != null) Wrap(children: _buildTags(tags!)),
+            // Description
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Text(introduction, textAlign: TextAlign.justify),
+              child: Text(introduction, overflow: TextOverflow.ellipsis, textAlign: TextAlign.justify),
             )
           ],
         ),
       ),
     );
+  }
+
+  static List<Widget> _buildTags(List<String> tags) {
+    var widgets = <Widget>[];
+
+    for (var tag in tags) {
+      widgets.add(RoundedBox.text(tag));
+    }
+
+    return widgets;
   }
 }

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/widgets/course_card.dart';
 
 import '../screens/course_detail_screen.dart';
+import 'course_card.dart';
 
 class CourseScreenCard extends CourseCard{
   const CourseScreenCard({
@@ -18,7 +18,12 @@ class CourseScreenCard extends CourseCard{
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CourseDetailSreen())),
+      onTap: () => Navigator.push(context, MaterialPageRoute(
+        builder: (context) => const CourseDetailSreen(
+          courseName: "Life in the Internet Age",
+          courseDescription: "Let's discuss how technology is changing the way we live",
+        )
+      )),
       child: Padding(
         padding: const EdgeInsets.all(10),
         child: super.build(context),

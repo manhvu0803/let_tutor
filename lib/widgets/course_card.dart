@@ -2,17 +2,11 @@ import 'package:flutter/material.dart';
 
 class CourseCard extends StatelessWidget {
   final ImageProvider? image;
-
   final String? name;
-
   final String? description;
-
   final String? level;
-
   final int? lessonCount;
-
   final double? width;
-
   final double? heigth;
 
   const CourseCard({

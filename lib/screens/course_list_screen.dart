@@ -1,7 +1,8 @@
-import 'package:let_tutor/widgets/search_bar.dart' as let_tutor;
 import 'package:flutter/material.dart';
-import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/widgets/course_screen_card.dart';
+
+import '../widgets/search_bar.dart' as let_tutor;
+import '../widgets/course_screen_card.dart';
+import 'screen.dart';
 
 const _levels = ["Any level", "Beginner", "Advance", "Intermediate"];
 const _categories = ["Any category", "Business", "Kid", "TOEICS", "IELTS"];

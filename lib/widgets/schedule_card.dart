@@ -1,16 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/widgets/user_info_box.dart';
-import 'package:let_tutor/utils.dart';
+
+import '../utils.dart';
+import 'user_info_box.dart';
 
 class ScheduleCard extends StatelessWidget {
   final DateTime date;
-
   final String subtitleText;
-
   final String username;
-
   final String countryName;
-
   final List<Widget> children;
 
   const ScheduleCard({

@@ -2,15 +2,16 @@ import 'package:flutter/material.dart';
 
 class Screen extends StatelessWidget {
   final Widget? child;
+  final double padding;
 
-  const Screen({this.child, super.key});
+  const Screen({super.key, this.child, this.padding = 10});
 
   @override
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
         body: Padding(
-          padding: const EdgeInsets.all(10),
+          padding: EdgeInsets.all(padding),
           child: child
         ),
       ),

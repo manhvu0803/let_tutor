@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/widgets/schedule_card.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
+
+import '../widgets/schedule_card.dart';
+import 'meeting_screen.dart';
+import 'screen.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
@@ -25,7 +28,12 @@ class ScheduleScreen extends StatelessWidget {
                           child: Padding(
                             padding: const EdgeInsets.all(8),
                             child: ElevatedButton(
-                              onPressed: () => print("Go to meeting"),
+                              onPressed: () => PersistentNavBarNavigator.pushNewScreen(
+                                context,
+                                screen: const MeetingScreen(),
+                                pageTransitionAnimation: PageTransitionAnimation.scale,
+                                withNavBar: false
+                              ),
                               child: const Text("Go to meeting")
                             ),
                           ),
