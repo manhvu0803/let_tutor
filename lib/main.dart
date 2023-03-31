@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/data_model/user_model.dart';
 import 'package:provider/provider.dart';
+
 import '../screens/login_screen.dart';
 
 void main() {
@@ -21,8 +22,10 @@ class LetTutorApp extends StatelessWidget {
           fontSizeFactor: 1.1
         )
       ),
-      home: ChangeNotifierProvider(
-        create: (context) => UserModel(),
+      home: MultiProvider(
+        providers: [
+          ChangeNotifierProvider(create: (context) => UserModel()),
+        ],
         child: const LoginScreen()
       ),
     );

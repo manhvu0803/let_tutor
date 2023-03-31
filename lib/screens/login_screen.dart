@@ -1,12 +1,10 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 import 'package:provider/provider.dart';
 
-import '../data_model/user.dart';
+import '../client.dart';
 import '../data_model/user_model.dart';
-import '../utils.dart';
 import 'bottom_tab_screen.dart';
 import 'screen.dart';
 
@@ -95,33 +93,19 @@ class _LoginScreenState extends State<LoginScreen> {
       }
     );
 
-    var response = await http.post(
-      url("auth/login"),
-      body: {
-        "email": _username,
-        "password": _password
-      }
-    );
-
-    if (!mounted) {
-      return;
-    }
-
     Navigator.of(context).pop();
-    final json = jsonDecode(response.body);
+    try {
+      Provider.of<UserModel>(context, listen: false).user = await Client.login(_username, _password);
 
-    if (200 <= response.statusCode && response.statusCode < 300) {
-      try {
-        Provider.of<UserModel>(context, listen: false).user = User.fromJson(json["user"]);
-        Navigator.push(context, MaterialPageRoute(builder: (context) => BottomTabScreen()));
+      if (!mounted) {
+        return;
       }
-      catch (error, stack) {
-        _showErrorDialog(context, error.toString());
-        print("Stack trace: $stack");
-      }
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => BottomTabScreen()));
     }
-    else {
-      _showErrorDialog(context, json["message"].toString());
+    catch (error, stack) {
+      _showErrorDialog(context, error.toString());
+      print("Stack trace: $stack");
     }
   }
 
