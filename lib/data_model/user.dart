@@ -4,7 +4,7 @@ class User {
   String id = "";
   String email = "";
   String name = "";
-  Uri avatarUrl = Uri.parse("");
+  String avatarUrl = "";
   String country = "";
   String phone = "";
   Set<String> roles = {};
@@ -25,7 +25,7 @@ class User {
     id = json["id"],
     email = json["email"],
     name = json["name"],
-    avatarUrl = Uri.parse(json["avatar"]),
+    avatarUrl = json["avatar"],
     country = json["country"],
     phone = json["phone"],
     roles = Set<String>.from(json["roles"] ?? []),

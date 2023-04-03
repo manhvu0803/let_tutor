@@ -27,7 +27,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
     return Screen(
       child: Column(
         children: [
-          let_tutor.SearchBar(onSubmitted: (str) => print("search $str")),
+          let_tutor.SearchBar(onSubmitted: (str) => debugPrint("search $str")),
           Row(
             children: [
               Flexible(

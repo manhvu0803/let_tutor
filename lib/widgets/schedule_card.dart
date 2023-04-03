@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/data_model/schedule.dart';
 
 import '../utils.dart';
 import 'user_info_box.dart';
@@ -9,6 +10,7 @@ class ScheduleCard extends StatelessWidget {
   final String username;
   final String countryName;
   final List<Widget> children;
+  final String? avatarUrl;
 
   const ScheduleCard({
     super.key,
@@ -16,31 +18,43 @@ class ScheduleCard extends StatelessWidget {
     this.countryName = "",
     required this.date,
     this.subtitleText = "",
-    this.children = const <Widget>[]
+    this.children = const [],
+    this.avatarUrl
   });
+
+  ScheduleCard.fromSchedule(Schedule schedule, {super.key, this.children = const [], this.subtitleText = ""}) :
+    date = schedule.startTime,
+    username = schedule.tutor.name,
+    countryName = schedule.tutor.country,
+    avatarUrl = schedule.tutor.avatarUrl;
 
   @override
   Widget build(BuildContext context) {
-    return ExpansionTile(
-      title: Row(
-        children: [
-          Expanded(
-            child: Column(
-              children: [
-                Text(toDateString(date)),
-                Text(subtitleText)
-              ]
+    return Card(
+      child: ExpansionTile(
+        title: Row(
+          children: [
+            Expanded(
+              flex: 5,
+              child: Column(
+                children: [
+                  Text(toDateString(date), style: const TextStyle(fontSize: 15)),
+                  if (subtitleText.isNotEmpty) Text(subtitleText, style: const TextStyle(fontSize: 14))
+                ]
+              ),
             ),
-          ),
-          Expanded(
-            child: UserInfoBox(
-              name: username,
-              countryName: countryName
-            ),
-          )
-        ],
+            Expanded(
+              flex: 6,
+              child: UserInfoBox(
+                name: username,
+                countryName: countryName,
+                avatar: (avatarUrl != null) ? Image.network(avatarUrl!).image : null,
+              ),
+            )
+          ],
+        ),
+        children: children,
       ),
-      children: children,
     );
   }
 }

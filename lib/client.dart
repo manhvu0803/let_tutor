@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
 import 'data_model/schedule.dart';
@@ -30,16 +31,38 @@ class Client {
     return User.fromJson(json["user"]);
   }
 
-  static Future<List<Schedule>> getSchedule() async {
+  static Future<List<Schedule>> getSchedule({int page = 1}) async {
     final queries = {
-      "page": "1",
+      "page": "$page",
       "perPage": "10",
       "dateTimeGte": "${DateTime.now().subtract(_cutLimit).millisecondsSinceEpoch}",
       "orderBy": "meeting",
       "sortBy": "asc"
     };
 
-    print(DateTime.now().subtract(_cutLimit).millisecondsSinceEpoch);
+    var json = await _getJson(http.get(
+      _url("booking/list/student", queries: queries),
+      headers: {"Authorization" : "Bearer ${accessToken.value}"}
+    ));
+
+    var scheduleList = <Schedule>[];
+
+    for (var scheduleJson in json["data"]["rows"]) {
+      scheduleList.add(Schedule.fromJson(scheduleJson));
+    }
+
+    return scheduleList;
+  }
+
+  static Future<List<Schedule>> getHistory({int page = 1}) async {
+    final queries = {
+      "page": "$page",
+      "perPage": "10",
+      "dateTimeLte": "${DateTime.now().millisecondsSinceEpoch}",
+      "orderBy": "meeting",
+      "sortBy": "desc"
+    };
+
     var json = await _getJson(http.get(
       _url("booking/list/student", queries: queries),
       headers: {"Authorization" : "Bearer ${accessToken.value}"}
@@ -66,7 +89,7 @@ Future<Map<String, dynamic>> _getJson(Future<http.Response> request) async {
     throw Exception("Code ${response.statusCode}");
   }
 
-  print(response.body);
+  debugPrint(response.body);
   var json = jsonDecode(response.body);
 
   if (response.statusCode < 200 || 300 <= response.statusCode) {

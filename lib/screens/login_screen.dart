@@ -89,7 +89,7 @@ class _LoginScreenState extends State<LoginScreen> {
     catch (error, stack) {
       Navigator.of(context).pop();
       showErrorDialog(context, error);
-      print("Stack trace: $stack");
+      debugPrint("Stack trace: $stack");
     }
   }
 }
