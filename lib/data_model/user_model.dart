@@ -8,14 +8,14 @@ class UserModel extends ChangeNotifier {
 
   User get user => _user;
 
-  Wallet get wallet => _user.wallet;
+  Wallet? get wallet => _user.wallet;
 
   set user(User newUser) {
     _user = newUser;
     notifyListeners();
   }
 
-  set wallet(Wallet wallet) {
+  set wallet(Wallet? wallet) {
     _user.wallet = wallet;
     notifyListeners();
   }

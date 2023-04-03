@@ -7,4 +7,9 @@ class Token {
   Token.fromJson(Map<String, dynamic> json) :
     value = json["token"],
     expires = DateTime.parse(json["expires"]);
+
+  @override
+  String toString() {
+    return "Token: $value\nExpire: $expires";
+  }
 }

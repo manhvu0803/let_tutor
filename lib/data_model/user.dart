@@ -11,7 +11,7 @@ class User {
   String language = "";
   DateTime birthday = DateTime(0);
   bool isActivated = false;
-  Wallet wallet;
+  Wallet? wallet;
   String requiredNote = "";
   String level = "";
   bool isPhoneActivated = false;
@@ -28,14 +28,14 @@ class User {
     avatarUrl = Uri.parse(json["avatar"]),
     country = json["country"],
     phone = json["phone"],
-    roles = Set<String>.from(json["roles"]),
+    roles = Set<String>.from(json["roles"] ?? []),
     language = json["language"] ?? "",
     birthday = DateTime.parse(json["birthday"]),
     isActivated = json["isActivated"],
-    wallet = Wallet.fromJson(json["walletInfo"]),
+    wallet = (json["walletInfo"] != null) ? Wallet.fromJson(json["walletInfo"]) : null,
     requiredNote = json["requiredNote"] ?? "",
-    isPhoneActivated = json["isPhoneActivated"],
-    timezone = json["timezone"],
-    studySchedule = json["studySchedule"],
-    canSendMessage = json["canSendMessage"];
+    isPhoneActivated = json["isPhoneActivated"] ?? false,
+    timezone = json["timezone"] ?? 0,
+    studySchedule = json["studySchedule"] ?? "",
+    canSendMessage = json["canSendMessage"] ?? false;
 }

@@ -1,10 +1,9 @@
-import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
 import '../client.dart';
 import '../data_model/user_model.dart';
+import '../utils.dart';
 import 'bottom_tab_screen.dart';
 import 'screen.dart';
 
@@ -75,25 +74,8 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _tryLogin(BuildContext context) async {
-    showDialog(
-      context: context,
-      barrierDismissible: false,
-      builder: (context) {
-        return const AlertDialog(
-          title: Text("Loading..."),
-          content: Center(
-            heightFactor: 0.5,
-            child: SizedBox(
-              width: 30,
-              height: 30,
-              child: CircularProgressIndicator()
-            ),
-          ),
-        );
-      }
-    );
+    showLoadingDialog(context);
 
-    Navigator.of(context).pop();
     try {
       Provider.of<UserModel>(context, listen: false).user = await Client.login(_username, _password);
 
@@ -101,28 +83,13 @@ class _LoginScreenState extends State<LoginScreen> {
         return;
       }
 
+      Navigator.of(context).pop();
       Navigator.push(context, MaterialPageRoute(builder: (context) => BottomTabScreen()));
     }
     catch (error, stack) {
-      _showErrorDialog(context, error.toString());
+      Navigator.of(context).pop();
+      showErrorDialog(context, error);
       print("Stack trace: $stack");
     }
-  }
-
-  void _showErrorDialog(BuildContext context, String errorMessage) {
-    showDialog(
-      context: context,
-      builder: (context) {
-        return AlertDialog(
-          title: const Text("Error"),
-          content: Text(errorMessage),
-          actions: [
-            TextButton(
-              onPressed: () => Navigator.pop(context, "OK"),
-              child: const Text("OK"))
-          ],
-        );
-      }
-    );
   }
 }

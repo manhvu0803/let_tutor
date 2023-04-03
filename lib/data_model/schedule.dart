@@ -1,3 +1,5 @@
+import 'user.dart';
+
 class Schedule {
   DateTime createdAt = DateTime(0);
   DateTime updatedAt = DateTime(0);
@@ -14,6 +16,7 @@ class Schedule {
   String scheduleInfoId = "";
   String classReview = "";
   bool showRecordUrl = false;
+  User tutor;
 
   Schedule.fromJson(Map<String, dynamic> json) :
     createdAt = DateTime.fromMillisecondsSinceEpoch(json["createdAtTimeStamp"]),
@@ -21,13 +24,14 @@ class Schedule {
     id = json["id"],
     studentRequest = json["studentRequest"] ?? "",
     tutorReview = json["tutorReview"] ?? "",
-    scoreByTutor = json["scoreByTutor"] ?? 0,
-    recordUrl = json["scoreByTutor"],
-    lessonPlanId = json["scoreByTutor"] ?? "",
+    scoreByTutor = double.parse((json["scoreByTutor"] ?? 0).toString()),
+    recordUrl = json["recordUrl"] ?? "",
+    lessonPlanId = json["lessonPlanId"] ?? "",
     isDeleted = json["isDeleted"],
     scheduleInfoId = json["scheduleDetailInfo"]["scheduleId"] ?? 0,
-    startTime = DateTime.fromMillisecondsSinceEpoch(json["startPeriodTimestamp"]),
-    startTime = DateTime.fromMillisecondsSinceEpoch(json["endPeriodTimestamp"]),
+    startTime = DateTime.fromMillisecondsSinceEpoch(json["scheduleDetailInfo"]["startPeriodTimestamp"]),
+    endTime = DateTime.fromMillisecondsSinceEpoch(json["scheduleDetailInfo"]["endPeriodTimestamp"]),
     classReview = json["classReview"] ?? "",
-    showRecordUrl = json["showRecordUrl"];
+    showRecordUrl = json["showRecordUrl"],
+    tutor = User.fromJson(json["scheduleDetailInfo"]["scheduleInfo"]["tutorInfo"]);
 }
