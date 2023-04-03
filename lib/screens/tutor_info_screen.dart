@@ -1,5 +1,8 @@
 import 'package:flutter/material.dart';
 
+import '../client.dart';
+import '../data_model/tutor.dart';
+import '../widgets/future_state.dart';
 import '../widgets/rounded_box.dart';
 import '../widgets/timetable.dart';
 import '../widgets/title_text.dart';
@@ -7,24 +10,33 @@ import '../widgets/tutor_card.dart';
 import 'course_detail_screen.dart';
 import 'screen.dart';
 
-class TutorInfoScreen extends StatelessWidget {
+class TutorInfoScreen extends StatefulWidget {
   static const _tabLabelStyle = TextStyle(fontSize: 15);
 
-  const TutorInfoScreen({super.key});
+  final String tutorId;
+
+  const TutorInfoScreen({super.key, required this.tutorId});
 
   @override
-  Widget build(BuildContext context) {
+  State<TutorInfoScreen> createState() => _TutorInfoScreenState();
+}
+
+class _TutorInfoScreenState extends FutureState<TutorInfoScreen> {
+  @override
+  Widget buildOnFuture(BuildContext context, Object data) {
+    final tutor = data as Tutor;
+
     return DefaultTabController(
-      length: 3,
+      length: 2,
       child: Screen(
         child: Column(
           children: [
-            const TutorCard(name: "name", country: "Viet Nam" ),
+            TutorCard.fromTutor(tutor, isTappableAndTagged: false),
             const ColoredBox(
               color: Color.fromARGB(223, 59, 174, 255),
               child: TabBar(
                 labelPadding: EdgeInsets.all(6),
-                labelStyle: _tabLabelStyle,
+                labelStyle: TutorInfoScreen._tabLabelStyle,
                 indicator: BoxDecoration(color: Colors.blueAccent),
                 tabs: [
                   Text("Info"),
@@ -42,24 +54,17 @@ class TutorInfoScreen extends StatelessWidget {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           const TitleText("Languages"),
-                          RoundedBox.text("English"),
+                          RoundedBox.text(tutor.languages),
                           const TitleText("Specialties"),
                           Wrap(
-                            children: [
-                              RoundedBox.text("English for business"),
-                              RoundedBox.text("English for conversation"),
-                              RoundedBox.text("IELTS"),
-                            ]
+                            children: _buildTags(tutor.specialties)
                           ),
                           const TitleText("Suggested courses"),
-                          TextButton(
-                            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CourseDetailSreen())),
-                            child: const Text("Life in the internet age", style: TextStyle(fontSize: 18))
-                          ),
+
                           const TitleText("Interests"),
-                          const Text("I loved the weather, the scenery and the laid-back lifestyle of the locals."),
+                          _InfoText(tutor.interests),
                           const TitleText("Experience"),
-                          const Text("I have more than 10 years of teaching english experience")
+                          _InfoText(tutor.experience)
                         ]
                     ),
                   ),
@@ -70,6 +75,48 @@ class TutorInfoScreen extends StatelessWidget {
           ],
         )
       ),
+    );
+  }
+
+  List<Widget> _buildTags(List<String> tags) {
+    final widgets = <Widget>[];
+
+    for (final tag in tags) {
+      widgets.add(RoundedBox.text(tag));
+    }
+
+    return widgets;
+  }
+
+  @override
+  Future fetchData() => Client.getTutor(widget.tutorId);
+}
+
+class _InfoText extends StatelessWidget {
+  final String text;
+
+  const _InfoText(this.text);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.only(left: 3, right: 3, bottom: 7),
+      child: Text(text),
+    );
+  }
+}
+
+class _CourseButton extends StatelessWidget {
+  final String courseId;
+  final String courseName;
+
+  const _CourseButton({required this.courseId, required this.courseName});
+
+  @override
+  Widget build(BuildContext context) {
+    return TextButton(
+      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CourseDetailSreen())),
+      child: Text(courseName, style: const TextStyle(fontSize: 18))
     );
   }
 }

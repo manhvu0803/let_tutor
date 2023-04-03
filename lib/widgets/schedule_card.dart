@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/data_model/schedule.dart';
 
+import '../data_model/tutor.dart';
 import '../utils.dart';
 import 'user_info_box.dart';
 
@@ -11,6 +12,7 @@ class ScheduleCard extends StatelessWidget {
   final String countryName;
   final List<Widget> children;
   final String? avatarUrl;
+  final String tutorId;
 
   const ScheduleCard({
     super.key,
@@ -19,11 +21,13 @@ class ScheduleCard extends StatelessWidget {
     required this.date,
     this.subtitleText = "",
     this.children = const [],
-    this.avatarUrl
+    this.avatarUrl,
+    required this.tutorId,
   });
 
   ScheduleCard.fromSchedule(Schedule schedule, {super.key, this.children = const [], this.subtitleText = ""}) :
     date = schedule.startTime,
+    tutorId = schedule.tutor.id,
     username = schedule.tutor.name,
     countryName = schedule.tutor.country,
     avatarUrl = schedule.tutor.avatarUrl;
@@ -46,9 +50,10 @@ class ScheduleCard extends StatelessWidget {
             Expanded(
               flex: 6,
               child: UserInfoBox(
+                userId: tutorId,
                 name: username,
-                countryName: countryName,
                 avatar: (avatarUrl != null) ? Image.network(avatarUrl!).image : null,
+                countryName: countryName,
               ),
             )
           ],

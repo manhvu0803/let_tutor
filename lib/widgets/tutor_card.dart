@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import '../data_model/tutor.dart';
 import '../screens/tutor_info_screen.dart';
 import 'rating_label.dart';
 import 'rounded_box.dart';
@@ -10,9 +11,11 @@ class TutorCard extends StatelessWidget {
   final ImageProvider? avatar;
   final String country;
   final ImageProvider? countryFlag;
-  final String introduction;
-  final int rating;
+  final String bio;
+  final double rating;
   final List<String>? tags;
+  final bool isTappableAndTagged;
+  final String tutorId;
 
   const TutorCard({
     super.key,
@@ -20,10 +23,26 @@ class TutorCard extends StatelessWidget {
     this.avatar,
     this.country = "",
     this.countryFlag,
-    this.introduction = "",
+    this.bio = "",
     this.rating = 0,
-    this.tags
+    this.tags,
+    this.isTappableAndTagged = true,
+    required this.tutorId
   });
+
+  TutorCard.fromTutor(Tutor tutor, {super.key, this.isTappableAndTagged = true}) :
+    name = tutor.name,
+    avatar = Image.network(tutor.avatarUrl).image,
+    country = tutor.country,
+    countryFlag = null,
+    bio = tutor.bio,
+    rating = tutor.rating,
+    tags = tutor.specialties,
+    tutorId = tutor.id;
+
+  void _toTutorInfo(BuildContext context) {
+    Navigator.push(context, MaterialPageRoute(builder: (context) => TutorInfoScreen(tutorId: tutorId)));
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -31,7 +50,7 @@ class TutorCard extends StatelessWidget {
 
     return Card(
       child: InkWell(
-        onTap: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const TutorInfoScreen())),
+        onTap: isTappableAndTagged ? () => _toTutorInfo(context) : null,
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.stretch,
           children: [
@@ -40,6 +59,7 @@ class TutorCard extends StatelessWidget {
               children: [
                 Expanded(
                   child: UserInfoBox(
+                    userId: tutorId,
                     name: name,
                     avatar: avatar,
                     countryName: country,
@@ -54,11 +74,11 @@ class TutorCard extends StatelessWidget {
               ]
             ),
             // Tags
-            if (tags != null) Wrap(children: _buildTags(tags!)),
+            if (tags != null && isTappableAndTagged) Wrap(children: _buildTags(tags!)),
             // Description
             Padding(
               padding: const EdgeInsets.all(10),
-              child: Text(introduction, overflow: TextOverflow.ellipsis, textAlign: TextAlign.justify),
+              child: Text(bio, overflow: TextOverflow.ellipsis, textAlign: TextAlign.justify),
             )
           ],
         ),

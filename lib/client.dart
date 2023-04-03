@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 
 import 'data_model/schedule.dart';
 import 'data_model/token.dart';
+import 'data_model/tutor.dart';
 import 'data_model/user.dart';
 
 const _baseUrl = "sandbox.api.lettutor.com";
@@ -40,10 +41,7 @@ class Client {
       "sortBy": "asc"
     };
 
-    var json = await _getJson(http.get(
-      _url("booking/list/student", queries: queries),
-      headers: {"Authorization" : "Bearer ${accessToken.value}"}
-    ));
+    var json = await _jsonFromAuthGet(_url("booking/list/student", queries: queries));
 
     var scheduleList = <Schedule>[];
 
@@ -63,10 +61,7 @@ class Client {
       "sortBy": "desc"
     };
 
-    var json = await _getJson(http.get(
-      _url("booking/list/student", queries: queries),
-      headers: {"Authorization" : "Bearer ${accessToken.value}"}
-    ));
+    var json = await _jsonFromAuthGet(_url("booking/list/student", queries: queries));
 
     var scheduleList = <Schedule>[];
 
@@ -75,6 +70,18 @@ class Client {
     }
 
     return scheduleList;
+  }
+
+  static Future<Tutor> getTutor(String id) async {
+    debugPrint(_url("tutor/$id").toString());
+    var json = await _jsonFromAuthGet(_url("tutor/$id"));
+    return Tutor.fromJson(json);
+  }
+
+  static Future<Map<String, dynamic>> _jsonFromAuthGet(Uri uri) {
+    return _getJson(
+      http.get(uri, headers: {"Authorization" : "Bearer ${accessToken.value}"})
+    );
   }
 }
 

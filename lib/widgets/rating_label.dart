@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
 class RatingLabel extends StatelessWidget {
-  final int rating;
-  
+  final double rating;
+
   const RatingLabel({super.key, this.rating = 0});
 
   @override
@@ -11,6 +11,15 @@ class RatingLabel extends StatelessWidget {
       return const Text("No review yet", style: TextStyle(fontStyle: FontStyle.italic));
     }
 
-    return Text(rating.toString());
+    var starCount = rating.round();
+    var icons = <Widget>[];
+
+    for (int i = 0; i < starCount; ++i) {
+      icons.add(const Icon(Icons.star, color: Colors.yellow, size: 18));
+    }
+
+    return Row(
+      children: icons
+    );
   }
 }
