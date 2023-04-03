@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
+import 'data_model/course.dart';
 import 'data_model/schedule.dart';
 import 'data_model/token.dart';
 import 'data_model/tutor.dart';
@@ -73,9 +74,13 @@ class Client {
   }
 
   static Future<Tutor> getTutor(String id) async {
-    debugPrint(_url("tutor/$id").toString());
     var json = await _jsonFromAuthGet(_url("tutor/$id"));
     return Tutor.fromJson(json);
+  }
+
+  static Future<Course> getCourse(String id) async {
+    var json = await _jsonFromAuthGet(_url("course/$id"));
+    return Course.fromJson(json["data"]);
   }
 
   static Future<Map<String, dynamic>> _jsonFromAuthGet(Uri uri) {

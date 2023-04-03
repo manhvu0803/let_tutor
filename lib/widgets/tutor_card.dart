@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../data_model/tutor.dart';
 import '../screens/tutor_info_screen.dart';
+import '../utils.dart';
 import 'rating_label.dart';
 import 'rounded_box.dart';
 import 'user_info_box.dart';
@@ -74,7 +75,10 @@ class TutorCard extends StatelessWidget {
               ]
             ),
             // Tags
-            if (tags != null && isTappableAndTagged) Wrap(children: _buildTags(tags!)),
+            if (tags != null && isTappableAndTagged)
+              Wrap(
+                children: buildList(tags!, (tag) => RoundedBox.text(tag))
+              ),
             // Description
             Padding(
               padding: const EdgeInsets.all(10),
@@ -84,15 +88,5 @@ class TutorCard extends StatelessWidget {
         ),
       ),
     );
-  }
-
-  static List<Widget> _buildTags(List<String> tags) {
-    var widgets = <Widget>[];
-
-    for (var tag in tags) {
-      widgets.add(RoundedBox.text(tag));
-    }
-
-    return widgets;
   }
 }

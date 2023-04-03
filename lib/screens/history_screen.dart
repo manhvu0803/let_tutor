@@ -20,19 +20,18 @@ class _HistoryScreenState extends FutureState<HistoryScreen> {
 
   @override
   Widget buildOnFuture(BuildContext context, Object data) {
-    var scheduleCards = <Widget>[];
-
-    for (var schedule in data as List<Schedule>) {
-      scheduleCards.add(
-        ScheduleCard.fromSchedule(
-          schedule,
-          subtitleText: "${toHourString(schedule.startTime)}-${toHourString(schedule.endTime)}",
-          children: [_HistoryEndCard.fromSchedule(schedule)]
+    return Screen(
+      child: ListView(
+        children: buildList(
+          data as List<Schedule>,
+          (schedule) => ScheduleCard.fromSchedule(
+            schedule,
+            subtitleText: "${toHourString(schedule.startTime)}-${toHourString(schedule.endTime)}",
+            children: [_HistoryEndCard.fromSchedule(schedule)]
+          )
         )
-      );
-    }
-
-    return Screen(child: ListView(children: scheduleCards));
+      )
+    );
   }
 }
 

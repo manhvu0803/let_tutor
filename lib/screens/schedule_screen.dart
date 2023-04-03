@@ -3,6 +3,7 @@ import 'package:let_tutor/data_model/schedule.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../client.dart';
+import '../utils.dart';
 import '../widgets/future_state.dart';
 import '../widgets/schedule_card.dart';
 import 'meeting_screen.dart';
@@ -18,13 +19,15 @@ class ScheduleScreen extends StatefulWidget {
 class _ScheduleScreenState extends FutureState<ScheduleScreen> {
   @override
   Widget buildOnFuture(BuildContext context, Object data) {
-    var scheduleCards = <Widget>[];
-
-    for (var schedule in data as List<Schedule>) {
-      scheduleCards.add(ScheduleCard.fromSchedule(schedule, children: const [_ScheduleEndCard()]));
-    }
-
-    return Screen(child: ListView(children: scheduleCards));
+    return Screen(child:
+      ListView(
+        children: buildList(
+          data as List<Schedule>,
+          (schedule) => ScheduleCard.fromSchedule(schedule, children: const [_ScheduleEndCard()]
+          )
+        )
+      )
+    );
   }
 
   @override

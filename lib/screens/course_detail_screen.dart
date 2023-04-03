@@ -1,40 +1,54 @@
 import 'package:flutter/material.dart';
 
+import '../client.dart';
+import '../data_model/course.dart';
 import '../widgets/course_scroll_view.dart';
+import '../widgets/future_state.dart';
 import '../widgets/title_text.dart';
 import 'screen.dart';
 import 'topic_list_screen.dart';
 
-class CourseDetailSreen extends StatelessWidget {
-  final String? courseName;
-  final String? courseDescription;
+class CourseDetailSreen extends StatefulWidget {
+  final String courseId;
 
-  const CourseDetailSreen({super.key, this.courseName, this.courseDescription});
+  const CourseDetailSreen({super.key, required this.courseId});
 
   @override
-  Widget build(BuildContext context) {
+  State<CourseDetailSreen> createState() => _CourseDetailSreenState();
+}
+
+class _CourseDetailSreenState extends FutureState<CourseDetailSreen> {
+  @override
+  Widget buildOnFuture(BuildContext context, Object data) {
+    final course = data as Course;
+
     return Screen(
       padding: 0,
       child: CourseScrollView(
-        courseName: courseName,
-        courseDescription: courseDescription,
+        courseName: course.name,
+        courseDescription: course.description,
+        courseImage: Image.network(course.imageUrl),
         children: [
+          // Overview
           const TitleText("Overview"),
           const TitleText("Why take this course", fontSize: 20),
-          const Text("Our world is rapidly changing thanks to new technology, and the vocabulary needed to discuss modern life is evolving almost daily. In this course you will learn the most up-to-date terminology from expertly crafted lessons as well from your native-speaking tutor"),
+          Text(course.reason),
           const TitleText("What will you learn", fontSize: 20),
-          const Text("You will learn vocabulary related to timely topics like remote work, artificial intelligence, online privacy, and more. In addition to discussion questions, you will practice intermediate level speaking tasks such as using data to describe trends"),
+          Text(course.purpose),
+          // Level
           const TitleText("Level"),
           const TitleText("Intermediate", fontSize: 20, fontWeight: FontWeight.w500),
+          // Course length
           const TitleText("Course length"),
-          const TitleText("9 topics", fontSize: 20, fontWeight: FontWeight.w500),
+          TitleText("${course.topics.length} topic(s)", fontSize: 20, fontWeight: FontWeight.w500),
+          // Button
           Padding(
             padding: const EdgeInsets.only(top: 32.0, left: 40, right: 40, bottom: 8),
             child: SizedBox(
               height: 50,
               child: ElevatedButton(
                 onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const TopicListScreen())),
-                child: const Text("Discover")
+                child: const Text("Discover", style: TextStyle(fontSize: 20))
               ),
             ),
           )
@@ -42,4 +56,7 @@ class CourseDetailSreen extends StatelessWidget {
       ),
     );
   }
+
+  @override
+  Future fetchData() => Client.getCourse(widget.courseId);
 }

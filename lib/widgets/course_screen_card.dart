@@ -19,10 +19,7 @@ class CourseScreenCard extends CourseCard{
   Widget build(BuildContext context) {
     return InkWell(
       onTap: () => Navigator.push(context, MaterialPageRoute(
-        builder: (context) => const CourseDetailSreen(
-          courseName: "Life in the Internet Age",
-          courseDescription: "Let's discuss how technology is changing the way we live",
-        )
+        builder: (context) => const CourseDetailSreen(courseId: "")
       )),
       child: Padding(
         padding: const EdgeInsets.all(10),

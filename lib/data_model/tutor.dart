@@ -1,3 +1,5 @@
+import '../utils.dart';
+import 'course.dart';
 import 'user.dart';
 
 class Tutor extends User {
@@ -14,6 +16,7 @@ class Tutor extends User {
   bool isNative;
   bool isFavorite;
   int totalFeedbacks;
+  List<Course> courses;
 
   Tutor.fromJson(Map<String, dynamic> json) :
     bio = json["bio"],
@@ -29,5 +32,6 @@ class Tutor extends User {
     isNative = json["isNative"] ?? false,
     isFavorite = json["isFavorite"] ?? false,
     totalFeedbacks = json["totalFeedbacks"] ?? 0,
+    courses = buildList(json["User"]["courses"], (dynamic json) => Course.fromJson(json)),
     super.fromJson(json["User"] ?? json ["user"]);
 }

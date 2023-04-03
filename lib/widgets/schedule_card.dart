@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/data_model/schedule.dart';
 
-import '../data_model/tutor.dart';
 import '../utils.dart';
 import 'user_info_box.dart';
 

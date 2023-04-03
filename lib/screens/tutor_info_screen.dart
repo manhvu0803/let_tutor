@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import '../client.dart';
 import '../data_model/tutor.dart';
+import '../utils.dart';
 import '../widgets/future_state.dart';
 import '../widgets/rounded_box.dart';
 import '../widgets/timetable.dart';
@@ -53,16 +54,21 @@ class _TutorInfoScreenState extends FutureState<TutorInfoScreen> {
                         mainAxisAlignment: MainAxisAlignment.start,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
+                          // Languages
                           const TitleText("Languages"),
                           RoundedBox.text(tutor.languages),
+                          // Specialties
                           const TitleText("Specialties"),
                           Wrap(
-                            children: _buildTags(tutor.specialties)
+                            children: buildList(tutor.specialties, (tag) => RoundedBox.text(tag))
                           ),
+                          // Suggested courses
                           const TitleText("Suggested courses"),
-
+                          ...buildList(tutor.courses, (course) => _CourseButton(courseId: course.id, courseName: course.name)),
+                          // Interests
                           const TitleText("Interests"),
                           _InfoText(tutor.interests),
+                          // Experience
                           const TitleText("Experience"),
                           _InfoText(tutor.experience)
                         ]
@@ -76,16 +82,6 @@ class _TutorInfoScreenState extends FutureState<TutorInfoScreen> {
         )
       ),
     );
-  }
-
-  List<Widget> _buildTags(List<String> tags) {
-    final widgets = <Widget>[];
-
-    for (final tag in tags) {
-      widgets.add(RoundedBox.text(tag));
-    }
-
-    return widgets;
   }
 
   @override
@@ -115,7 +111,10 @@ class _CourseButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextButton(
-      onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const CourseDetailSreen())),
+      onPressed: () => Navigator.push(
+        context,
+        MaterialPageRoute(builder: (context) => CourseDetailSreen(courseId: courseId))
+      ),
       child: Text(courseName, style: const TextStyle(fontSize: 18))
     );
   }

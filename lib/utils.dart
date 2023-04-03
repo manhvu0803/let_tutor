@@ -12,6 +12,16 @@ String toHourString(DateTime time) {
   return "${time.hour}:${time.minute.toString().padLeft(2, '0')}";
 }
 
+List<U> buildList<T, U>(List<T> list, U Function(T) builder) {
+  final widgets = <U>[];
+
+  for (final item in list) {
+    widgets.add(builder(item));
+  }
+
+  return widgets;
+}
+
 void showLoadingDialog(BuildContext context) {
   showDialog(
     context: context,
