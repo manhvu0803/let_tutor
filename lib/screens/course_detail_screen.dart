@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../client.dart';
-import '../data_model/course.dart';
 import '../widgets/course_scroll_view.dart';
 import '../widgets/future_widget.dart';
 import '../widgets/title_text.dart';

@@ -14,7 +14,7 @@ class Schedule {
   DateTime startTime = DateTime(0);
   DateTime endTime = DateTime(0);
   String scheduleInfoId = "";
-  String classReview = "";
+  Object classReview = "";
   bool showRecordUrl = false;
   User tutor;
 

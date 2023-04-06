@@ -8,7 +8,15 @@ String toDateString(DateTime time) {
   return "${weekdayString[time.weekday]}, ${time.day}-${monthString[time.month]}-${time.year}";
 }
 
+String toDateStringGmt(DateTime time) {
+  return "${weekdayString[time.weekday]} ${time.day} ${monthString[time.month]} ${time.year}";
+}
+
 String toHourString(DateTime time) {
+  return "${time.hour}:${time.minute.toString().padLeft(2, '0')}";
+}
+
+String timeOfDayToString(TimeOfDay time) {
   return "${time.hour}:${time.minute.toString().padLeft(2, '0')}";
 }
 
@@ -20,6 +28,12 @@ List<U> buildList<T, U>(List<T> list, U Function(T) builder) {
   }
 
   return widgets;
+}
+
+extension DateTimeExtension on DateTime {
+  DateTime applied(TimeOfDay time) {
+    return DateTime(year, month, day, time.hour, time.minute);
+  }
 }
 
 void showLoadingDialog(BuildContext context) {

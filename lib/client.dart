@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
@@ -84,15 +85,26 @@ class Client {
     return Course.fromJson(json["data"]);
   }
 
-  static Future<List<Tutor>> searchTutor({int page = 1}) async {
+  static Future<List<Tutor>> searchTutor({
+    int page = 1,
+    int perPageCount = 2,
+    String? specialty,
+    DateTime? date,
+    DateTime? fromTime,
+    DateTime? toTime
+  }) async {
     var body = {
-      "page": "$page",
-      "perPage": "5",
-      "filter": jsonEncode({
-        "date": "null",
-        "nationality": "{}",
-        "specialties": "[]"
-      })
+      "filters": {
+        "specialties": [if (specialty != null && specialty != "all") specialty],
+        "date": (date == null) ? null : toDateStringGmt(date),
+        "nationality": {},
+        "tutoringTimeAvailable": [
+          (fromTime != null) ? fromTime.millisecondsSinceEpoch : null,
+          (toTime != null) ? toTime.millisecondsSinceEpoch : null,
+        ]
+      },
+      "page": max(1, page),
+      "perPage": perPageCount,
     };
 
     var json = await _jsonFromAuthPost("tutor/search", body: body);
@@ -105,12 +117,16 @@ class Client {
     );
   }
 
-  static Future<Map<String, dynamic>> _jsonFromAuthPost(String url, {Object? body}) {
+  static Future<Map<String, dynamic>> _jsonFromAuthPost(String url, {Map<String, Object>? body}) {
+    debugPrint(jsonEncode(body));
     return _getJson(
       http.post(
         _url(url),
-        headers: {"Authorization" : "Bearer ${accessToken.value}"},
-        body: body
+        headers: {
+          "Authorization" : "Bearer ${accessToken.value}",
+          "Content-Type" : "application/json"
+        },
+        body: jsonEncode(body)
       )
     );
   }
@@ -127,7 +143,6 @@ Future<Map<String, dynamic>> _getJson(Future<http.Response> request) async {
     throw Exception("Code ${response.statusCode}");
   }
 
-  debugPrint(response.body);
   var json = jsonDecode(response.body);
 
   if (response.statusCode < 200 || 300 <= response.statusCode) {

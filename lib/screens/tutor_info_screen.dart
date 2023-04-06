@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 
 import '../client.dart';
-import '../data_model/tutor.dart';
 import '../utils.dart';
 import '../widgets/future_widget.dart';
 import '../widgets/rounded_box.dart';
