@@ -88,11 +88,11 @@ class Client {
     var body = {
       "page": "$page",
       "perPage": "5",
-      "filter": {
+      "filter": jsonEncode({
         "date": "null",
         "nationality": "{}",
         "specialties": "[]"
-      }.toString()
+      })
     };
 
     var json = await _jsonFromAuthPost("tutor/search", body: body);

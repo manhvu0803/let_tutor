@@ -3,31 +3,26 @@ import 'package:flutter/material.dart';
 import '../client.dart';
 import '../data_model/schedule.dart';
 import '../utils.dart';
-import '../widgets/future_state.dart';
+import '../widgets/future_widget.dart';
 import '../widgets/schedule_card.dart';
 import 'screen.dart';
 
-class HistoryScreen extends StatefulWidget {
+class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
 
   @override
-  State<HistoryScreen> createState() => _HistoryScreenState();
-}
-
-class _HistoryScreenState extends FutureState<HistoryScreen, List<Schedule>> {
-  @override
-  Future<List<Schedule>> fetchData() => Client.getHistory();
-
-  @override
-  Widget buildOnFuture(BuildContext context, List<Schedule> scheduleList) {
-    return Screen(
-      child: ListView(
-        children: buildList(
-          scheduleList,
-          (schedule) => ScheduleCard.fromSchedule(
-            schedule,
-            subtitleText: "${toHourString(schedule.startTime)}-${toHourString(schedule.endTime)}",
-            children: [_HistoryEndCard.fromSchedule(schedule)]
+  Widget build(BuildContext context) {
+    return FutureWidget(
+      fetchData: () => Client.getHistory(),
+      buildWidget: (context, scheduleList) => Screen(
+        child: ListView(
+          children: buildList(
+            scheduleList,
+            (schedule) => ScheduleCard.fromSchedule(
+              schedule,
+              subtitleText: "${toHourString(schedule.startTime)}-${toHourString(schedule.endTime)}",
+              children: [_HistoryEndCard.fromSchedule(schedule)]
+            )
           )
         )
       )

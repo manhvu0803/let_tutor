@@ -1,37 +1,30 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/data_model/schedule.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 import '../client.dart';
 import '../utils.dart';
-import '../widgets/future_state.dart';
+import '../widgets/future_widget.dart';
 import '../widgets/schedule_card.dart';
 import 'meeting_screen.dart';
 import 'screen.dart';
 
-class ScheduleScreen extends StatefulWidget {
+class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});
 
   @override
-  State<ScheduleScreen> createState() => _ScheduleScreenState();
-}
-
-class _ScheduleScreenState extends FutureState<ScheduleScreen, List<Schedule>> {
-  @override
-  Widget buildOnFuture(BuildContext context, List<Schedule> scheduleList) {
-    return Screen(child:
-      ListView(
-        children: buildList(
-          scheduleList,
-          (schedule) => ScheduleCard.fromSchedule(schedule, children: const [_ScheduleEndCard()]
+  Widget build(BuildContext context) {
+    return FutureWidget(
+      fetchData: () => Client.getSchedule(),
+      buildWidget: (context, scheduleList) => Screen(child:
+        ListView(
+          children: buildList(
+            scheduleList,
+            (schedule) => ScheduleCard.fromSchedule(schedule, children: const [_ScheduleEndCard()])
           )
         )
       )
     );
   }
-
-  @override
-  Future<List<Schedule>> fetchData() => Client.getSchedule();
 }
 
 class _ScheduleEndCard extends StatelessWidget {
