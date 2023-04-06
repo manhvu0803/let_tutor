@@ -23,6 +23,7 @@ class CourseScrollView extends StatelessWidget {
           expandedHeight: 450,
           backgroundColor: Colors.white,
           flexibleSpace: FlexibleSpaceBar(
+            titlePadding: const EdgeInsets.only(left: 10, right: 10),
             centerTitle: true,
             background: Align(
               alignment: Alignment.topCenter,

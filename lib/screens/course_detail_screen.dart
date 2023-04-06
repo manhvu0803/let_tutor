@@ -7,10 +7,10 @@ import '../widgets/title_text.dart';
 import 'screen.dart';
 import 'topic_list_screen.dart';
 
-class CourseDetailSreen extends StatelessWidget {
+class CourseDetailScreen extends StatelessWidget {
   final String courseId;
 
-  const CourseDetailSreen({super.key, required this.courseId});
+  const CourseDetailScreen({super.key, required this.courseId});
 
   @override
   Widget build(BuildContext context) {

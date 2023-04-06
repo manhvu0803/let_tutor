@@ -105,7 +105,7 @@ class _CourseButton extends StatelessWidget {
     return TextButton(
       onPressed: () => Navigator.push(
         context,
-        MaterialPageRoute(builder: (context) => CourseDetailSreen(courseId: courseId))
+        MaterialPageRoute(builder: (context) => CourseDetailScreen(courseId: courseId))
       ),
       child: Text(courseName, style: const TextStyle(fontSize: 18))
     );

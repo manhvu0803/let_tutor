@@ -2,11 +2,23 @@ import '../utils.dart';
 import 'topic.dart';
 
 class Course {
+  static const levelStrings = [
+    "Any level",
+    "Beginner",
+    "Upper-Beginner",
+    "Pre-Intermediate",
+    "Intermediate",
+    "Upper-Intermediate",
+    "Pre-Advanced",
+    "Advanced",
+    "Very-Advanced"
+  ];
+
   String id;
   String name;
   String description;
   String imageUrl;
-  int level;
+  int leveNumber;
   String reason;
   String purpose;
   String otherDetails;
@@ -19,13 +31,14 @@ class Course {
   DateTime createdAt;
   DateTime updatedAt;
   List<Topic> topics;
+  String category;
 
   Course.fromJson(Map<String, dynamic> json) :
     id = json["id"] ?? "",
     name = json["name"] ?? "",
     description = json["description"] ?? "",
     imageUrl = json["imageUrl"] ?? "",
-    level = (json["level"] == null) ? 0 : int.parse(json["level"]),
+    leveNumber = (json["level"] == null) ? 0 : int.parse(json["level"]),
     reason = json["reason"] ?? "",
     purpose = json["purpose"] ?? "",
     otherDetails = json["other_details"] ?? "",
@@ -37,5 +50,8 @@ class Course {
     displayOrder = json["displayOrder"] ?? "",
     createdAt = DateTime.parse(json["createdAt"] ?? json["TutorCourse"]["createdAt"]),
     updatedAt = DateTime.parse(json["updatedAt"] ?? json["TutorCourse"]["updatedAt"]),
-    topics = (json["topics"] == null) ? [] : buildList(json["topics"], (dynamic json) => Topic.fromJson(json));
+    topics = (json["topics"] == null) ? [] : buildList(json["topics"], (dynamic json) => Topic.fromJson(json)),
+    category = (json["categories"] != null) ? json["categories"][0]["title"] : "";
+
+  String get level => levelStrings[leveNumber];
 }

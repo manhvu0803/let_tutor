@@ -85,6 +85,17 @@ class Client {
     return Course.fromJson(json["data"]);
   }
 
+  static Future<List<Course>> searchCourse({int page = 1, int perPageCount = 5}) async {
+    print("search $page");
+    var queries = {
+      "page": "$page",
+      "size": "$perPageCount"
+    };
+
+    var json = await _jsonFromAuthGet(_url("course", queries: queries));
+    return buildList(json["data"]["rows"], (dynamic json) => Course.fromJson(json));
+  }
+
   static Future<List<Tutor>> searchTutor({
     int page = 1,
     int perPageCount = 2,

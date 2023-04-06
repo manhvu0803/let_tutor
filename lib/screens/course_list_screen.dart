@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import '../client.dart';
+import '../widgets/future_column.dart';
 import '../widgets/search_bar.dart' as let_tutor;
 import '../widgets/course_screen_card.dart';
 import 'screen.dart';
@@ -18,9 +20,27 @@ class CourseListScreen extends StatefulWidget {
 }
 
 class _CourseListScreenState extends State<CourseListScreen> {
+  int _currentPage = 1;
+  bool _isLoading = false;
+  late final ScrollController _scrollController;
   String _chosenLevel = _levels.first;
   String _chosenCategory = _categories.first;
   String _chosenSortOrder = _sortOrder.first;
+
+  @override
+  void initState() {
+    super.initState();
+    _scrollController = ScrollController()..addListener(_onScroll);
+  }
+
+  void _onScroll() {
+    if (_scrollController.position.extentAfter < 500 && !_isLoading) {
+      setState(() {
+        _isLoading = true;
+        _currentPage += 1;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -60,44 +80,19 @@ class _CourseListScreenState extends State<CourseListScreen> {
             ],
           ),
           Flexible(
-            child: ListView(
-              children: const [
-                Text("English for traveling", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold)),
-                Wrap(
-                  children: [
-                    CourseScreenCard(
-                      name: "Life in the Internet Age",
-                      description: "Let's discuss how technology is changing the way we live",
-                      level: "Intermediate",
-                      lessonCount: 9,
-                    ),
-                    CourseScreenCard(
-                      name: "Caring for Our Planet",
-                      description: "Let's discuss our relationship as humans with our planet, Earth",
-                      lessonCount: 1,
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Text("English For Beginners", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
-                ),
-                Wrap(
-                  children: [
-                    CourseScreenCard(
-                      name: "Basic Conversation Topics",
-                      description: "Gain confidence speaking about familiar topics",
-                      lessonCount: 9,
-                    ),
-                    CourseScreenCard(
-                      name: "Caring for Our Planet",
-                      description: "Let's discuss our relationship as humans with our planet, Earth",
-                      lessonCount: 1,
-                    )
-                  ],
+            child: ListView.builder(
+              addAutomaticKeepAlives: false,
+              controller: _scrollController,
+              itemCount: _currentPage,
+              itemBuilder: (context, page) => FutureColumn(
+                forceReload: _currentPage == 1,
+                fetchData: () => Client.searchCourse(page: page + 1),
+                onDone: () => _isLoading = false,
+                buildItem: (course) => Padding(
+                  padding: const EdgeInsets.only(top: 8, bottom: 8),
+                  child: CourseScreenCard.fromCourse(course),
                 )
-
-              ]
+              ),
             ),
           ),
         ]

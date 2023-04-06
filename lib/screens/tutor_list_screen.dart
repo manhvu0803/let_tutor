@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 
 import '../client.dart';
-import '../data_model/tutor.dart';
 import '../utils.dart';
-import '../widgets/future_widget.dart';
+import '../widgets/future_column.dart';
 import '../widgets/tutor_card.dart';
 import 'screen.dart';
 import '../widgets/search_bar.dart' as let;
@@ -113,15 +112,17 @@ class _TutorListScreenState extends State<TutorListScreen> {
           SliverList.builder(
             itemCount: _currentPage,
             addAutomaticKeepAlives: false,
-            itemBuilder: (context, page) => _TutorColumn(
+            itemBuilder: (context, page) => FutureColumn(
+              forceReload: _currentPage == 1,
               fetchData: () => Client.searchTutor(
-                page: page,
+                page: page + 1,
                 perPageCount: 5,
                 specialty: specialtyFilter,
                 date: dateFilter,
                 fromTime: fromTimeFilter,
                 toTime: toTimeFilter
               ),
+              buildItem: (tutor) => TutorCard.fromTutor(tutor),
               onDone: () => _isLoading = false
             )
           ),
@@ -158,23 +159,5 @@ class _TutorListScreenState extends State<TutorListScreen> {
         _currentPage = 1;
       });
     }
-  }
-}
-
-class _TutorColumn extends StatelessWidget {
-  final Function()? onDone;
-  final Future<List<Tutor>> Function() fetchData;
-
-  const _TutorColumn({this.onDone, required this.fetchData});
-
-  @override
-  Widget build(BuildContext context) {
-    return FutureWidget(
-      fetchData: fetchData,
-      onDone: onDone,
-      buildWidget: (context, tutors) => Column(
-        children: buildList(tutors, (tutor) => TutorCard.fromTutor(tutor, tagFontSize: 14))
-      )
-    );
   }
 }
