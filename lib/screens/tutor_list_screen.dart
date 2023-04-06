@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import '../widgets/tutor_card.dart';
 import 'screen.dart';
 
 class TutorListScreen extends StatelessWidget {

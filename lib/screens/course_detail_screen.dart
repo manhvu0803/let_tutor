@@ -47,7 +47,10 @@ class _CourseDetailSreenState extends FutureState<CourseDetailSreen> {
             child: SizedBox(
               height: 50,
               child: ElevatedButton(
-                onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const TopicListScreen())),
+                onPressed: () => Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => TopicListScreen.fromCourse(course))
+                ),
                 child: const Text("Discover", style: TextStyle(fontSize: 20))
               ),
             ),
