@@ -3,6 +3,16 @@ import 'course.dart';
 import 'user.dart';
 
 class Tutor extends User {
+  static List<Course> _getCourses(Map<String, dynamic> json) {
+    var userData = json["User"] ?? json["user"];
+
+    if (userData == null) {
+      return [];
+    }
+
+    return buildList(userData["courses"], (dynamic json) => Course.fromJson(json));
+  }
+
   String bio;
   String videoUrl;
   String education;
@@ -19,19 +29,19 @@ class Tutor extends User {
   List<Course> courses;
 
   Tutor.fromJson(Map<String, dynamic> json) :
-    bio = json["bio"],
-    videoUrl = json["video"],
-    education = json["education"],
-    experience = json["experience"],
+    bio = json["bio"] ?? "",
+    videoUrl = json["video"] ?? "",
+    education = json["education"] ?? "",
+    experience = json["experience"] ?? "",
     accent = json["accent"] ?? "",
-    targetStudent = json["targetStudent"],
-    interests = json["interests"],
+    targetStudent = json["targetStudent"] ?? "",
+    interests = json["interests"] ?? "",
     languages = json["languages"] ?? "",
-    specialties = (json["specialties"] as String).split(","),
-    rating = json["rating"],
+    specialties = (json["specialties"] == null) ? [] : (json["specialties"] as String).split(","),
+    rating = json["rating"] ?? 0,
     isNative = json["isNative"] ?? false,
     isFavorite = json["isFavorite"] ?? false,
     totalFeedbacks = json["totalFeedbacks"] ?? 0,
-    courses = buildList(json["User"]["courses"], (dynamic json) => Course.fromJson(json)),
-    super.fromJson(json["User"] ?? json ["user"]);
+    courses = _getCourses(json),
+    super.fromJson(json["User"] ?? json["user"] ?? json);
 }

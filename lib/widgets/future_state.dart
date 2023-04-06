@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 import '../screens/screen.dart';
 
-abstract class FutureState<T extends StatefulWidget> extends State<T> {
-  late Future<dynamic> _future;
+abstract class FutureState<T extends StatefulWidget, U> extends State<T> {
+  late Future<U> _future;
 
   @override
   void initState() {
@@ -11,7 +11,7 @@ abstract class FutureState<T extends StatefulWidget> extends State<T> {
     _future = fetchData();
   }
 
-  Future<dynamic> fetchData();
+  Future<U> fetchData();
 
   @override
   Widget build(BuildContext context) {
@@ -31,8 +31,8 @@ abstract class FutureState<T extends StatefulWidget> extends State<T> {
       return const Screen(child: Center(child: CircularProgressIndicator()));
     }
 
-    return buildOnFuture(context, snapshot.data!);
+    return buildOnFuture(context, snapshot.data as U);
   }
 
-  Widget buildOnFuture(BuildContext context, Object data);
+  Widget buildOnFuture(BuildContext context, U data);
 }

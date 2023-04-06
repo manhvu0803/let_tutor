@@ -17,6 +17,8 @@ class TutorCard extends StatelessWidget {
   final List<String>? tags;
   final bool isTappableAndTagged;
   final String tutorId;
+  final double tagFontSize;
+  final bool isFavorite;
 
   const TutorCard({
     super.key,
@@ -28,10 +30,12 @@ class TutorCard extends StatelessWidget {
     this.rating = 0,
     this.tags,
     this.isTappableAndTagged = true,
+    this.tagFontSize = 16,
+    this.isFavorite = false,
     required this.tutorId
   });
 
-  TutorCard.fromTutor(Tutor tutor, {super.key, this.isTappableAndTagged = true}) :
+  TutorCard.fromTutor(Tutor tutor, {super.key, this.isTappableAndTagged = true, this.tagFontSize = 16}) :
     name = tutor.name,
     avatar = Image.network(tutor.avatarUrl).image,
     country = tutor.country,
@@ -39,7 +43,8 @@ class TutorCard extends StatelessWidget {
     bio = tutor.bio,
     rating = tutor.rating,
     tags = tutor.specialties,
-    tutorId = tutor.id;
+    tutorId = tutor.id,
+    isFavorite = tutor.isFavorite;
 
   void _toTutorInfo(BuildContext context) {
     Navigator.push(context, MaterialPageRoute(builder: (context) => TutorInfoScreen(tutorId: tutorId)));
@@ -65,26 +70,55 @@ class TutorCard extends StatelessWidget {
                     avatar: avatar,
                     countryName: country,
                     countryFlag: countryFlag,
-                    lastChild: RatingLabel(rating: rating)
+                    lastChild: RatingLabel(rating: rating),
+                    isTappable: false,
                   ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.all(8.0),
-                  child: Icon(Icons.favorite),
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: Icon(isFavorite ? Icons.favorite : Icons.favorite_border, color: Colors.red),
                 )
               ]
             ),
             // Tags
-            if (tags != null && isTappableAndTagged)
+            if (tags != null && tags!.isNotEmpty && isTappableAndTagged)
               Wrap(
-                children: buildList(tags!, (tag) => RoundedBox.text(tag))
+                children: buildList(tags!, (tag) => RoundedBox.text(tag, fontSize: tagFontSize))
               ),
             // Description
-            Padding(
-              padding: const EdgeInsets.all(10),
-              child: Text(bio, overflow: TextOverflow.ellipsis, textAlign: TextAlign.justify),
-            )
+            _ExpandableText(text: bio)
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class _ExpandableText extends StatefulWidget {
+  final String text;
+  final bool isTappable;
+  final int unexpanededLineCount;
+
+  const _ExpandableText({required this.text, this.isTappable = true, this.unexpanededLineCount = 3});
+
+  @override
+  State<_ExpandableText> createState() => _ExpandableTextState();
+}
+
+class _ExpandableTextState extends State<_ExpandableText> {
+  bool _isExpanded = false;
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: widget.isTappable ? () => setState(() => _isExpanded = !_isExpanded) : null,
+      child: Padding(
+        padding: const EdgeInsets.all(10),
+        child: Text(
+          widget.text,
+          maxLines: _isExpanded ? null : widget.unexpanededLineCount,
+          overflow: _isExpanded ? null : TextOverflow.ellipsis,
+          textAlign: TextAlign.justify
         ),
       ),
     );

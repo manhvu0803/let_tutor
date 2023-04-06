@@ -16,13 +16,13 @@ class ScheduleScreen extends StatefulWidget {
   State<ScheduleScreen> createState() => _ScheduleScreenState();
 }
 
-class _ScheduleScreenState extends FutureState<ScheduleScreen> {
+class _ScheduleScreenState extends FutureState<ScheduleScreen, List<Schedule>> {
   @override
-  Widget buildOnFuture(BuildContext context, Object data) {
+  Widget buildOnFuture(BuildContext context, List<Schedule> scheduleList) {
     return Screen(child:
       ListView(
         children: buildList(
-          data as List<Schedule>,
+          scheduleList,
           (schedule) => ScheduleCard.fromSchedule(schedule, children: const [_ScheduleEndCard()]
           )
         )
@@ -31,7 +31,7 @@ class _ScheduleScreenState extends FutureState<ScheduleScreen> {
   }
 
   @override
-  Future fetchData() => Client.getSchedule();
+  Future<List<Schedule>> fetchData() => Client.getSchedule();
 }
 
 class _ScheduleEndCard extends StatelessWidget {

@@ -14,16 +14,16 @@ class HistoryScreen extends StatefulWidget {
   State<HistoryScreen> createState() => _HistoryScreenState();
 }
 
-class _HistoryScreenState extends FutureState<HistoryScreen> {
+class _HistoryScreenState extends FutureState<HistoryScreen, List<Schedule>> {
   @override
-  Future fetchData() => Client.getHistory();
+  Future<List<Schedule>> fetchData() => Client.getHistory();
 
   @override
-  Widget buildOnFuture(BuildContext context, Object data) {
+  Widget buildOnFuture(BuildContext context, List<Schedule> scheduleList) {
     return Screen(
       child: ListView(
         children: buildList(
-          data as List<Schedule>,
+          scheduleList,
           (schedule) => ScheduleCard.fromSchedule(
             schedule,
             subtitleText: "${toHourString(schedule.startTime)}-${toHourString(schedule.endTime)}",

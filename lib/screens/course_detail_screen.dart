@@ -17,11 +17,9 @@ class CourseDetailSreen extends StatefulWidget {
   State<CourseDetailSreen> createState() => _CourseDetailSreenState();
 }
 
-class _CourseDetailSreenState extends FutureState<CourseDetailSreen> {
+class _CourseDetailSreenState extends FutureState<CourseDetailSreen, Course> {
   @override
-  Widget buildOnFuture(BuildContext context, Object data) {
-    final course = data as Course;
-
+  Widget buildOnFuture(BuildContext context, Course course) {
     return Screen(
       padding: 0,
       child: CourseScrollView(
@@ -61,5 +59,5 @@ class _CourseDetailSreenState extends FutureState<CourseDetailSreen> {
   }
 
   @override
-  Future fetchData() => Client.getCourse(widget.courseId);
+  fetchData() => Client.getCourse(widget.courseId);
 }

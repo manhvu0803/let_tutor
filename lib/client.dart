@@ -8,6 +8,7 @@ import 'data_model/schedule.dart';
 import 'data_model/token.dart';
 import 'data_model/tutor.dart';
 import 'data_model/user.dart';
+import 'utils.dart';
 
 const _baseUrl = "sandbox.api.lettutor.com";
 
@@ -83,9 +84,34 @@ class Client {
     return Course.fromJson(json["data"]);
   }
 
+  static Future<List<Tutor>> searchTutor({int page = 1}) async {
+    var body = {
+      "page": "$page",
+      "perPage": "5",
+      "filter": {
+        "date": "null",
+        "nationality": "{}",
+        "specialties": "[]"
+      }.toString()
+    };
+
+    var json = await _jsonFromAuthPost("tutor/search", body: body);
+    return buildList(json["rows"], (dynamic json) => Tutor.fromJson(json));
+  }
+
   static Future<Map<String, dynamic>> _jsonFromAuthGet(Uri uri) {
     return _getJson(
       http.get(uri, headers: {"Authorization" : "Bearer ${accessToken.value}"})
+    );
+  }
+
+  static Future<Map<String, dynamic>> _jsonFromAuthPost(String url, {Object? body}) {
+    return _getJson(
+      http.post(
+        _url(url),
+        headers: {"Authorization" : "Bearer ${accessToken.value}"},
+        body: body
+      )
     );
   }
 }

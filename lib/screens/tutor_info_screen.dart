@@ -22,11 +22,9 @@ class TutorInfoScreen extends StatefulWidget {
   State<TutorInfoScreen> createState() => _TutorInfoScreenState();
 }
 
-class _TutorInfoScreenState extends FutureState<TutorInfoScreen> {
+class _TutorInfoScreenState extends FutureState<TutorInfoScreen, Tutor> {
   @override
-  Widget buildOnFuture(BuildContext context, Object data) {
-    final tutor = data as Tutor;
-
+  Widget buildOnFuture(BuildContext context, Tutor tutor) {
     return DefaultTabController(
       length: 2,
       child: Screen(
@@ -85,7 +83,7 @@ class _TutorInfoScreenState extends FutureState<TutorInfoScreen> {
   }
 
   @override
-  Future fetchData() => Client.getTutor(widget.tutorId);
+  Future<Tutor> fetchData() => Client.getTutor(widget.tutorId);
 }
 
 class _InfoText extends StatelessWidget {

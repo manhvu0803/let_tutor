@@ -22,7 +22,7 @@ class User {
   User({required this.wallet});
 
   User.fromJson(Map<String, dynamic> json) :
-    id = json["id"],
+    id = json["userId"] ?? json["id"] ?? "",
     email = json["email"] ?? "",
     name = json["name"] ?? "",
     avatarUrl = json["avatar"] ?? "",

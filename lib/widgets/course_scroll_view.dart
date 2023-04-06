@@ -23,6 +23,7 @@ class CourseScrollView extends StatelessWidget {
           expandedHeight: 450,
           backgroundColor: Colors.white,
           flexibleSpace: FlexibleSpaceBar(
+            centerTitle: true,
             background: Align(
               alignment: Alignment.topCenter,
               child: courseImage

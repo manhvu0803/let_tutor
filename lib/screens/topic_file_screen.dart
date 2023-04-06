@@ -16,14 +16,12 @@ class TopicFileScreen extends StatefulWidget {
   State<TopicFileScreen> createState() => _TopicFileScreenState();
 }
 
-class _TopicFileScreenState extends FutureState<TopicFileScreen> {
+class _TopicFileScreenState extends FutureState<TopicFileScreen, File> {
   @override
-  Future fetchData() => DefaultCacheManager().getSingleFile(widget.fileUrl);
+  Future<File> fetchData() => DefaultCacheManager().getSingleFile(widget.fileUrl);
 
   @override
-  Widget buildOnFuture(BuildContext context, Object data) {
-    var file = data as File;
-
+  Widget buildOnFuture(BuildContext context, File file) {
     return Screen(
       padding: 0,
       child: PDFView(
