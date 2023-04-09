@@ -1,9 +1,10 @@
 import 'package:flutter/material.dart';
 
 class SearchBar extends StatefulWidget {
+  final String currentText;
   final void Function(String)? onSubmitted;
 
-  const SearchBar({super.key, this.onSubmitted});
+  const SearchBar({super.key, this.onSubmitted, this.currentText = ""});
 
   @override
   State<StatefulWidget> createState() {
@@ -14,10 +15,10 @@ class SearchBar extends StatefulWidget {
 class _SearchBarState extends State<SearchBar> {
   final _controller = TextEditingController();
 
-  void _submit() {
-    if (widget.onSubmitted != null) {
-      widget.onSubmitted!(_controller.text);
-    }
+  @override
+  void initState() {
+    super.initState();
+    _controller.text = widget.currentText;
   }
 
   @override
@@ -36,11 +37,11 @@ class _SearchBarState extends State<SearchBar> {
             ),
           ),
         ),
-        GestureDetector(
-          onTap: _submit,
-          child: const Padding(
-            padding: EdgeInsets.only(left: 10),
-            child: Icon(Icons.search_rounded, size: 32),
+        Padding(
+          padding: const EdgeInsets.only(left: 10),
+          child: InkWell(
+            onTap: () => widget.onSubmitted?.call(_controller.text),
+            child: const Icon(Icons.search_rounded, size: 32),
           ),
         )
       ],

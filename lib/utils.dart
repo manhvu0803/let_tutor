@@ -20,7 +20,7 @@ String timeOfDayToString(TimeOfDay time) {
   return "${time.hour}:${time.minute.toString().padLeft(2, '0')}";
 }
 
-List<U> buildList<T, U>(List<T> list, U Function(T) builder) {
+List<U> buildList<T, U>(Iterable<T> list, U Function(T) builder) {
   final widgets = <U>[];
 
   for (final item in list) {

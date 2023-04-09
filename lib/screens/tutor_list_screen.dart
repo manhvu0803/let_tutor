@@ -1,27 +1,14 @@
 import 'package:flutter/material.dart';
 
 import '../client.dart';
+import '../data_model/category.dart';
 import '../utils.dart';
-import '../widgets/future_column.dart';
+import '../widgets/infinite_scroll_view.dart';
 import '../widgets/tutor_card.dart';
 import 'screen.dart';
 import '../widgets/search_bar.dart' as let;
 
 class TutorListScreen extends StatefulWidget {
-  static final specilaties = {
-    "all",
-    "english-for-kids",
-    "business-english",
-    "conversational-english",
-    "starters",
-    "movers",
-    "flyers",
-    "ket",
-    "ielts",
-    "toefl",
-    "toeic",
-  };
-
   const TutorListScreen({super.key});
 
   @override
@@ -29,105 +16,74 @@ class TutorListScreen extends StatefulWidget {
 }
 
 class _TutorListScreenState extends State<TutorListScreen> {
-  int _currentPage = 1;
-  bool _isLoading = false;
-  String nameFilter = "";
-  String specialtyFilter = TutorListScreen.specilaties.first;
-  DateTime? fromTimeFilter;
-  DateTime? toTimeFilter;
-  DateTime? dateFilter;
-  late final ScrollController _scrollController;
-
-  @override
-  void initState() {
-    super.initState();
-    _scrollController = ScrollController()..addListener(_onScroll);
-  }
-
-  void _onScroll() {
-    if (_scrollController.position.extentAfter < 500 && !_isLoading) {
-      setState(() {
-        _isLoading = true;
-        _currentPage += 1;
-      });
-    }
-  }
+  String _nameFilter = "";
+  String _specialtyFilter = categories.first;
+  DateTime? _fromTimeFilter;
+  DateTime? _toTimeFilter;
+  DateTime? _dateFilter;
 
   @override
   Widget build(BuildContext context) {
     return Screen(
-      child: CustomScrollView(
-        controller: _scrollController,
-        slivers: [
-          SliverAppBar(
-            pinned: true,
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            collapsedHeight: 150,
-            flexibleSpace: FlexibleSpaceBar(
-              titlePadding: const EdgeInsets.only(top: 4, bottom: 8),
-              centerTitle: true,
-              title: Column(
+      child: InfiniteScrollView(
+        key: ValueKey([_nameFilter, _specialtyFilter, _fromTimeFilter, _toTimeFilter, _dateFilter]),
+        buildItem: (tutor) => TutorCard.fromTutor(tutor),
+        fetchData: (page) => Client.searchTutor(
+          page: page + 1,
+          perPageCount: 5,
+          specialty: _specialtyFilter,
+          date: _dateFilter,
+          fromTime: _fromTimeFilter,
+          toTime: _toTimeFilter,
+          searchTerm: _nameFilter
+        ),
+        flexibleSpace: SingleChildScrollView(
+          child: Column(
+            children: [
+              SizedBox(
+                height: 40,
+                child: let.SearchBar(
+                  currentText: _nameFilter,
+                  onSubmitted: (name) => setState(() => _nameFilter = name)
+                )
+              ),
+              Wrap(
                 children: [
-                  Expanded(
-                    child: let.SearchBar(onSubmitted: (name) => setState(() => nameFilter = name))
+                  Padding(
+                    padding: const EdgeInsets.only(left: 8, right: 8),
+                    child: OutlinedButton(
+                      onPressed: () => _pickDate(context),
+                      child: Text((_dateFilter != null) ? toDateString(_dateFilter!) : "Date")
+                    ),
                   ),
-                  Wrap(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.only(left: 8, right: 8),
-                        child: OutlinedButton(
-                          onPressed: () => _pickDate(context),
-                          child: Text((dateFilter != null) ? toDateString(dateFilter!) : "Date")
-                        ),
+                  OutlinedButton(
+                    onPressed: () => _pickTime(context, (time) => _fromTimeFilter = time),
+                    child: Text((_fromTimeFilter != null) ? toHourString(_fromTimeFilter!) : "From")
+                  ),
+                  OutlinedButton(
+                    onPressed: () => _pickTime(context, (time) => _toTimeFilter = time),
+                    child: Text((_toTimeFilter != null) ? toHourString(_toTimeFilter!) : "To")
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.only(left: 16, right: 16),
+                    child: DropdownButton(
+                      value: _specialtyFilter,
+                      items: buildList(
+                        categories,
+                        (specialty) => DropdownMenuItem(
+                          value: specialty,
+                          child: Text(specialty),
+                        )
                       ),
-                      OutlinedButton(
-                        onPressed: () => _pickTime(context, (time) => fromTimeFilter = time),
-                        child: Text((fromTimeFilter != null) ? toHourString(fromTimeFilter!) : "From")
-                      ),
-                      OutlinedButton(
-                        onPressed: () => _pickTime(context, (time) => toTimeFilter = time),
-                        child: Text((toTimeFilter != null) ? toHourString(toTimeFilter!) : "To")
-                      ),
-                      DropdownButton(
-                        value: specialtyFilter,
-                        items: buildList(
-                          TutorListScreen.specilaties.toList(),
-                          (specialty) => DropdownMenuItem(
-                            value: specialty,
-                            child: Text(specialty),
-                          )
-                        ),
-                        onChanged: (specialty) => setState(() {
-                          specialtyFilter = specialty ?? "";
-                          _currentPage = 1;
-                        })
-                      ),
-                    ],
-                  )
+                      onChanged: (specialty) => setState(() => _specialtyFilter = specialty ?? "")
+                    ),
+                  ),
                 ],
               )
-            ),
+            ],
           ),
-          SliverList.builder(
-            itemCount: _currentPage,
-            addAutomaticKeepAlives: false,
-            itemBuilder: (context, page) => FutureColumn(
-              forceReload: _currentPage == 1,
-              fetchData: () => Client.searchTutor(
-                page: page + 1,
-                perPageCount: 5,
-                specialty: specialtyFilter,
-                date: dateFilter,
-                fromTime: fromTimeFilter,
-                toTime: toTimeFilter
-              ),
-              buildItem: (tutor) => TutorCard.fromTutor(tutor),
-              onDone: () => _isLoading = false
-            )
-          ),
-        ],
-      ),
+        ),
+      )
     );
   }
 
@@ -135,11 +91,8 @@ class _TutorListScreenState extends State<TutorListScreen> {
     var time = await showTimePicker(context: context, initialTime: TimeOfDay.now());
 
     if (time != null) {
-      var dateTime = dateFilter ?? DateTime.now();
-      setState(() {
-        setter(dateTime.applied(time));
-        _currentPage = 1;
-      });
+      var dateTime = _dateFilter ?? DateTime.now();
+      setState(() => setter(dateTime.applied(time)));
     }
   }
 
@@ -154,10 +107,7 @@ class _TutorListScreenState extends State<TutorListScreen> {
     );
 
     if (date != null) {
-      setState(() {
-        dateFilter = date;
-        _currentPage = 1;
-      });
+      setState(() => _dateFilter = date);
     }
   }
 }

@@ -18,7 +18,6 @@ const _cutLimit = Duration(minutes: 30);
 class Client {
   static Token accessToken = Token("", expires: DateTime(0));
   static Token refreshToken = Token("", expires: DateTime(0));
-  static final Client instance = Client();
 
   static Future<User> login(String email, String password) async {
     var json = await _getJson(http.post(
@@ -85,13 +84,24 @@ class Client {
     return Course.fromJson(json["data"]);
   }
 
-  static Future<List<Course>> searchCourse({int page = 1, int perPageCount = 5}) async {
-    print("search $page");
+  static Future<List<Course>> searchCourse({
+    int page = 1,
+    int perPageCount = 5,
+    List<int>? level,
+    bool isAscending = true,
+    List<String>? categoryIds,
+    String searchTerm = ""
+  }) async {
     var queries = {
       "page": "$page",
-      "size": "$perPageCount"
+      "size": "$perPageCount",
+      if (level != null && level.isNotEmpty) "level[]": level.map((e) => e.toString()),
+      "orderBy[]": isAscending ? "ASC" : "DESC",
+      if (categoryIds != null && categoryIds.isNotEmpty) "categoryId[]": categoryIds,
+      "searchTerm": searchTerm
     };
 
+    print(_url("course", queries: queries));
     var json = await _jsonFromAuthGet(_url("course", queries: queries));
     return buildList(json["data"]["rows"], (dynamic json) => Course.fromJson(json));
   }
@@ -102,13 +112,26 @@ class Client {
     String? specialty,
     DateTime? date,
     DateTime? fromTime,
-    DateTime? toTime
+    DateTime? toTime,
+    String searchTerm = "",
+    bool? isVietnamese,
+    bool? isNative
   }) async {
+    var nationality = <String, bool>{};
+
+    if (isVietnamese != null) {
+      nationality["isVietnamese"] = isVietnamese;
+    }
+
+    if (isNative != null) {
+      nationality["isNative"] = isNative;
+    }
+
     var body = {
       "filters": {
         "specialties": [if (specialty != null && specialty != "all") specialty],
         "date": (date == null) ? null : toDateStringGmt(date),
-        "nationality": {},
+        "nationality": nationality,
         "tutoringTimeAvailable": [
           (fromTime != null) ? fromTime.millisecondsSinceEpoch : null,
           (toTime != null) ? toTime.millisecondsSinceEpoch : null,
@@ -116,6 +139,7 @@ class Client {
       },
       "page": max(1, page),
       "perPage": perPageCount,
+      "search": searchTerm
     };
 
     var json = await _jsonFromAuthPost("tutor/search", body: body);
