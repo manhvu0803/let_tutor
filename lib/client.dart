@@ -6,6 +6,7 @@ import 'package:http/http.dart' as http;
 import 'package:let_tutor/data_model/category.dart';
 import 'package:let_tutor/data_model/course.dart';
 import 'package:let_tutor/data_model/schedule.dart';
+import 'package:let_tutor/data_model/student_review.dart';
 import 'package:let_tutor/data_model/token.dart';
 import 'package:let_tutor/data_model/tutor.dart';
 import 'package:let_tutor/data_model/user.dart';
@@ -85,33 +86,6 @@ class Client {
     return Tutor.fromJson(json);
   }
 
-  static Future<Course> getCourse(String id) async {
-    var json = await _jsonFromAuthGet(_url("course/$id"));
-    return Course.fromJson(json["data"]);
-  }
-
-  static Future<List<Course>> searchCourse({
-    int page = 1,
-    int perPageCount = 5,
-    List<int>? level,
-    bool isAscending = true,
-    List<String>? categoryIds,
-    String searchTerm = ""
-  }) async {
-    var queries = {
-      "page": "$page",
-      "size": "$perPageCount",
-      if (level != null && level.isNotEmpty) "level[]": level.map((e) => e.toString()),
-      "orderBy[]": isAscending ? "ASC" : "DESC",
-      if (categoryIds != null && categoryIds.isNotEmpty) "categoryId[]": categoryIds,
-      "searchTerm": searchTerm
-    };
-
-    print(_url("course", queries: queries));
-    var json = await _jsonFromAuthGet(_url("course", queries: queries));
-    return buildList(json["data"]["rows"], (dynamic json) => Course.fromJson(json));
-  }
-
   static Future<List<Tutor>> searchTutor({
     int page = 1,
     int perPageCount = 2,
@@ -150,6 +124,50 @@ class Client {
 
     var json = await _jsonFromAuthPost("tutor/search", body: body);
     return buildList(json["rows"], (dynamic json) => Tutor.fromJson(json));
+  }
+
+  static Future<List<StudentReview>> getReviews({required String tutorId, int page = 1, int perPageCount = 5}) async {
+    var queries = {
+      "page": "$page",
+      "perPage": "$perPageCount"
+    };
+
+    var json = await _jsonFromAuthGet(_url("feedback/v2/$tutorId", queries: queries));
+    return buildList(json["data"]["rows"], (dynamic json) => StudentReview.fromJson(json));
+  }
+
+  static Future<void> switchTutorFavorite(String tutorId) async {
+    await _jsonFromAuthPost(
+      "user/manageFavoriteTutor",
+      body: { "tutorId": tutorId }
+    );
+  }
+
+  static Future<Course> getCourse(String id) async {
+    var json = await _jsonFromAuthGet(_url("course/$id"));
+    return Course.fromJson(json["data"]);
+  }
+
+  static Future<List<Course>> searchCourse({
+    int page = 1,
+    int perPageCount = 5,
+    List<int>? level,
+    bool isAscending = true,
+    List<String>? categoryIds,
+    String searchTerm = ""
+  }) async {
+    var queries = {
+      "page": "$page",
+      "size": "$perPageCount",
+      if (level != null && level.isNotEmpty) "level[]": level.map((e) => e.toString()),
+      "orderBy[]": isAscending ? "ASC" : "DESC",
+      if (categoryIds != null && categoryIds.isNotEmpty) "categoryId[]": categoryIds,
+      "searchTerm": searchTerm
+    };
+
+    print(_url("course", queries: queries));
+    var json = await _jsonFromAuthGet(_url("course", queries: queries));
+    return buildList(json["data"]["rows"], (dynamic json) => Course.fromJson(json));
   }
 
   static Future<List<Category>> getCategories() async {

@@ -3,10 +3,13 @@ import 'package:let_tutor/client.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/future_widget.dart';
+import 'package:let_tutor/widgets/infinite_scroll_view.dart';
+import 'package:let_tutor/widgets/rating_label.dart';
 import 'package:let_tutor/widgets/rounded_box.dart';
 import 'package:let_tutor/widgets/timetable.dart';
 import 'package:let_tutor/widgets/title_text.dart';
 import 'package:let_tutor/widgets/tutor_card.dart';
+import 'package:let_tutor/widgets/user_info_box.dart';
 
 class TutorInfoScreen extends StatelessWidget {
   static const _tabLabelStyle = TextStyle(fontSize: 15);
@@ -24,7 +27,66 @@ class TutorInfoScreen extends StatelessWidget {
         child: Screen(
           child: Column(
             children: [
-              TutorCard.fromTutor(tutor, isTappable: false),
+              TutorCard.fromTutor(
+                tutor,
+                isTappable: false,
+                middle: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _IconTextButton(
+                      icon: Icons.star_outline,
+                      text: "Review",
+                      color: Colors.blue,
+                      onTap: () => showDialog(
+                        context: context,
+                        builder: (context) => Dialog(
+                          child: SizedBox(
+                            height: 600,
+                            child: InfiniteScrollView(
+                              flexibleSpace: const Align(
+                                alignment: Alignment.center,
+                                child: Text("Reviews", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
+                              ),
+                              expandedHeight: 60,
+                              collapseHeight: 60,
+                              fetchData: (page) => Client.getReviews(tutorId: tutorId, page: page + 1, perPageCount: 10),
+                              buildItem: (item) => Padding(
+                                padding: const EdgeInsets.symmetric(vertical: 10),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    UserInfoBox(
+                                      userId: "",
+                                      isTappable: false,
+                                      name: item.studentName,
+                                      lastChild: RatingLabel(rating: item.rating.toDouble()),
+                                      avatar: Image.network(item.studentAvatarUrl).image,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 5, left: 12.0),
+                                      child: Text(item.content),
+                                    )
+                                  ],
+                                ),
+                              )
+                            ),
+                          ),
+                        )
+                      )
+                    ),
+                    const _IconTextButton(
+                      icon: Icons.message_outlined,
+                      text: "Message",
+                      color: Colors.blue,
+                    ),
+                    const _IconTextButton(
+                      icon: Icons.report_outlined,
+                      text: "Report",
+                      color: Colors.blue,
+                    )
+                  ],
+                ),
+              ),
               const ColoredBox(
                 color: Color.fromARGB(223, 59, 174, 255),
                 child: TabBar(
@@ -73,6 +135,33 @@ class TutorInfoScreen extends StatelessWidget {
               )
             ],
           )
+        ),
+      )
+    );
+  }
+}
+
+class _IconTextButton extends StatelessWidget {
+  final IconData icon;
+  final String text;
+  final Color? color;
+  final Function()? onTap;
+
+  const _IconTextButton({required this.icon, required this.text, this.color, this.onTap});
+
+  @override
+  Widget build(BuildContext context) {
+    return InkWell(
+      onTap: onTap,
+      child: SizedBox(
+        width: 100,
+        height: 65,
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            Icon(icon, color: color, size: 28),
+            Text(text, style: TextStyle(color: color, fontSize: 20, fontWeight: FontWeight.w500))
+          ],
         ),
       )
     );

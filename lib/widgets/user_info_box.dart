@@ -9,7 +9,7 @@ class UserInfoBox extends StatelessWidget {
   final ImageProvider? avatar;
   final Widget? lastChild;
   final String name;
-  final String countryName;
+  final String? countryName;
   final ImageProvider? countryFlag;
   final String userId;
   final bool isTappable;
@@ -19,7 +19,7 @@ class UserInfoBox extends StatelessWidget {
     this.name = "",
     this.avatar,
     this.lastChild,
-    this.countryName = "",
+    this.countryName,
     this.countryFlag,
     this.isTappable = true,
     required this.userId
@@ -51,11 +51,11 @@ class UserInfoBox extends StatelessWidget {
           ),
           Expanded(
             child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 Text(name),
-                CountryLabel(countryName: countryName, flag: countryFlag),
+                if (countryFlag != null && countryName != null) CountryLabel(countryName: countryName!, flag: countryFlag),
                 if (lastChild != null) lastChild!
               ],
             ),
