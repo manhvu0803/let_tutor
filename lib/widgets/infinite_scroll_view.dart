@@ -35,7 +35,7 @@ class _InfiniteScrollViewState<T> extends State<InfiniteScrollView<T>> {
   }
 
   void _onScroll() {
-    if (_scrollController.position.extentAfter < 10 && !_isLoading) {
+    if (_scrollController.position.extentAfter < 50 && !_isLoading) {
       _isLoading = true;
       setState(() => _currentPage += 1);
     }
@@ -61,10 +61,18 @@ class _InfiniteScrollViewState<T> extends State<InfiniteScrollView<T>> {
             forceReload: widget.forceReload,
             fetchData: () => widget.fetchData(page),
             buildItem: widget.buildItem,
-            onDone: () => _isLoading = false
+            onDone: _onLoadDone
           )
         )
       ]
     );
+  }
+
+  _onLoadDone(itemCount) {
+    _isLoading = false;
+
+    if (itemCount <= 0) {
+      _currentPage -= 1;
+    }
   }
 }

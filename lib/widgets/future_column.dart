@@ -3,7 +3,7 @@ import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/future_widget.dart';
 
 class FutureColumn<T> extends StatelessWidget {
-  final Function()? onDone;
+  final Function(int itemCount)? onDone;
   final Future<List<T>> Function() fetchData;
   final Widget Function(T) buildItem;
   final bool forceReload;
@@ -14,8 +14,11 @@ class FutureColumn<T> extends StatelessWidget {
   Widget build(BuildContext context) {
     return FutureWidget(
       forceReload: forceReload,
-      fetchData: fetchData,
-      onDone: onDone,
+      fetchData: () async {
+        var data = await fetchData();
+        onDone?.call(data.length);
+        return data;
+      },
       buildWidget: (context, data) => Column(
         children: buildList(data, buildItem)
       )

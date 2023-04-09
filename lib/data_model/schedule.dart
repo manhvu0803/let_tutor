@@ -1,3 +1,5 @@
+import 'package:let_tutor/data_model/tutor_review.dart';
+
 import 'user.dart';
 
 class Schedule {
@@ -14,7 +16,7 @@ class Schedule {
   DateTime startTime = DateTime(0);
   DateTime endTime = DateTime(0);
   String scheduleInfoId = "";
-  Object classReview = "";
+  TutorReview? classReview;
   bool showRecordUrl = false;
   User tutor;
 
@@ -31,7 +33,7 @@ class Schedule {
     scheduleInfoId = json["scheduleDetailInfo"]["scheduleId"] ?? 0,
     startTime = DateTime.fromMillisecondsSinceEpoch(json["scheduleDetailInfo"]["startPeriodTimestamp"]),
     endTime = DateTime.fromMillisecondsSinceEpoch(json["scheduleDetailInfo"]["endPeriodTimestamp"]),
-    classReview = json["classReview"] ?? "",
+    classReview = (json["classReview"] != null) ? TutorReview.fromJson(json["classReview"]) : null,
     showRecordUrl = json["showRecordUrl"],
     tutor = User.fromJson(json["scheduleDetailInfo"]["scheduleInfo"]["tutorInfo"]);
 }

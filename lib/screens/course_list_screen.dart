@@ -3,7 +3,7 @@ import 'package:let_tutor/client.dart';
 import 'package:let_tutor/data_model/category.dart';
 import 'package:let_tutor/data_model/course.dart';
 import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/utils/list_extension.dart';
+import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/course_screen_card.dart';
 import 'package:let_tutor/widgets/dropdown_fliter.dart';
 import 'package:let_tutor/widgets/infinite_scroll_view.dart';
@@ -20,7 +20,7 @@ class CourseListScreen extends StatefulWidget {
 
 class _CourseListScreenState extends State<CourseListScreen> {
   int? _chosenLevel;
-  String? _chosenCategory;
+  Category? _chosenCategory;
   String _searchTerm = "";
   bool _isSortAscending = true;
 
@@ -34,7 +34,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
           page: page + 1,
           level: (_chosenLevel != null) ? [_chosenLevel!] : null,
           isAscending: _isSortAscending,
-          categoryIds: (_chosenCategory != null) ? [_chosenCategory!] : null,
+          categoryIds: (_chosenCategory != null) ? [_chosenCategory!.id] : null,
           searchTerm: _searchTerm
         ),
         buildItem: (course) => Padding(
@@ -56,11 +56,11 @@ class _CourseListScreenState extends State<CourseListScreen> {
                     options: Course.levelStrings.toIndexMap((item) => item),
                     onChanged: (value) => setState(() => _chosenLevel = value),
                   ),
-                  DropdownFilter.iterable(
+                  DropdownFilter(
                     name: "Category",
                     value: _chosenCategory,
-                    options: categorieStrings,
-                    onChanged: (value) => setState(() => _chosenCategory = value,)
+                    options: Client.categories!.toValueMap((category) => category.title),
+                    onChanged: (value) => setState(() => _chosenCategory = value)
                   ),
                   DropdownFilter(
                     name: "Sort level",

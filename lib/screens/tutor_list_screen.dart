@@ -3,7 +3,9 @@ import 'package:let_tutor/client.dart';
 import 'package:let_tutor/data_model/category.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/dropdown_fliter.dart';
 import 'package:let_tutor/widgets/infinite_scroll_view.dart';
+import 'package:let_tutor/widgets/rounded_box.dart';
 import 'package:let_tutor/widgets/tutor_card.dart';
 import 'package:let_tutor/widgets/search_bar.dart' as my;
 
@@ -26,7 +28,10 @@ class _TutorListScreenState extends State<TutorListScreen> {
     return Screen(
       child: InfiniteScrollView(
         key: ValueKey([_nameFilter, _specialtyFilter, _fromTimeFilter, _toTimeFilter, _dateFilter]),
-        buildItem: (tutor) => TutorCard.fromTutor(tutor),
+        buildItem: (tutor) => TutorCard.fromTutor(
+          tutor,
+          middle: Wrap(children: buildList(tutor.specialties, (tag) => RoundedBox.text(tag, fontSize: 14)))
+        ),
         fetchData: (page) => Client.searchTutor(
           page: page + 1,
           perPageCount: 5,
@@ -65,15 +70,11 @@ class _TutorListScreenState extends State<TutorListScreen> {
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: DropdownButton(
+                    child: DropdownFilter.iterable(
+                      name: "Specialty:",
                       value: _specialtyFilter,
-                      items: buildList(
-                        categorieStrings,
-                        (specialty) => DropdownMenuItem(
-                          value: specialty,
-                          child: Text(specialty),
-                        )
-                      ),
+                      options: categorieStrings,
+                      allowNullOption: true,
                       onChanged: (specialty) => setState(() => _specialtyFilter = specialty ?? "")
                     ),
                   ),

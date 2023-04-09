@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:let_tutor/data_model/course.dart';
 import 'package:let_tutor/data_model/topic.dart';
 import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/screens/topic_file_screen.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/course_scroll_view.dart';
 import 'package:let_tutor/widgets/title_text.dart';

@@ -20,7 +20,7 @@ class Tutor extends User {
   String accent;
   String targetStudent;
   String interests;
-  String languages;
+  List<String> languages;
   List<String> specialties;
   double rating;
   bool isNative;
@@ -36,11 +36,11 @@ class Tutor extends User {
     accent = json["accent"] ?? "",
     targetStudent = json["targetStudent"] ?? "",
     interests = json["interests"] ?? "",
-    languages = json["languages"] ?? "",
+    languages = (json["languages"] != null) ? (json["languages"] as String).split(",") : [],
     specialties = (json["specialties"] == null) ? [] : (json["specialties"] as String).split(","),
     rating = json["rating"] ?? 0,
     isNative = json["isNative"] ?? false,
-    isFavorite = json["isFavorite"] ?? false,
+    isFavorite = json["isFavorite"] ?? json["isfavoritetutor"] == "1" ?? false,
     totalFeedbacks = json["totalFeedbacks"] ?? 0,
     courses = _getCourses(json),
     super.fromJson(json["User"] ?? json["user"] ?? json);

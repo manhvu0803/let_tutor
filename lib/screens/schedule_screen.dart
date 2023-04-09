@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/client.dart';
-import 'package:let_tutor/screens/meeting_screen.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/future_widget.dart';

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/client.dart';
-import 'package:let_tutor/screens/course_detail_screen.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/future_widget.dart';
@@ -25,7 +24,7 @@ class TutorInfoScreen extends StatelessWidget {
         child: Screen(
           child: Column(
             children: [
-              TutorCard.fromTutor(tutor, isTappableAndTagged: false),
+              TutorCard.fromTutor(tutor, isTappable: false),
               const ColoredBox(
                 color: Color.fromARGB(223, 59, 174, 255),
                 child: TabBar(
@@ -44,12 +43,13 @@ class TutorInfoScreen extends StatelessWidget {
                   children: [
                     SingleChildScrollView(
                       child: Column(
-                          mainAxisAlignment: MainAxisAlignment.start,
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             // Languages
                             const TitleText("Languages"),
-                            RoundedBox.text(tutor.languages),
+                            Wrap(
+                              children: buildList(tutor.languages, (language) => RoundedBox.text(language))
+                            ),
                             // Specialties
                             const TitleText("Specialties"),
                             Wrap(

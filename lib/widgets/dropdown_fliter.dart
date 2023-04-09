@@ -24,7 +24,7 @@ class DropdownFilter<T> extends StatelessWidget {
     required Iterable<T> options,
     required this.name, this.allowNullOption = true
   }) :
-    options = _toMap(options);
+    options = options.toValueMap((item) => item.toString());
 
   @override
   Widget build(BuildContext context) {
@@ -54,14 +54,4 @@ class DropdownFilter<T> extends StatelessWidget {
       ),
     );
   }
-}
-
-Map<T, String> _toMap<T>(Iterable<T> iterable) {
-  var map = <T, String>{};
-
-  for (var item in iterable) {
-    map[item] = item.toString();
-  }
-
-  return map;
 }

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/client.dart';
 import 'package:let_tutor/data_model/user_model.dart';
-import 'package:let_tutor/screens/bottom_tab_screen.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:provider/provider.dart';

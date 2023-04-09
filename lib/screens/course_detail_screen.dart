@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/client.dart';
 import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/screens/topic_list_screen.dart';
 import 'package:let_tutor/widgets/course_scroll_view.dart';
 import 'package:let_tutor/widgets/future_widget.dart';
 import 'package:let_tutor/widgets/title_text.dart';

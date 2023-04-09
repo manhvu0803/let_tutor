@@ -8,14 +8,4 @@ extension ListExtension<T> on List<T> {
 
     return map;
   }
-
-  Map<U, T> toMap<U>(U Function(T) getKey) {
-    var map = <U, T>{};
-
-    for (final item in this) {
-      map[getKey(item)] = item;
-    }
-
-    return map;
-  }
 }
