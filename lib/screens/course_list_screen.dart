@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/utils.dart';
-
-import '../client.dart';
-import '../data_model/course.dart';
-import '../data_model/category.dart';
-import '../widgets/dropdown_fliter.dart';
-import '../widgets/infinite_scroll_view.dart';
-import '../widgets/search_bar.dart' as let_tutor;
-import '../widgets/course_screen_card.dart';
-import 'screen.dart';
+import 'package:let_tutor/client.dart';
+import 'package:let_tutor/data_model/category.dart';
+import 'package:let_tutor/data_model/course.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/utils/list_extension.dart';
+import 'package:let_tutor/widgets/course_screen_card.dart';
+import 'package:let_tutor/widgets/dropdown_fliter.dart';
+import 'package:let_tutor/widgets/infinite_scroll_view.dart';
+import 'package:let_tutor/widgets/search_bar.dart' as my;
 
 class CourseListScreen extends StatefulWidget {
   const CourseListScreen({super.key});
@@ -44,36 +43,36 @@ class _CourseListScreenState extends State<CourseListScreen> {
         ),
         flexibleSpace: SingleChildScrollView(
           child: Column(
-          children: [
-            let_tutor.SearchBar(
-              currentText: _searchTerm,
-              onSubmitted: (str) => setState(() => _searchTerm = str)
-            ),
-            Wrap(
-              children: [
-                DropdownFilter(
-                  name: "Level",
-                  value: _chosenLevel,
-                  options: DropdownFilter.toIndexMap(Course.levelStrings),
-                  onChanged: (value) => setState(() => _chosenLevel = value),
-                ),
-                DropdownFilter.iterable(
-                  name: "Category",
-                  value: _chosenCategory,
-                  options: categories,
-                  onChanged: (value) => setState(() => _chosenCategory = value,)
-                ),
-                DropdownFilter(
-                  name: "Sort level",
-                  value: _isSortAscending,
-                  allowNullOption: false,
-                  options: const {true: "Ascending", false: "Descending"},
-                  onChanged: (value) => setState(() => _isSortAscending = value ?? true),
-                ),
-              ],
-            )
-          ]
+            children: [
+              my.SearchBar(
+                currentText: _searchTerm,
+                onSubmitted: (str) => setState(() => _searchTerm = str)
               ),
+              Wrap(
+                children: [
+                  DropdownFilter(
+                    name: "Level",
+                    value: _chosenLevel,
+                    options: Course.levelStrings.toIndexMap((item) => item),
+                    onChanged: (value) => setState(() => _chosenLevel = value),
+                  ),
+                  DropdownFilter.iterable(
+                    name: "Category",
+                    value: _chosenCategory,
+                    options: categorieStrings,
+                    onChanged: (value) => setState(() => _chosenCategory = value,)
+                  ),
+                  DropdownFilter(
+                    name: "Sort level",
+                    value: _isSortAscending,
+                    allowNullOption: false,
+                    options: const {true: "Ascending", false: "Descending"},
+                    onChanged: (value) => setState(() => _isSortAscending = value ?? true),
+                  ),
+                ],
+              )
+            ]
+          ),
         )
       )
     );

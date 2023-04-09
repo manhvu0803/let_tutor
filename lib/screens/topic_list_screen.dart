@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/data_model/course.dart';
+import 'package:let_tutor/data_model/topic.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/screens/topic_file_screen.dart';
+import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/course_scroll_view.dart';
+import 'package:let_tutor/widgets/title_text.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
-import '../data_model/course.dart';
-import '../data_model/topic.dart';
-import '../utils.dart';
-import '../widgets/course_scroll_view.dart';
-import '../widgets/title_text.dart';
-import 'screen.dart';
-import 'topic_file_screen.dart';
 
 class TopicListScreen extends StatelessWidget {
   final String courseName;

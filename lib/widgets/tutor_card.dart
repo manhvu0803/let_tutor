@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-import '../data_model/tutor.dart';
-import '../screens/tutor_info_screen.dart';
-import '../utils.dart';
-import 'rating_label.dart';
-import 'rounded_box.dart';
-import 'user_info_box.dart';
+import 'package:let_tutor/data_model/tutor.dart';
+import 'package:let_tutor/screens/tutor_info_screen.dart';
+import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/rating_label.dart';
+import 'package:let_tutor/widgets/rounded_box.dart';
+import 'package:let_tutor/widgets/user_info_box.dart';
 
 class TutorCard extends StatelessWidget {
   final String name;

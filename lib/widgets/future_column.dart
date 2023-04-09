@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import '../utils.dart';
-import 'future_widget.dart';
+import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/future_widget.dart';
 
 class FutureColumn<T> extends StatelessWidget {
   final Function()? onDone;

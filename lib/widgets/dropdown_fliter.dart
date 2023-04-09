@@ -1,18 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../utils.dart';
+import 'package:let_tutor/utils/utils.dart';
 
 class DropdownFilter<T> extends StatelessWidget {
-  static Map<int, String> toIndexMap<T>(List<T> list) {
-    var map = <int, String>{};
-
-    for (int i = 0; i < list.length; ++i) {
-      map[i] = list[i].toString();
-    }
-
-    return map;
-  }
-
   final T? value;
   final void Function(T?)? onChanged;
   final Map<T, String> options;

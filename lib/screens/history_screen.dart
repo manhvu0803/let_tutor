@@ -1,11 +1,10 @@
 import 'package:flutter/material.dart';
-
-import '../client.dart';
-import '../data_model/schedule.dart';
-import '../utils.dart';
-import '../widgets/future_widget.dart';
-import '../widgets/schedule_card.dart';
-import 'screen.dart';
+import 'package:let_tutor/client.dart';
+import 'package:let_tutor/data_model/schedule.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/future_widget.dart';
+import 'package:let_tutor/widgets/schedule_card.dart';
 
 class HistoryScreen extends StatelessWidget {
   const HistoryScreen({super.key});
@@ -20,7 +19,7 @@ class HistoryScreen extends StatelessWidget {
             scheduleList,
             (schedule) => ScheduleCard.fromSchedule(
               schedule,
-              subtitleText: "${toHourString(schedule.startTime)}-${toHourString(schedule.endTime)}",
+              subtitleText: "${schedule.startTime.hourString}-${schedule.endTime.hourString}",
               children: [_HistoryEndCard.fromSchedule(schedule)]
             )
           )

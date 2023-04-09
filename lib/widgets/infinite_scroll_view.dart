@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
-
-import 'future_column.dart';
+import 'package:let_tutor/widgets/future_column.dart';
 
 class InfiniteScrollView<T> extends StatefulWidget {
   final double? collapseHeight;

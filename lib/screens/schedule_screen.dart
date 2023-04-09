@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/client.dart';
+import 'package:let_tutor/screens/meeting_screen.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/future_widget.dart';
+import 'package:let_tutor/widgets/schedule_card.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
-import '../client.dart';
-import '../utils.dart';
-import '../widgets/future_widget.dart';
-import '../widgets/schedule_card.dart';
-import 'meeting_screen.dart';
-import 'screen.dart';
 
 class ScheduleScreen extends StatelessWidget {
   const ScheduleScreen({super.key});

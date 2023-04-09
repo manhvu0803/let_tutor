@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-
-import '../client.dart';
-import '../utils.dart';
-import '../widgets/future_widget.dart';
-import '../widgets/rounded_box.dart';
-import '../widgets/timetable.dart';
-import '../widgets/title_text.dart';
-import '../widgets/tutor_card.dart';
-import 'course_detail_screen.dart';
-import 'screen.dart';
+import 'package:let_tutor/client.dart';
+import 'package:let_tutor/screens/course_detail_screen.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/future_widget.dart';
+import 'package:let_tutor/widgets/rounded_box.dart';
+import 'package:let_tutor/widgets/timetable.dart';
+import 'package:let_tutor/widgets/title_text.dart';
+import 'package:let_tutor/widgets/tutor_card.dart';
 
 class TutorInfoScreen extends StatelessWidget {
   static const _tabLabelStyle = TextStyle(fontSize: 15);

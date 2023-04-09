@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
-
-import '../data_model/course.dart';
-import '../screens/course_detail_screen.dart';
-import 'course_card.dart';
+import 'package:let_tutor/data_model/course.dart';
+import 'package:let_tutor/screens/course_detail_screen.dart';
+import 'package:let_tutor/widgets/course_card.dart';
 
 class CourseScreenCard extends CourseCard{
   final String courseId;

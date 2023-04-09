@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_cache_manager/flutter_cache_manager.dart';
 import 'package:flutter_pdfview/flutter_pdfview.dart';
 import 'package:let_tutor/screens/screen.dart';
-
-import '../utils.dart';
-import '../widgets/future_widget.dart';
+import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/future_widget.dart';
 
 class TopicFileScreen extends StatelessWidget {
   final String fileUrl;

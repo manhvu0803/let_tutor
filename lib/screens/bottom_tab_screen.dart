@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/screens/course_list_screen.dart';
+import 'package:let_tutor/screens/history_screen.dart';
+import 'package:let_tutor/screens/schedule_screen.dart';
+import 'package:let_tutor/screens/tutor_list_screen.dart';
 import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
-
-import 'course_list_screen.dart';
-import 'history_screen.dart';
-import 'schedule_screen.dart';
-import 'tutor_list_screen.dart';
 
 class BottomTabScreen extends StatelessWidget{
   static const _inactiveColor = Colors.grey;

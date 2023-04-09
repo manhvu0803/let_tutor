@@ -1,7 +1,6 @@
 import 'package:expandable/expandable.dart';
 import 'package:flutter/material.dart';
-
-import 'screen.dart';
+import 'package:let_tutor/screens/screen.dart';
 
 class MeetingScreen extends StatelessWidget {
   const MeetingScreen({super.key});

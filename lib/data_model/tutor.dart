@@ -1,6 +1,6 @@
-import '../utils.dart';
-import 'course.dart';
-import 'user.dart';
+import 'package:let_tutor/data_model/course.dart';
+import 'package:let_tutor/data_model/user.dart';
+import 'package:let_tutor/utils/utils.dart';
 
 class Tutor extends User {
   static List<Course> _getCourses(Map<String, dynamic> json) {

@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/data_model/schedule.dart';
-
-import '../utils.dart';
-import 'user_info_box.dart';
+import 'package:let_tutor/utils/date_time_extension.dart';
+import 'package:let_tutor/widgets/user_info_box.dart';
 
 class ScheduleCard extends StatelessWidget {
   final DateTime date;
@@ -41,7 +40,7 @@ class ScheduleCard extends StatelessWidget {
               flex: 5,
               child: Column(
                 children: [
-                  Text(toDateString(date), style: const TextStyle(fontSize: 15)),
+                  Text(date.dateString, style: const TextStyle(fontSize: 15)),
                   if (subtitleText.isNotEmpty) Text(subtitleText, style: const TextStyle(fontSize: 14))
                 ]
               ),

@@ -1,12 +1,11 @@
 import 'package:flutter/material.dart';
-
-import '../client.dart';
-import '../data_model/category.dart';
-import '../utils.dart';
-import '../widgets/infinite_scroll_view.dart';
-import '../widgets/tutor_card.dart';
-import 'screen.dart';
-import '../widgets/search_bar.dart' as let;
+import 'package:let_tutor/client.dart';
+import 'package:let_tutor/data_model/category.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/infinite_scroll_view.dart';
+import 'package:let_tutor/widgets/tutor_card.dart';
+import 'package:let_tutor/widgets/search_bar.dart' as my;
 
 class TutorListScreen extends StatefulWidget {
   const TutorListScreen({super.key});
@@ -17,7 +16,7 @@ class TutorListScreen extends StatefulWidget {
 
 class _TutorListScreenState extends State<TutorListScreen> {
   String _nameFilter = "";
-  String _specialtyFilter = categories.first;
+  String _specialtyFilter = categorieStrings.first;
   DateTime? _fromTimeFilter;
   DateTime? _toTimeFilter;
   DateTime? _dateFilter;
@@ -42,7 +41,7 @@ class _TutorListScreenState extends State<TutorListScreen> {
             children: [
               SizedBox(
                 height: 40,
-                child: let.SearchBar(
+                child: my.SearchBar(
                   currentText: _nameFilter,
                   onSubmitted: (name) => setState(() => _nameFilter = name)
                 )
@@ -53,23 +52,23 @@ class _TutorListScreenState extends State<TutorListScreen> {
                     padding: const EdgeInsets.only(left: 8, right: 8),
                     child: OutlinedButton(
                       onPressed: () => _pickDate(context),
-                      child: Text((_dateFilter != null) ? toDateString(_dateFilter!) : "Date")
+                      child: Text((_dateFilter != null) ? _dateFilter!.dateString : "Date")
                     ),
                   ),
                   OutlinedButton(
                     onPressed: () => _pickTime(context, (time) => _fromTimeFilter = time),
-                    child: Text((_fromTimeFilter != null) ? toHourString(_fromTimeFilter!) : "From")
+                    child: Text((_fromTimeFilter != null) ? _fromTimeFilter!.hourString : "From")
                   ),
                   OutlinedButton(
                     onPressed: () => _pickTime(context, (time) => _toTimeFilter = time),
-                    child: Text((_toTimeFilter != null) ? toHourString(_toTimeFilter!) : "To")
+                    child: Text((_toTimeFilter != null) ? _toTimeFilter!.hourString : "To")
                   ),
                   Padding(
                     padding: const EdgeInsets.only(left: 16, right: 16),
                     child: DropdownButton(
                       value: _specialtyFilter,
                       items: buildList(
-                        categories,
+                        categorieStrings,
                         (specialty) => DropdownMenuItem(
                           value: specialty,
                           child: Text(specialty),

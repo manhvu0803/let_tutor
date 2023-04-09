@@ -1,5 +1,5 @@
-import '../utils.dart';
-import 'topic.dart';
+import 'package:let_tutor/data_model/topic.dart';
+import 'package:let_tutor/utils/utils.dart';
 
 class Course {
   static const levelStrings = [

@@ -1,10 +1,9 @@
 import 'package:flutter/material.dart';
-
-import '../data_model/tutor.dart';
-import '../data_model/user.dart';
-import '../screens/tutor_info_screen.dart';
-import 'country_label.dart';
-import 'rating_label.dart';
+import 'package:let_tutor/data_model/tutor.dart';
+import 'package:let_tutor/data_model/user.dart';
+import 'package:let_tutor/screens/tutor_info_screen.dart';
+import 'package:let_tutor/widgets/country_label.dart';
+import 'package:let_tutor/widgets/rating_label.dart';
 
 class UserInfoBox extends StatelessWidget {
   final ImageProvider? avatar;

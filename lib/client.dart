@@ -3,13 +3,13 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
-
-import 'data_model/course.dart';
-import 'data_model/schedule.dart';
-import 'data_model/token.dart';
-import 'data_model/tutor.dart';
-import 'data_model/user.dart';
-import 'utils.dart';
+import 'package:let_tutor/data_model/category.dart';
+import 'package:let_tutor/data_model/course.dart';
+import 'package:let_tutor/data_model/schedule.dart';
+import 'package:let_tutor/data_model/token.dart';
+import 'package:let_tutor/data_model/tutor.dart';
+import 'package:let_tutor/data_model/user.dart';
+import 'package:let_tutor/utils/utils.dart';
 
 const _baseUrl = "sandbox.api.lettutor.com";
 
@@ -18,6 +18,10 @@ const _cutLimit = Duration(minutes: 30);
 class Client {
   static Token accessToken = Token("", expires: DateTime(0));
   static Token refreshToken = Token("", expires: DateTime(0));
+  static bool _isLogin = false;
+  static List<Category>? _categories;
+
+  static bool get isLogin => _isLogin;
 
   static Future<User> login(String email, String password) async {
     var json = await _getJson(http.post(
@@ -31,6 +35,8 @@ class Client {
     var tokens = json["tokens"] ?? json["token"];
     accessToken = Token.fromJson(tokens["access"] ?? tokens["accessToken"]);
     refreshToken = Token.fromJson(tokens["refresh"] ?? tokens["refreshToken"]);
+    getCategories().then((value) => _categories = value);
+    _isLogin = true;
     return User.fromJson(json["user"]);
   }
 
@@ -129,8 +135,8 @@ class Client {
 
     var body = {
       "filters": {
-        "specialties": [if (specialty != null && specialty != "all") specialty],
-        "date": (date == null) ? null : toDateStringGmt(date),
+        "specialties": [if (specialty != null && specialty != "all") specialty.toLowerCase().replaceAll(RegExp(r"\s+"), "-")],
+        "date": (date == null) ? null : date.dateStringGmt,
         "nationality": nationality,
         "tutoringTimeAvailable": [
           (fromTime != null) ? fromTime.millisecondsSinceEpoch : null,
@@ -145,6 +151,13 @@ class Client {
     var json = await _jsonFromAuthPost("tutor/search", body: body);
     return buildList(json["rows"], (dynamic json) => Tutor.fromJson(json));
   }
+
+  static Future<List<Category>> getCategories() async {
+    var json = await _jsonFromAuthGet(_url("content-category"));
+    return buildList(json["rows"], (dynamic json) => Category.fromJson(json));
+  }
+
+  static List<Category>? get categories => _categories;
 
   static Future<Map<String, dynamic>> _jsonFromAuthGet(Uri uri) {
     return _getJson(

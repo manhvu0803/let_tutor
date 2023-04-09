@@ -1,4 +1,4 @@
-final categories = [
+final categorieStrings = [
   "all",
   "english-for-kids",
   "business-english",
@@ -11,3 +11,14 @@ final categories = [
   "toefl",
   "toeic",
 ];
+
+class Category {
+  String id;
+  String title;
+  String key;
+
+  Category.fromJson(Map<String, dynamic> json) :
+    id = json["id"] ?? "",
+    title = json["title"] ?? "",
+    key = json["key"] ?? "";
+}
