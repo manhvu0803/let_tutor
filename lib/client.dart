@@ -43,9 +43,9 @@ class Client {
 
   static Future<List<Schedule>> getSchedule({int page = 1}) async {
     final queries = {
-      "page": "$page",
-      "perPage": "10",
-      "dateTimeGte": "${DateTime.now().subtract(_cutLimit).millisecondsSinceEpoch}",
+      "page": page,
+      "perPage": 10,
+      "dateTimeGte": DateTime.now().subtract(_cutLimit).millisecondsSinceEpoch,
       "orderBy": "meeting",
       "sortBy": "asc"
     };
@@ -63,9 +63,9 @@ class Client {
 
   static Future<List<Schedule>> getHistory({int page = 1}) async {
     final queries = {
-      "page": "$page",
-      "perPage": "10",
-      "dateTimeLte": "${DateTime.now().millisecondsSinceEpoch}",
+      "page": page,
+      "perPage": 10,
+      "dateTimeLte": DateTime.now().millisecondsSinceEpoch,
       "orderBy": "meeting",
       "sortBy": "desc"
     };
@@ -126,10 +126,31 @@ class Client {
     return buildList(json["rows"], (dynamic json) => Tutor.fromJson(json));
   }
 
+  static Future<List<Schedule>> getTutorScheduleNow(String tutorId) {
+    var startTime = DateTime.now().date;
+    return getTutorSchedule(tutorId: tutorId, startTime: startTime, endTime: startTime.add(const Duration(days: 7)));
+  }
+
+  static Future<List<Schedule>> getTutorSchedule({
+    required String tutorId,
+    required DateTime startTime,
+    required DateTime endTime})
+  async {
+    var queries = {
+      "tutorId": tutorId,
+      "startTimestamp": startTime.millisecondsSinceEpoch,
+      "endTimestamp": endTime.millisecondsSinceEpoch
+    };
+
+    var json = await _jsonFromAuthGet(_url("schedule", queries: queries));
+    return buildList(json["scheduleOfTutor"], (dynamic json) => Schedule.fromJson(json));
+  }
+
   static Future<List<StudentReview>> getReviews({required String tutorId, int page = 1, int perPageCount = 5}) async {
     var queries = {
-      "page": "$page",
-      "perPage": "$perPageCount"
+      // For some reason this cannot be turned to string
+      "page": page.toString(),
+      "perPage": perPageCount
     };
 
     var json = await _jsonFromAuthGet(_url("feedback/v2/$tutorId", queries: queries));
@@ -141,6 +162,17 @@ class Client {
       "user/manageFavoriteTutor",
       body: { "tutorId": tutorId }
     );
+  }
+
+  static Future<String> book(String scheduleId, {String note = ""}) async {
+    var body = {
+      "note": note,
+      "scheduleDetailIds" : [scheduleId]
+    };
+
+    var json = await _jsonFromAuthPost("booking", body: body);
+
+    return json["message"] ?? "";
   }
 
   static Future<Course> getCourse(String id) async {
@@ -157,9 +189,9 @@ class Client {
     String searchTerm = ""
   }) async {
     var queries = {
-      "page": "$page",
+      "page": page,
       "size": "$perPageCount",
-      if (level != null && level.isNotEmpty) "level[]": level.map((e) => e.toString()),
+      if (level != null && level.isNotEmpty) "level[]": level,
       "orderBy[]": isAscending ? "ASC" : "DESC",
       if (categoryIds != null && categoryIds.isNotEmpty) "categoryId[]": categoryIds,
       "searchTerm": searchTerm
@@ -198,7 +230,23 @@ class Client {
   }
 }
 
-Uri _url(String arg, {Map<String, dynamic>? queries}) {
+Uri _url(String arg, {Map<String, Object>? queries}) {
+  if (queries != null) {
+    for (final key in queries.keys) {
+      var value = queries[key];
+
+      if (value is List) {
+        for (var i = 0; i < value.length; i++) {
+          value[i] = value[i].toString();
+        }
+      }
+      else if (value is! String) {
+        var sth = value.toString();
+        queries[key] = sth;
+      }
+    }
+  }
+
   return Uri.https(_baseUrl, arg, queries);
 }
 

@@ -129,7 +129,7 @@ class TutorInfoScreen extends StatelessWidget {
                           ]
                       ),
                     ),
-                    const Timetable()
+                    Timetable(tutorId: tutorId)
                   ]
                 ),
               )

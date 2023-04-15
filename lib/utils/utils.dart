@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 export "date_time_extension.dart";
 export "list_extension.dart";
 export "iterable_extension.dart";
+export "time_of_day_extension.dart";
 
 String timeOfDayToString(TimeOfDay time) {
   return "${time.hour}:${time.minute.toString().padLeft(2, '0')}";

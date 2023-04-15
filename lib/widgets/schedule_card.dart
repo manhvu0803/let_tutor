@@ -25,10 +25,10 @@ class ScheduleCard extends StatelessWidget {
 
   ScheduleCard.fromSchedule(Schedule schedule, {super.key, this.children = const [], this.subtitleText = ""}) :
     date = schedule.startTime,
-    tutorId = schedule.tutor.id,
-    username = schedule.tutor.name,
-    countryName = schedule.tutor.country,
-    avatarUrl = schedule.tutor.avatarUrl;
+    tutorId = schedule.tutor?.id ?? "",
+    username = schedule.tutor?.name ?? "",
+    countryName = schedule.tutor?.country ?? "",
+    avatarUrl = schedule.tutor?.avatarUrl;
 
   @override
   Widget build(BuildContext context) {

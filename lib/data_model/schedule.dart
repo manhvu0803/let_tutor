@@ -18,22 +18,52 @@ class Schedule {
   String scheduleInfoId = "";
   TutorReview? classReview;
   bool showRecordUrl = false;
-  User tutor;
+  bool isBooked;
+  User? tutor;
 
   Schedule.fromJson(Map<String, dynamic> json) :
-    createdAt = DateTime.fromMillisecondsSinceEpoch(json["createdAtTimeStamp"]),
-    updatedAt = DateTime.fromMillisecondsSinceEpoch(json["createdAtTimeStamp"]),
     id = json["id"],
     studentRequest = json["studentRequest"] ?? "",
     tutorReview = json["tutorReview"] ?? "",
     scoreByTutor = double.parse((json["scoreByTutor"] ?? 0).toString()),
     recordUrl = json["recordUrl"] ?? "",
     lessonPlanId = json["lessonPlanId"] ?? "",
-    isDeleted = json["isDeleted"],
-    scheduleInfoId = json["scheduleDetailInfo"]["scheduleId"] ?? 0,
-    startTime = DateTime.fromMillisecondsSinceEpoch(json["scheduleDetailInfo"]["startPeriodTimestamp"]),
-    endTime = DateTime.fromMillisecondsSinceEpoch(json["scheduleDetailInfo"]["endPeriodTimestamp"]),
+    isDeleted = json["isDeleted"] ?? false,
     classReview = (json["classReview"] != null) ? TutorReview.fromJson(json["classReview"]) : null,
-    showRecordUrl = json["showRecordUrl"],
-    tutor = User.fromJson(json["scheduleDetailInfo"]["scheduleInfo"]["tutorInfo"]);
+    showRecordUrl = json["showRecordUrl"] ?? false,
+    isBooked = json["isBooked"] ?? json["scheduleDetails"]?[0]?["isBooked"] ?? false
+  {
+    if (json["createdAtTimeStamp"] != null) {
+      createdAt = DateTime.fromMillisecondsSinceEpoch(json["createdAtTimeStamp"]);
+    }
+    else if (json["createdAt"] != null) {
+      createdAt = DateTime.parse(json["createdAt"]);
+    }
+
+    if (json["updatedAtTimeStamp"] != null) {
+      updatedAt = DateTime.fromMillisecondsSinceEpoch(json["updatedAtTimeStamp"]);
+    }
+    else if (json["updatedAt"] != null) {
+      updatedAt = DateTime.parse(json["updatedAt"]);
+    }
+
+    if (json["startTimestamp"] != null) {
+      startTime = DateTime.fromMillisecondsSinceEpoch(json["startTimestamp"]);
+    }
+
+    if (json["endTimestamp"] != null) {
+      endTime = DateTime.fromMillisecondsSinceEpoch(json["endTimestamp"]);
+    }
+
+    var scheduleDetail = json["scheduleDetailInfo"];
+
+    if (scheduleDetail == null) {
+      return;
+    }
+
+    tutor = User.fromJson(scheduleDetail["scheduleInfo"]?["tutorInfo"]);
+    scheduleInfoId = scheduleDetail["scheduleId"] ?? 0;
+    startTime = DateTime.fromMillisecondsSinceEpoch(scheduleDetail["startPeriodTimestamp"]);
+    endTime = DateTime.fromMillisecondsSinceEpoch(scheduleDetail["endPeriodTimestamp"]);
+  }
 }
