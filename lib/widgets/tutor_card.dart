@@ -122,7 +122,7 @@ class _TutorCardState extends State<TutorCard> {
     catch (error, stack) {
       debugPrint("Stack trace: $stack");
 
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
 

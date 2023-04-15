@@ -2,20 +2,50 @@ import 'package:flutter/material.dart';
 import 'package:let_tutor/client.dart';
 import 'package:let_tutor/data_model/schedule.dart';
 import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/booking_view.dart';
 import 'package:let_tutor/widgets/future_widget.dart';
 
-class Timetable extends StatelessWidget {
-  static final _timeTextCells = _generateTimeText();
+class Timetable extends StatefulWidget {
+  final String tutorId;
 
-  static List<DataCell> _generateTimeText() {
-    return List.generate(48, (index) {
-      var hour = index ~/ 2;
-      var min = (index % 2 == 0) ? 0 : 30;
-      return DataCell(Text("$hour:${min.toString().padLeft(2, '0')} - $hour:${(min == 30) ? 55 : 25}"));
-    });
+  const Timetable({super.key, this.tutorId = ""});
+
+  @override
+  State<Timetable> createState() => _TimetableState();
+}
+
+class _TimetableState extends State<Timetable> {
+  String lastBookedScheduleId = "";
+
+  @override
+  Widget build(BuildContext context) {
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: SingleChildScrollView(
+        scrollDirection: Axis.vertical,
+        child: FutureWidget(
+          key: ValueKey(lastBookedScheduleId),
+          fetchData: () => Client.getTutorScheduleNow(widget.tutorId),
+          buildWidget: _buildTable
+        ),
+      ),
+    );
   }
 
-  static List<DataRow> _buildRows(List<Schedule> data, {int? startWeekday}) {
+  Widget _buildTable(context, data) {
+    data.sort(_compareSchedule);
+    var weekday = DateTime.now().weekday;
+
+    return DataTable(
+      columns: [
+        const DataColumn(label: Text("Time")),
+        ...List.generate(7, (index) => DataColumn(label: Text(weekdayString[(weekday + index) % 7])))
+      ],
+      rows: _buildRows(context, data, startWeekday: weekday)
+    );
+  }
+
+  List<DataRow> _buildRows(BuildContext context, List<Schedule> data, {int? startWeekday}) {
     var scheduleIndex = 0;
     var weekday = startWeekday ?? DateTime.now().weekday;
     var time = const TimeOfDay(hour: 23, minute: 30);
@@ -40,22 +70,7 @@ class Timetable extends StatelessWidget {
       while (scheduleIndex < data.length && currentStartTime.equalHourMinute(data[scheduleIndex].startTime)) {
         var schedule = data[scheduleIndex];
         var scheduleWeekday = 1 + (schedule.startTime.weekday - weekday) % 7;
-        Widget child;
-
-        if (schedule.isBooked) {
-          child = const Align(
-            alignment: Alignment.center,
-            child: Text("Booked", style: TextStyle(color: Colors.green))
-          );
-        }
-        else {
-          child = ElevatedButton(
-            onPressed: () => print("Book ${schedule.id}"),
-            child: const Text("Book", style: TextStyle(color: Colors.white))
-          );
-        }
-
-        row.cells[scheduleWeekday] = DataCell(child);
+        row.cells[scheduleWeekday] = DataCell(_buildCellChild(context, schedule));
         scheduleIndex++;
       }
 
@@ -65,49 +80,81 @@ class Timetable extends StatelessWidget {
     return rows;
   }
 
-  final String tutorId;
-
-  const Timetable({super.key, this.tutorId = ""});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: SingleChildScrollView(
-        scrollDirection: Axis.vertical,
-        child: FutureWidget(
-          fetchData: () => Client.getTutorScheduleNow(tutorId),
-          buildWidget: _buildTable,
+  Widget _buildCellChild(BuildContext context, Schedule schedule) {
+    if (schedule.isBooked) {
+      return const Align(
+        alignment: Alignment.center,
+        child: Text("Booked", style: TextStyle(color: Colors.green))
+      );
+    }
+    else {
+      return ElevatedButton(
+        onPressed: () => showDialog(
+          context: context,
+          builder: (context) => Dialog(
+            child: SizedBox(
+              height: 500,
+              child: BookingView(
+                startTime: schedule.startTime,
+                balance: 1,
+                onSubmitted: (note) => _tryBooking(context, schedule.id, note),
+              ),
+            )
+          )
         ),
-      ),
-    );
+        child: const Text("Book", style: TextStyle(color: Colors.white))
+      );
+    }
   }
 
-  Widget _buildTable(BuildContext context, List<Schedule> data) {
-    data.sort((a, b) {
-      var result = a.startTime.hour - b.startTime.hour;
+  void _tryBooking(BuildContext context, String scheduleId, String note) async {
+    showLoadingDialog(context);
 
-      if (result != 0) {
-        return result;
+    try {
+      var message = await Client.book(scheduleId, note: note);
+
+      // ignore: use_build_context_synchronously
+      if (!context.mounted) {
+        return;
       }
 
-      result = a.startTime.minute - b.startTime.minute;
+      Navigator.pop(context);
+      Navigator.pop(context);
+      showAlertDialog(context, title: "Success", message: message);
+      setState(() => lastBookedScheduleId = scheduleId);
+    }
+    catch (error, stack) {
+      debugPrint(stack.toString());
 
-      if (result != 0) {
-        return result;
+      // ignore: use_build_context_synchronously
+      if (!context.mounted) {
+        return;
       }
 
-      return a.startTime.compareTo(b.startTime);
-    });
-
-    var weekday = DateTime.now().weekday;
-
-    return DataTable(
-      columns: [
-        const DataColumn(label: Text("Time")),
-        ...List.generate(7, (index) => DataColumn(label: Text(weekdayString[(weekday + index) % 7])))
-      ],
-      rows: _buildRows(data, startWeekday: weekday)
-    );
+      Navigator.pop(context);
+      showErrorDialog(context, error);
+    }
   }
 }
+
+int _compareSchedule(Schedule a, Schedule b) {
+  var result = a.startTime.hour - b.startTime.hour;
+
+  if (result != 0) {
+    return result;
+  }
+
+  result = a.startTime.minute - b.startTime.minute;
+
+  if (result != 0) {
+    return result;
+  }
+
+  return a.startTime.compareTo(b.startTime);
+}
+
+final _timeTextCells = List.generate(48, (index) {
+  var hour = index ~/ 2;
+  var min = (index % 2 == 0) ? 0 : 30;
+  return DataCell(Text("$hour:${min.toString().padLeft(2, '0')} - $hour:${min + 25}"));
+});

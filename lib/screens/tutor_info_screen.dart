@@ -3,13 +3,11 @@ import 'package:let_tutor/client.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/future_widget.dart';
-import 'package:let_tutor/widgets/infinite_scroll_view.dart';
-import 'package:let_tutor/widgets/rating_label.dart';
+import 'package:let_tutor/widgets/review_scroll_view.dart';
 import 'package:let_tutor/widgets/rounded_box.dart';
 import 'package:let_tutor/widgets/timetable.dart';
 import 'package:let_tutor/widgets/title_text.dart';
 import 'package:let_tutor/widgets/tutor_card.dart';
-import 'package:let_tutor/widgets/user_info_box.dart';
 
 class TutorInfoScreen extends StatelessWidget {
   static const _tabLabelStyle = TextStyle(fontSize: 15);
@@ -42,35 +40,8 @@ class TutorInfoScreen extends StatelessWidget {
                         builder: (context) => Dialog(
                           child: SizedBox(
                             height: 600,
-                            child: InfiniteScrollView(
-                              flexibleSpace: const Align(
-                                alignment: Alignment.center,
-                                child: Text("Reviews", style: TextStyle(fontSize: 30, fontWeight: FontWeight.bold))
-                              ),
-                              expandedHeight: 60,
-                              collapseHeight: 60,
-                              fetchData: (page) => Client.getReviews(tutorId: tutorId, page: page + 1, perPageCount: 10),
-                              buildItem: (item) => Padding(
-                                padding: const EdgeInsets.symmetric(vertical: 10),
-                                child: Column(
-                                  crossAxisAlignment: CrossAxisAlignment.start,
-                                  children: [
-                                    UserInfoBox(
-                                      userId: "",
-                                      isTappable: false,
-                                      name: item.studentName,
-                                      lastChild: RatingLabel(rating: item.rating.toDouble()),
-                                      avatar: Image.network(item.studentAvatarUrl).image,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 5, left: 12.0),
-                                      child: Text(item.content),
-                                    )
-                                  ],
-                                ),
-                              )
-                            ),
-                          ),
+                            child: ReviewScrollView(tutorId: tutorId),
+                          )
                         )
                       )
                     ),

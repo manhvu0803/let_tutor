@@ -39,13 +39,17 @@ void showLoadingDialog(BuildContext context) {
   );
 }
 
-void showErrorDialog(BuildContext context, Object? error) {
+void showErrorDialog(BuildContext context, Object error) {
+  showAlertDialog(context, title: "Error", message: "$error");
+}
+
+void showAlertDialog(BuildContext context, {required String title, required String message}) {
   showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
-        title: const Text("Error"),
-        content: Text(error.toString()),
+        title: Text(title),
+        content: Text(message),
         actions: [
           TextButton(
             onPressed: () => Navigator.pop(context, "OK"),

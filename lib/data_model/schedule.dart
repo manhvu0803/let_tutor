@@ -22,7 +22,7 @@ class Schedule {
   User? tutor;
 
   Schedule.fromJson(Map<String, dynamic> json) :
-    id = json["id"],
+    id = json["scheduleDetails"]?[0]?["id"] ?? json["id"],
     studentRequest = json["studentRequest"] ?? "",
     tutorReview = json["tutorReview"] ?? "",
     scoreByTutor = double.parse((json["scoreByTutor"] ?? 0).toString()),
