@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/client.dart';
+import 'package:let_tutor/client/client.dart' as client;
 import 'package:let_tutor/widgets/infinite_scroll_view.dart';
 import 'package:let_tutor/widgets/rating_label.dart';
 import 'package:let_tutor/widgets/user_info_box.dart';
@@ -18,7 +18,7 @@ class ReviewScrollView extends StatelessWidget {
       ),
       expandedHeight: 60,
       collapseHeight: 60,
-      fetchData: (page) => Client.getReviews(tutorId: tutorId, page: page + 1, perPageCount: 10),
+      fetchData: (page) => client.getReviews(tutorId: tutorId, page: page + 1, perPageCount: 10),
       buildItem: (item) => Padding(
         padding: const EdgeInsets.symmetric(vertical: 10),
         child: Column(

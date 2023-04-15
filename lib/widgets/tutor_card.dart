@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/client.dart';
+import 'package:let_tutor/client/client.dart' as client;
 import 'package:let_tutor/data_model/tutor.dart';
 import 'package:let_tutor/screens/tutor_info_screen.dart';
 import 'package:let_tutor/utils/utils.dart';
@@ -116,7 +116,7 @@ class _TutorCardState extends State<TutorCard> {
 
   void _onTap(BuildContext context) async {
     try {
-      await Client.switchTutorFavorite(widget.tutorId);
+      await client.switchTutorFavorite(widget.tutorId);
       setState(() => _isFavorite = !_isFavorite);
     }
     catch (error, stack) {

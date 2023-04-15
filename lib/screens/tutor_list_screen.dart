@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/client.dart';
+import 'package:let_tutor/client/client.dart' as client;
 import 'package:let_tutor/data_model/category.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/utils/utils.dart';
@@ -32,7 +32,7 @@ class _TutorListScreenState extends State<TutorListScreen> {
           tutor,
           middle: Wrap(children: buildList(tutor.specialties, (tag) => RoundedBox.text(tag, fontSize: 14)))
         ),
-        fetchData: (page) => Client.searchTutor(
+        fetchData: (page) => client.searchTutor(
           page: page + 1,
           perPageCount: 5,
           specialty: _specialtyFilter,

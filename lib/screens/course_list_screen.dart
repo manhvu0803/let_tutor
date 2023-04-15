@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/client.dart';
+import 'package:let_tutor/client/client.dart' as client;
 import 'package:let_tutor/data_model/category.dart';
 import 'package:let_tutor/data_model/course.dart';
 import 'package:let_tutor/screens/screen.dart';
@@ -30,7 +30,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
       key: ValueKey([_chosenLevel, _chosenCategory, _isSortAscending]),
       child: InfiniteScrollView(
         expandedHeight: 250,
-        fetchData: (page) => Client.searchCourse(
+        fetchData: (page) => client.searchCourse(
           page: page + 1,
           level: (_chosenLevel != null) ? [_chosenLevel!] : null,
           isAscending: _isSortAscending,
@@ -59,7 +59,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
                   DropdownFilter(
                     name: "Category",
                     value: _chosenCategory,
-                    options: Client.categories!.toValueMap((category) => category.title),
+                    options: client.categories!.toValueMap((category) => category.title),
                     onChanged: (value) => setState(() => _chosenCategory = value)
                   ),
                   DropdownFilter(

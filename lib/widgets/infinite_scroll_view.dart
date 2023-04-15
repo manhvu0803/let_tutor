@@ -43,28 +43,32 @@ class _InfiniteScrollViewState<T> extends State<InfiniteScrollView<T>> {
 
   @override
   Widget build(BuildContext context) {
-    return CustomScrollView(
-      controller: _scrollController,
-      slivers: [
-        SliverAppBar(
-          pinned: true,
-          collapsedHeight: widget.collapseHeight,
-          expandedHeight: widget.expandedHeight,
-          backgroundColor: Colors.white,
-          automaticallyImplyLeading: false,
-          flexibleSpace: widget.flexibleSpace
-        ),
-        SliverList.builder(
-          itemCount: _currentPage,
-          addAutomaticKeepAlives: false,
-          itemBuilder: (context, page) => FutureColumn<T>(
-            forceReload: widget.forceReload,
-            fetchData: () => widget.fetchData(page),
-            buildItem: widget.buildItem,
-            onDone: _onLoadDone
+    return RefreshIndicator(
+      onRefresh: () => Future(() => setState(() => _isLoading = true)),
+      child: CustomScrollView(
+        controller: _scrollController,
+        slivers: [
+          SliverAppBar(
+            pinned: true,
+            collapsedHeight: widget.collapseHeight,
+            expandedHeight: widget.expandedHeight,
+            backgroundColor: Colors.white,
+            automaticallyImplyLeading: false,
+            flexibleSpace: widget.flexibleSpace
+          ),
+          SliverList.builder(
+            itemCount: _currentPage,
+            addAutomaticKeepAlives: false,
+            itemBuilder: (context, page) => FutureColumn<T>(
+              key: ValueKey(_isLoading),
+              forceReload: widget.forceReload,
+              fetchData: () => widget.fetchData(page),
+              buildItem: widget.buildItem,
+              onDone: _onLoadDone
+            )
           )
-        )
-      ]
+        ]
+      ),
     );
   }
 

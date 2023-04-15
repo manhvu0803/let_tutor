@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/client.dart';
+import 'package:let_tutor/client/client.dart' as client;
 import 'package:let_tutor/data_model/schedule.dart';
 import 'package:let_tutor/data_model/tutor_review.dart';
 import 'package:let_tutor/screens/screen.dart';
@@ -13,7 +13,7 @@ class HistoryScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureWidget(
-      fetchData: () => Client.getHistory(),
+      fetchData: () => client.getHistory(),
       buildWidget: (context, scheduleList) => Screen(
         child: ListView(
           children: buildList(

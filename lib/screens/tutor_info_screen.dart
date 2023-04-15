@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/client.dart';
+import 'package:let_tutor/client/client.dart' as client;
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/future_widget.dart';
@@ -19,7 +19,7 @@ class TutorInfoScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureWidget(
-      fetchData: () => Client.getTutor(tutorId),
+      fetchData: () => client.getTutor(tutorId),
       buildWidget: (context, tutor) => DefaultTabController(
         length: 2,
         child: Screen(

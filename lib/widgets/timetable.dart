@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/client.dart';
+import 'package:let_tutor/client/client.dart' as client;
 import 'package:let_tutor/data_model/schedule.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/booking_view.dart';
@@ -25,7 +25,7 @@ class _TimetableState extends State<Timetable> {
         scrollDirection: Axis.vertical,
         child: FutureWidget(
           key: ValueKey(lastBookedScheduleId),
-          fetchData: () => Client.getTutorScheduleNow(widget.tutorId),
+          fetchData: () => client.getTutorScheduleNow(widget.tutorId),
           buildWidget: _buildTable
         ),
       ),
@@ -111,10 +111,9 @@ class _TimetableState extends State<Timetable> {
     showLoadingDialog(context);
 
     try {
-      var message = await Client.book(scheduleId, note: note);
+      var message = await client.book(scheduleId, note: note);
 
-      // ignore: use_build_context_synchronously
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
 
@@ -126,8 +125,7 @@ class _TimetableState extends State<Timetable> {
     catch (error, stack) {
       debugPrint(stack.toString());
 
-      // ignore: use_build_context_synchronously
-      if (!context.mounted) {
+      if (!mounted) {
         return;
       }
 

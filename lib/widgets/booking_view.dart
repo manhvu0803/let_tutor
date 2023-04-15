@@ -41,6 +41,7 @@ class _BookingViewState extends State<BookingView> {
             ),
           ),
           TextField(
+            keyboardType: TextInputType.multiline,
             decoration: const InputDecoration(
               border: OutlineInputBorder(),
               hintText: "Note..."
@@ -66,5 +67,5 @@ class _BookingViewState extends State<BookingView> {
 }
 
 String fullString(DateTime time) {
-  return "${time.hour}:${time.minute} ${weekdayString[time.weekday]}, ${time.day}-${time.month}-${time.year}";
+  return "${time.hourString} ${time.dateString}";
 }

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:let_tutor/client.dart';
+import 'package:let_tutor/client/client.dart' as client;
 import 'package:let_tutor/screens/screen.dart';
 import 'package:let_tutor/widgets/course_scroll_view.dart';
 import 'package:let_tutor/widgets/future_widget.dart';
@@ -13,7 +13,7 @@ class CourseDetailScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return FutureWidget(
-      fetchData: () => Client.getCourse(courseId),
+      fetchData: () => client.getCourse(courseId),
       buildWidget: (context, course) => Screen(
         padding: 0,
         child: CourseScrollView(
