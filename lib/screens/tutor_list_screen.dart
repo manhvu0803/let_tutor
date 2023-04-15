@@ -27,6 +27,7 @@ class _TutorListScreenState extends State<TutorListScreen> {
   Widget build(BuildContext context) {
     return Screen(
       child: InfiniteScrollView(
+        expandedHeight: 200,
         key: ValueKey([_nameFilter, _specialtyFilter, _fromTimeFilter, _toTimeFilter, _dateFilter]),
         buildItem: (tutor) => TutorCard.fromTutor(
           tutor,
@@ -64,6 +65,10 @@ class _TutorListScreenState extends State<TutorListScreen> {
                     onPressed: () => _pickTime(context, (time) => _fromTimeFilter = time),
                     child: Text((_fromTimeFilter != null) ? _fromTimeFilter!.hourString : "From")
                   ),
+                  const Padding(
+                    padding: EdgeInsets.only(top: 4, left: 4, right: 4),
+                    child: Text("-", style: TextStyle(fontSize: 32)),
+                  ),
                   OutlinedButton(
                     onPressed: () => _pickTime(context, (time) => _toTimeFilter = time),
                     child: Text((_toTimeFilter != null) ? _toTimeFilter!.hourString : "To")
@@ -76,6 +81,19 @@ class _TutorListScreenState extends State<TutorListScreen> {
                       options: categorieStrings,
                       allowNullOption: true,
                       onChanged: (specialty) => setState(() => _specialtyFilter = specialty ?? "")
+                    ),
+                  ),
+                  Align(
+                    alignment: Alignment.center,
+                    child: ElevatedButton(
+                      onPressed: () => setState(() {
+                        _nameFilter = "";
+                        _specialtyFilter = categorieStrings.first;
+                        _fromTimeFilter = null;
+                        _toTimeFilter = null;
+                        _dateFilter = null;
+                      }),
+                      child: const Text("Reset")
                     ),
                   ),
                 ],

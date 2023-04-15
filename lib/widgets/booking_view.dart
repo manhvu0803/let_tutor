@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/client/client.dart';
 import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/try_async_button.dart';
 
 class BookingView extends StatefulWidget {
-  final Function(String)? onSubmitted;
+  final String scheduleId;
   final DateTime startTime;
   final int balance;
+  final Function()? onDone;
 
-  const BookingView({super.key, this.onSubmitted, required this.startTime, this.balance = 0});
+  const BookingView({super.key, required this.scheduleId, required this.startTime, this.balance = 0, this.onDone});
 
   @override
   State<StatefulWidget> createState() => _BookingViewState();
@@ -51,14 +54,10 @@ class _BookingViewState extends State<BookingView> {
           ),
           Padding(
             padding: const EdgeInsets.only(top: 24.0),
-            child: SizedBox(
-              height: 50,
-              width: 100,
-              child: ElevatedButton(
-                onPressed: (widget.balance > 0) ? () => widget.onSubmitted?.call(note) : null,
-                child: const Text("Book", style: TextStyle(fontSize: 18))
-              ),
-            ),
+            child: TryAsyncButton(
+              postData: () => book(widget.scheduleId, note: note),
+              onDone: widget.onDone,
+            )
           )
         ],
       ),

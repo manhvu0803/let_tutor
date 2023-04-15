@@ -37,6 +37,7 @@ class Client {
   }
 
   static Future<Map<String, dynamic>> jsonFromAuthGet(Uri uri) {
+    print(uri);
     return getJson(
       http.get(uri, headers: {"Authorization" : "Bearer ${accessToken.value}"})
     );
@@ -46,6 +47,20 @@ class Client {
     debugPrint(jsonEncode(body));
     return getJson(
       http.post(
+        url(locator),
+        headers: {
+          "Authorization" : "Bearer ${accessToken.value}",
+          "Content-Type" : "application/json"
+        },
+        body: jsonEncode(body)
+      )
+    );
+  }
+
+  static Future<Map<String, dynamic>> jsonFromAuthDelete(String locator, {Map<String, Object>? body}) {
+    debugPrint(jsonEncode(body));
+    return getJson(
+      http.delete(
         url(locator),
         headers: {
           "Authorization" : "Bearer ${accessToken.value}",

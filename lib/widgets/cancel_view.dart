@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/client/client.dart';
 import 'package:let_tutor/utils/utils.dart';
+import 'package:let_tutor/widgets/try_async_button.dart';
 
 List<String> cancelReasons = [
   "Reschedule at another time",
@@ -10,9 +12,10 @@ List<String> cancelReasons = [
 
 class CancelView extends StatefulWidget {
   final DateTime startTime;
-  final Function(int reasonId, String note)? onSubmitted;
+  final String scheduleId;
+  final Function()? onDone;
 
-  const CancelView({super.key, this.onSubmitted, required this.startTime});
+  const CancelView({super.key, this.onDone, required this.startTime, required this.scheduleId});
 
   @override
   State<StatefulWidget> createState() => _CancelViewState();
@@ -32,7 +35,7 @@ class _CancelViewState extends State<CancelView> {
             padding: const EdgeInsets.only(left: 8, right: 8, bottom: 24.0),
             child: Column(
               children: [
-                const Text("Cancel", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
+                const Text("Cancel session", style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold)),
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Text(
@@ -43,15 +46,23 @@ class _CancelViewState extends State<CancelView> {
               ]
             )
           ),
-          DropdownButton(
-            items: List.generate(
-              cancelReasons.length,
-              (index) => DropdownMenuItem(
-                value: index + 1,
-                child: Text(cancelReasons[index])
-              )
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 4),
+            child: Text("What was the reason you cancel this?", style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 12),
+            child: DropdownButton(
+              value: reasonId,
+              items: List.generate(
+                cancelReasons.length,
+                (index) => DropdownMenuItem(
+                  value: index + 1,
+                  child: Text(cancelReasons[index], style: const TextStyle(fontSize: 20))
+                )
+              ),
+              onChanged: (value) => setState(() => reasonId = value ?? 4)
             ),
-            onChanged: (value) => setState(() => reasonId = value ?? 4)
           ),
           TextField(
             keyboardType: TextInputType.multiline,
@@ -62,6 +73,13 @@ class _CancelViewState extends State<CancelView> {
             ),
             onChanged: (value) => note = value,
           ),
+          Padding(
+            padding: const EdgeInsets.only(top: 16),
+            child: TryAsyncButton(
+              postData: () => cancel(widget.scheduleId, cancelReasonId: reasonId, note: note),
+              onDone: widget.onDone,
+            )
+          )
         ]
       )
     );

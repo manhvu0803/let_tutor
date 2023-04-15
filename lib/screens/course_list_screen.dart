@@ -59,7 +59,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
                   DropdownFilter(
                     name: "Category",
                     value: _chosenCategory,
-                    options: client.categories!.toValueMap((category) => category.title),
+                    options: client.categories.toValueMap((category) => category.title),
                     onChanged: (value) => setState(() => _chosenCategory = value)
                   ),
                   DropdownFilter(

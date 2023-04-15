@@ -3,9 +3,9 @@ import 'package:let_tutor/data_model/category.dart';
 import 'package:let_tutor/data_model/course.dart';
 import 'package:let_tutor/utils/utils.dart';
 
-List<Category>? _categories;
+late List<Category> _categories;
 
-List<Category>? get categories => _categories;
+List<Category> get categories => _categories;
 
 Future<Course> getCourse(String id) async {
   var json = await Client.jsonFromAuthGet(url("course/$id"));
@@ -21,9 +21,9 @@ Future<List<Course>> searchCourse({
   String searchTerm = ""
 }) async {
   var queries = {
-    "page": page,
+    "page": "$page",
     "size": "$perPageCount",
-    if (level != null && level.isNotEmpty) "level[]": level,
+    if (level != null && level.isNotEmpty) "level[]": List.generate(level.length, (i) => level[i].toString()),
     "orderBy[]": isAscending ? "ASC" : "DESC",
     if (categoryIds != null && categoryIds.isNotEmpty) "categoryId[]": categoryIds,
     "searchTerm": searchTerm
@@ -35,5 +35,6 @@ Future<List<Course>> searchCourse({
 
 Future<List<Category>> getCategories() async {
   var json = await Client.jsonFromAuthGet(url("content-category"));
-  return buildList(json["rows"], (dynamic json) => Category.fromJson(json));
+  _categories = buildList(json["rows"], (dynamic json) => Category.fromJson(json));
+  return _categories;
 }

@@ -95,42 +95,16 @@ class _TimetableState extends State<Timetable> {
             child: SizedBox(
               height: 500,
               child: BookingView(
+                scheduleId: schedule.id,
                 startTime: schedule.startTime,
                 balance: 1,
-                onSubmitted: (note) => _tryBooking(context, schedule.id, note),
+                onDone: () => setState(() => lastBookedScheduleId = schedule.id),
               ),
             )
           )
         ),
         child: const Text("Book", style: TextStyle(color: Colors.white))
       );
-    }
-  }
-
-  void _tryBooking(BuildContext context, String scheduleId, String note) async {
-    showLoadingDialog(context);
-
-    try {
-      var message = await client.book(scheduleId, note: note);
-
-      if (!mounted) {
-        return;
-      }
-
-      Navigator.pop(context);
-      Navigator.pop(context);
-      showAlertDialog(context, title: "Success", message: message);
-      setState(() => lastBookedScheduleId = scheduleId);
-    }
-    catch (error, stack) {
-      debugPrint(stack.toString());
-
-      if (!mounted) {
-        return;
-      }
-
-      Navigator.pop(context);
-      showErrorDialog(context, error);
     }
   }
 }

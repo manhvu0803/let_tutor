@@ -39,7 +39,7 @@ Future<List<Tutor>> searchTutor({
       "nationality": nationality,
       "tutoringTimeAvailable": [
         (fromTime != null) ? fromTime.millisecondsSinceEpoch : null,
-        (toTime != null) ? toTime.millisecondsSinceEpoch : null,
+        (toTime != null) ? toTime.millisecondsSinceEpoch : fromTime?.add(const Duration(days: 1)).millisecondsSinceEpoch,
       ]
     },
     "page": max(1, page),

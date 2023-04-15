@@ -46,6 +46,7 @@ class _InfiniteScrollViewState<T> extends State<InfiniteScrollView<T>> {
     return RefreshIndicator(
       onRefresh: () => Future(() => setState(() => _isLoading = true)),
       child: CustomScrollView(
+        physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
         slivers: [
           SliverAppBar(

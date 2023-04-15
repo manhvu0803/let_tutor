@@ -36,7 +36,10 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                     scheduleList,
                     (schedule) => ScheduleCard.fromSchedule(
                       schedule,
-                      children: [ScheduleEndCard(schedule: schedule)]
+                      children: [ScheduleEndCard(
+                        schedule: schedule,
+                        onDoneCancel: () => setState(() => _refreshCount++)
+                      )]
                     )
                   )
                 )

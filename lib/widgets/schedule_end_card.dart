@@ -6,8 +6,9 @@ import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 
 class ScheduleEndCard extends StatefulWidget {
   final Schedule schedule;
+  final Function()? onDoneCancel;
 
-  const ScheduleEndCard({super.key, required this.schedule});
+  const ScheduleEndCard({super.key, required this.schedule, this.onDoneCancel});
 
   @override
   State<ScheduleEndCard> createState() => _ScheduleEndCardState();
@@ -49,9 +50,13 @@ class _ScheduleEndCardState extends State<ScheduleEndCard> {
                   onPressed: () => showDialog(
                     context: context,
                     builder: (context) => Dialog(
-                      child: CancelView(
-                        startTime: widget.schedule.startTime,
-                        onSubmitted: _tryCancel,
+                      child: SizedBox(
+                        height: 450,
+                        child: CancelView(
+                          scheduleId: widget.schedule.id,
+                          startTime: widget.schedule.startTime,
+                          onDone: widget.onDoneCancel
+                        ),
                       ),
                     )
                   ),
@@ -64,7 +69,13 @@ class _ScheduleEndCardState extends State<ScheduleEndCard> {
         ),
         Column(
           children: [
-            const Text("Request for lesson"),
+            const Align(
+              alignment: Alignment.centerLeft,
+              child: Padding(
+                padding: EdgeInsets.symmetric(horizontal: 8.0),
+                child: Text("Request for lesson", style: TextStyle(fontSize: 20)),
+              )
+            ),
             Padding(
               padding: const EdgeInsets.all(8),
               child: TextField(
@@ -76,17 +87,17 @@ class _ScheduleEndCardState extends State<ScheduleEndCard> {
                 ),
               )
             ),
-            ElevatedButton(
-              onPressed: () {},
-              child: const Text("Submit")
+            Padding(
+              padding: const EdgeInsets.symmetric(vertical: 8.0),
+              child: ElevatedButton(
+                onPressed: () {},
+                child: const Text("Submit")
+              ),
             )
           ],
         )
       ],
     );
-  }
-
-  void _tryCancel(reasonId, note) async {
   }
 
   @override

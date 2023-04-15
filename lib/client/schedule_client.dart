@@ -53,3 +53,17 @@ Future<String> book(String scheduleId, {String note = ""}) async {
 
   return json["message"] ?? "";
 }
+
+Future<String> cancel(String scheduleId, {int cancelReasonId = 4, String note = ""}) async {
+  var body = {
+    "scheduleDetailId": scheduleId,
+    "cancelInfo": {
+      "cancelReasonId": cancelReasonId.clamp(1, 4),
+      "note": note
+    }
+  };
+
+  var json = await Client.jsonFromAuthDelete("booking/schedule-detail", body: body);
+
+  return json["message"] ?? "";
+}
