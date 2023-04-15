@@ -30,11 +30,11 @@ Future<List<Course>> searchCourse({
   };
 
   var json = await Client.jsonFromAuthGet(url("course", queries: queries));
-  return buildList(json["data"]["rows"], (dynamic json) => Course.fromJson(json));
+  return (json["data"]["rows"] as List).toNewList((json) => Course.fromJson(json));
 }
 
 Future<List<Category>> getCategories() async {
   var json = await Client.jsonFromAuthGet(url("content-category"));
-  _categories = buildList(json["rows"], (dynamic json) => Category.fromJson(json));
+  _categories = json["rows"].toNewList((json) => Category.fromJson(json));
   return _categories;
 }

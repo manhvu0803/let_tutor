@@ -40,7 +40,7 @@ class TopicListScreen extends StatelessWidget {
             padding: EdgeInsets.only(top: 12, bottom: 8),
             child: TitleText("Topics"),
           ),
-          ...buildList(topics, (topic) => _TopicButton.fromTopic(topic)),
+          ...topics.toNewList((topic) => _TopicButton.fromTopic(topic)),
         ]
       )
     );

@@ -9,9 +9,11 @@ extension DateTimeExtension on DateTime {
     return DateTime(year, month, day, time.hour, time.minute);
   }
 
-  String get dateString => "${weekdayString[weekday]}, $day-${monthString[month]}-$year";
+  String get isoDateString => "$year-$month-$day";
 
-  String get dateStringGmt => "${weekdayString[weekday]} $day ${monthString[month]} $year";
+  String get dateWeekString => "${weekdayString[weekday]}, $day-${monthString[month]}-$year";
+
+  String get dateWeekStringGmt => "${weekdayString[weekday]} $day ${monthString[month]} $year";
 
   String get hourString => "$hour:${minute.toString().padLeft(2, '0')}";
 

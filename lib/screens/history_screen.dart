@@ -16,8 +16,7 @@ class HistoryScreen extends StatelessWidget {
       fetchData: () => client.getHistory(),
       buildWidget: (context, scheduleList) => Screen(
         child: ListView(
-          children: buildList(
-            scheduleList,
+          children: scheduleList.toNewList(
             (schedule) => ScheduleCard.fromSchedule(
               schedule,
               subtitleText: "${schedule.startTime.hourString}-${schedule.endTime.hourString}",

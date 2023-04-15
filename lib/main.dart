@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:let_tutor/data_model/user_model.dart';
 import 'package:let_tutor/screens/screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
+void main() async {
+  await dotenv.load();
   runApp(const LetTutorApp());
 }
 

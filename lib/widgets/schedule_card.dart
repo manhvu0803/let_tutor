@@ -40,7 +40,7 @@ class ScheduleCard extends StatelessWidget {
               flex: 5,
               child: Column(
                 children: [
-                  Text(date.dateString, style: const TextStyle(fontSize: 15)),
+                  Text(date.dateWeekString, style: const TextStyle(fontSize: 15)),
                   if (subtitleText.isNotEmpty) Text(subtitleText, style: const TextStyle(fontSize: 14))
                 ]
               ),

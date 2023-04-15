@@ -20,7 +20,7 @@ class FutureColumn<T> extends StatelessWidget {
         return data;
       },
       buildWidget: (context, data) => Column(
-        children: buildList(data, buildItem)
+        children: data.toNewList(buildItem)
       )
     );
   }

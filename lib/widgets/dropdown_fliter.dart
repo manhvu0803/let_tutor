@@ -44,7 +44,7 @@ class DropdownFilter<T> extends StatelessWidget {
                 value: null,
                 child: Text("Any")
               ),
-              ...buildList(options.keys, (option) => DropdownMenuItem(
+              ...options.keys.toNewList((option) => DropdownMenuItem(
                 value: option,
                 child: Text(options[option]!),
               ))

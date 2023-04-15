@@ -12,4 +12,14 @@ extension IterableExtension<T> on Iterable<T> {
 
     return map;
   }
+
+  List<U> toNewList<U>(U Function(T) builder) {
+    final newList = <U>[];
+
+    for (final item in this) {
+      newList.add(builder(item));
+    }
+
+    return newList;
+  }
 }

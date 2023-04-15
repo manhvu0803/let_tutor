@@ -31,7 +31,9 @@ class _TutorListScreenState extends State<TutorListScreen> {
         key: ValueKey([_nameFilter, _specialtyFilter, _fromTimeFilter, _toTimeFilter, _dateFilter]),
         buildItem: (tutor) => TutorCard.fromTutor(
           tutor,
-          middle: Wrap(children: buildList(tutor.specialties, (tag) => RoundedBox.text(tag, fontSize: 14)))
+          middle: Wrap(
+            children: tutor.specialties.toNewList((tag) => RoundedBox.text(tag, fontSize: 14))
+          )
         ),
         fetchData: (page) => client.searchTutor(
           page: page + 1,
@@ -58,7 +60,7 @@ class _TutorListScreenState extends State<TutorListScreen> {
                     padding: const EdgeInsets.only(left: 8, right: 8),
                     child: OutlinedButton(
                       onPressed: () => _pickDate(context),
-                      child: Text((_dateFilter != null) ? _dateFilter!.dateString : "Date")
+                      child: Text((_dateFilter != null) ? _dateFilter!.dateWeekString : "Date")
                     ),
                   ),
                   OutlinedButton(
@@ -83,8 +85,7 @@ class _TutorListScreenState extends State<TutorListScreen> {
                       onChanged: (specialty) => setState(() => _specialtyFilter = specialty ?? "")
                     ),
                   ),
-                  Align(
-                    alignment: Alignment.center,
+                  Center(
                     child: ElevatedButton(
                       onPressed: () => setState(() {
                         _nameFilter = "";

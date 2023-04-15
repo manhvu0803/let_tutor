@@ -10,7 +10,7 @@ class Tutor extends User {
       return [];
     }
 
-    return buildList(userData["courses"], (dynamic json) => Course.fromJson(json));
+    return (userData["courses"] as List).toNewList((json) => Course.fromJson(json));
   }
 
   String bio;

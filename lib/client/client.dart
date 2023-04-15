@@ -9,6 +9,7 @@ import 'package:let_tutor/data_model/user.dart';
 export 'tutor_client.dart';
 export 'course_client.dart';
 export 'schedule_client.dart';
+export 'user_client.dart';
 
 const _baseUrl = "sandbox.api.lettutor.com";
 
@@ -61,6 +62,20 @@ class Client {
     debugPrint(jsonEncode(body));
     return getJson(
       http.delete(
+        url(locator),
+        headers: {
+          "Authorization" : "Bearer ${accessToken.value}",
+          "Content-Type" : "application/json"
+        },
+        body: jsonEncode(body)
+      )
+    );
+  }
+
+  static Future<Map<String, dynamic>> jsonFromAuthPut(String locator, {Map<String, Object>? body}) {
+    debugPrint(jsonEncode(body));
+    return getJson(
+      http.put(
         url(locator),
         headers: {
           "Authorization" : "Bearer ${accessToken.value}",

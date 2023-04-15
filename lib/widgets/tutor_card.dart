@@ -134,9 +134,9 @@ class _TutorCardState extends State<TutorCard> {
 class _ExpandableText extends StatefulWidget {
   final String text;
   final bool isTappable;
-  final int unexpanededLineCount;
+  final int unexpandedLineCount;
 
-  const _ExpandableText({required this.text, this.isTappable = true, this.unexpanededLineCount = 2});
+  const _ExpandableText({required this.text, this.isTappable = true, this.unexpandedLineCount = 2});
 
   @override
   State<_ExpandableText> createState() => _ExpandableTextState();
@@ -153,7 +153,7 @@ class _ExpandableTextState extends State<_ExpandableText> {
         padding: const EdgeInsets.all(10),
         child: Text(
           widget.text,
-          maxLines: _isExpanded ? null : widget.unexpanededLineCount,
+          maxLines: _isExpanded ? null : widget.unexpandedLineCount,
           overflow: _isExpanded ? null : TextOverflow.ellipsis,
           textAlign: TextAlign.justify
         ),

@@ -82,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
       }
 
       Navigator.of(context).pop();
-      Navigator.push(context, MaterialPageRoute(builder: (context) => BottomTabScreen()));
+      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomTabScreen()));
     }
     catch (error, stack) {
       Navigator.of(context).pop();

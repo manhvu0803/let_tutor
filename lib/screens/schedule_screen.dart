@@ -32,8 +32,7 @@ class _ScheduleScreenState extends State<ScheduleScreen> {
                 key: ValueKey(_refreshCount),
                 fetchData: () => client.getSchedule(),
                 buildWidget: (context, scheduleList) => ListView(
-                  children: buildList(
-                    scheduleList,
+                  children: scheduleList.toNewList(
                     (schedule) => ScheduleCard.fromSchedule(
                       schedule,
                       children: [ScheduleEndCard(

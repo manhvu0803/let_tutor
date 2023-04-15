@@ -66,5 +66,5 @@ class _BookingViewState extends State<BookingView> {
 }
 
 String fullString(DateTime time) {
-  return "${time.hourString} ${time.dateString}";
+  return "${time.hourString} ${time.dateWeekString}";
 }

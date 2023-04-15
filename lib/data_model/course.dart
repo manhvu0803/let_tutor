@@ -50,7 +50,7 @@ class Course {
     displayOrder = json["displayOrder"] ?? "",
     createdAt = DateTime.parse(json["createdAt"] ?? json["TutorCourse"]["createdAt"]),
     updatedAt = DateTime.parse(json["updatedAt"] ?? json["TutorCourse"]["updatedAt"]),
-    topics = (json["topics"] == null) ? [] : buildList(json["topics"], (dynamic json) => Topic.fromJson(json)),
+    topics = (json["topics"] == null) ? [] : json["topics"].toNewList((dynamic json) => Topic.fromJson(json)),
     category = (json["categories"] != null) ? json["categories"][0]["title"] : "";
 
   String get level => levelStrings[leveNumber];

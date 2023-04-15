@@ -6,7 +6,8 @@ class TryAsyncButton<T> extends StatefulWidget {
   final Future<T> Function() postData;
   final Function()? onDone;
   final Function()? onError;
-  const TryAsyncButton({super.key, this.onSubmitted, required this.postData, this.onDone, this.onError});
+  final String text;
+  const TryAsyncButton({super.key, this.onSubmitted, required this.postData, this.onDone, this.onError, this.text = "Submit"});
 
   @override
   State<StatefulWidget> createState() => _TryAsyncButtonState();
@@ -23,7 +24,7 @@ class _TryAsyncButtonState<T> extends State<TryAsyncButton<T>> {
           widget.onSubmitted?.call();
           _tryPostData(context);
         },
-        child: const Text("Submit", style: TextStyle(fontSize: 20)),
+        child: Text(widget.text, style: const TextStyle(fontSize: 20)),
       ),
     );
   }

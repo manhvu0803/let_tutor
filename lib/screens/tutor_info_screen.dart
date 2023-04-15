@@ -81,16 +81,16 @@ class TutorInfoScreen extends StatelessWidget {
                             // Languages
                             const TitleText("Languages"),
                             Wrap(
-                              children: buildList(tutor.languages, (language) => RoundedBox.text(language))
+                              children: tutor.languages.toNewList((language) => RoundedBox.text(language))
                             ),
                             // Specialties
                             const TitleText("Specialties"),
                             Wrap(
-                              children: buildList(tutor.specialties, (tag) => RoundedBox.text(tag))
+                              children: tutor.specialties.toNewList((tag) => RoundedBox.text(tag))
                             ),
                             // Suggested courses
                             const TitleText("Suggested courses"),
-                            ...buildList(tutor.courses, (course) => _CourseButton(courseId: course.id, courseName: course.name)),
+                            ...tutor.courses.toNewList((course) => _CourseButton(courseId: course.id, courseName: course.name)),
                             // Interests
                             const TitleText("Interests"),
                             _InfoText(tutor.interests),

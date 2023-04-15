@@ -37,9 +37,18 @@ class _TimetableState extends State<Timetable> {
     var weekday = DateTime.now().weekday;
 
     return DataTable(
+      border: TableBorder.all(),
       columns: [
-        const DataColumn(label: Text("Time")),
-        ...List.generate(7, (index) => DataColumn(label: Text(weekdayString[(weekday + index) % 7])))
+        const DataColumn(
+          label: Expanded(
+            child: Text("Time", textAlign: TextAlign.center)
+          ),
+        ),
+        ...List.generate(7, (index) => DataColumn(
+          label: Expanded(
+            child: Text(weekdayString[(weekday + index) % 7], textAlign: TextAlign.center)
+          )
+        ))
       ],
       rows: _buildRows(context, data, startWeekday: weekday)
     );
@@ -82,8 +91,7 @@ class _TimetableState extends State<Timetable> {
 
   Widget _buildCellChild(BuildContext context, Schedule schedule) {
     if (schedule.isBooked) {
-      return const Align(
-        alignment: Alignment.center,
+      return const Center(
         child: Text("Booked", style: TextStyle(color: Colors.green))
       );
     }
@@ -128,5 +136,7 @@ int _compareSchedule(Schedule a, Schedule b) {
 final _timeTextCells = List.generate(48, (index) {
   var hour = index ~/ 2;
   var min = (index % 2 == 0) ? 0 : 30;
-  return DataCell(Text("$hour:${min.toString().padLeft(2, '0')} - $hour:${min + 25}"));
+  return DataCell(Center(
+    child: Text("$hour:${min.toString().padLeft(2, '0')} - $hour:${min + 25}")
+  ));
 });

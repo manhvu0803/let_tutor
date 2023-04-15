@@ -35,7 +35,7 @@ Future<List<Tutor>> searchTutor({
   var body = {
     "filters": {
       "specialties": [if (specialty != null && specialty != "all") specialty.toLowerCase().replaceAll(RegExp(r"\s+"), "-")],
-      "date": (date == null) ? null : date.dateStringGmt,
+      "date": (date == null) ? null : date.dateWeekStringGmt,
       "nationality": nationality,
       "tutoringTimeAvailable": [
         (fromTime != null) ? fromTime.millisecondsSinceEpoch : null,
@@ -48,7 +48,7 @@ Future<List<Tutor>> searchTutor({
   };
 
   var json = await Client.jsonFromAuthPost("tutor/search", body: body);
-  return buildList(json["rows"], (dynamic json) => Tutor.fromJson(json));
+  return (json["rows"] as List).toNewList((json) => Tutor.fromJson(json));
 }
 
 Future<List<Schedule>> getTutorScheduleNow(String tutorId) {
@@ -68,7 +68,7 @@ async {
   };
 
   var json = await Client.jsonFromAuthGet(url("schedule", queries: queries));
-  return buildList(json["scheduleOfTutor"], (dynamic json) => Schedule.fromJson(json));
+  return (json["scheduleOfTutor"] as List).toNewList((json) => Schedule.fromJson(json));
 }
 
 Future<List<StudentReview>> getReviews({required String tutorId, int page = 1, int perPageCount = 5}) async {
@@ -79,7 +79,7 @@ Future<List<StudentReview>> getReviews({required String tutorId, int page = 1, i
   };
 
   var json = await Client.jsonFromAuthGet(url("feedback/v2/$tutorId", queries: queries));
-  return buildList(json["data"]["rows"], (dynamic json) => StudentReview.fromJson(json));
+  return (json["data"]["rows"] as List).toNewList((json) => StudentReview.fromJson(json));
 }
 
 Future<void> switchTutorFavorite(String tutorId) async {

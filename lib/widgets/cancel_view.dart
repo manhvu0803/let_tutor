@@ -39,7 +39,7 @@ class _CancelViewState extends State<CancelView> {
                 Padding(
                   padding: const EdgeInsets.symmetric(vertical: 12.0),
                   child: Text(
-                    "${widget.startTime.hourString}, ${widget.startTime.dateString}",
+                    "${widget.startTime.hourString}, ${widget.startTime.dateWeekString}",
                     style: const TextStyle(fontSize: 18)
                   ),
                 )
