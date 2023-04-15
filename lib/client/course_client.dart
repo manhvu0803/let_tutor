@@ -3,7 +3,7 @@ import 'package:let_tutor/data_model/category.dart';
 import 'package:let_tutor/data_model/course.dart';
 import 'package:let_tutor/utils/utils.dart';
 
-late List<Category> _categories;
+List<Category> _categories = [];
 
 List<Category> get categories => _categories;
 
@@ -35,6 +35,6 @@ Future<List<Course>> searchCourse({
 
 Future<List<Category>> getCategories() async {
   var json = await Client.jsonFromAuthGet(url("content-category"));
-  _categories = json["rows"].toNewList((json) => Category.fromJson(json));
+  _categories = (json["rows"] as List).toNewList((json) => Category.fromJson(json));
   return _categories;
 }

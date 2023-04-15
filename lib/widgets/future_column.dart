@@ -19,9 +19,17 @@ class FutureColumn<T> extends StatelessWidget {
         onDone?.call(data.length);
         return data;
       },
-      buildWidget: (context, data) => Column(
-        children: data.toNewList(buildItem)
-      )
+      buildWidget: (context, data) {
+        if (data.isEmpty) {
+          return const Center(
+            child: Text("Sorry, we can find anything with these options"),
+          );
+        }
+
+        return Column(
+          children: data.toNewList(buildItem)
+        );
+      }
     );
   }
 }

@@ -34,6 +34,7 @@ class Client {
     refreshToken = Token.fromJson(tokens["refresh"] ?? tokens["refreshToken"]);
     getCategories();
     _isLogin = true;
+    print(json["user"]["birthday"]);
     return User.fromJson(json["user"]);
   }
 

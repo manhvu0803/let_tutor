@@ -75,7 +75,8 @@ class _LoginScreenState extends State<LoginScreen> {
     showLoadingDialog(context);
 
     try {
-      Provider.of<UserModel>(context, listen: false).user = await Client.login(_username, _password);
+      var userModel = Provider.of<UserModel>(context, listen: false);
+      userModel.user = await Client.login(_username, _password);
 
       if (!mounted) {
         return;

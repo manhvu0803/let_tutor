@@ -55,7 +55,7 @@ class _BottomTabScreenState extends State<BottomTabScreen> {
         _buildBottomItem("Tutors", Icons.people_alt),
         _buildBottomItem("Courses", Icons.article),
         _buildBottomItem("History", Icons.history),
-        _buildBottomItem("User", Icons.people)
+        _buildBottomItem("User", Icons.account_circle)
       ],
     );
   }

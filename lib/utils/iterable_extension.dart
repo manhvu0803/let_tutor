@@ -22,4 +22,14 @@ extension IterableExtension<T> on Iterable<T> {
 
     return newList;
   }
+
+  Set<T> toSet() {
+    Set<T> set = {};
+
+    for (final item in this) {
+      set.add(item);
+    }
+
+    return set;
+  }
 }

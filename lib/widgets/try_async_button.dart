@@ -7,7 +7,19 @@ class TryAsyncButton<T> extends StatefulWidget {
   final Function()? onDone;
   final Function()? onError;
   final String text;
-  const TryAsyncButton({super.key, this.onSubmitted, required this.postData, this.onDone, this.onError, this.text = "Submit"});
+  final bool doublePop;
+  final bool showServerMessage;
+
+  const TryAsyncButton({
+    super.key,
+    this.onSubmitted,
+    required this.postData,
+    this.onDone,
+    this.onError,
+    this.text = "Submit",
+    this.doublePop = true,
+    this.showServerMessage = true
+  });
 
   @override
   State<StatefulWidget> createState() => _TryAsyncButtonState();
@@ -39,9 +51,13 @@ class _TryAsyncButtonState<T> extends State<TryAsyncButton<T>> {
         return;
       }
 
-      Navigator.pop(context);
-      Navigator.pop(context);
-      showAlertDialog(context, title: "Success", message: message.toString());
+      Navigator.of(context, rootNavigator: true).pop();
+
+      if (widget.doublePop) {
+        Navigator.pop(context);
+      }
+
+      showAlertDialog(context, title: "Success", message: widget.showServerMessage ? message.toString() : "");
       widget.onDone?.call();
     }
     catch (error, stack) {

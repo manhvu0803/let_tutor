@@ -1,6 +1,16 @@
 import 'wallet.dart';
 
 class User {
+  static List<String> levelStrings = [
+    "Beginner",
+    "Higher Beginner",
+    "Pre-Intermediate",
+    "Intermediate",
+    "Upper-Intermediate",
+    "Advanced",
+    "Proficiency"
+  ];
+
   String id = "";
   String email = "";
   String name = "";
@@ -30,7 +40,7 @@ class User {
     phone = json["phone"] ?? "",
     roles = Set<String>.from(json["roles"] ?? []),
     language = json["language"] ?? "",
-    birthday = DateTime.tryParse(json["birthday"] ?? "") ?? DateTime(0),
+    birthday = parse(json["birthday"] ?? ""),
     isActivated = json["isActivated"] ?? false,
     wallet = (json["walletInfo"] != null) ? Wallet.fromJson(json["walletInfo"]) : null,
     requiredNote = json["requiredNote"] ?? "",
@@ -38,4 +48,14 @@ class User {
     timezone = json["timezone"] ?? 0,
     studySchedule = json["studySchedule"] ?? "",
     canSendMessage = json["canSendMessage"] ?? false;
+}
+
+DateTime parse(String str) {
+  try {
+    var parts = str.split("-");
+    return DateTime(int.parse(parts[0]), int.parse(parts[1]), int.parse(parts[2]));
+  }
+  catch (err) {
+    return DateTime(0);
+  }
 }
