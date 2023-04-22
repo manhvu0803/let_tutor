@@ -2,20 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:let_tutor/client/client.dart';
 import 'package:let_tutor/data_model/user_model.dart';
 import 'package:let_tutor/screens/screen.dart';
-import 'package:let_tutor/screens/signup_screen.dart';
 import 'package:let_tutor/utils/utils.dart';
 import 'package:let_tutor/widgets/credential_view.dart';
 import 'package:provider/provider.dart';
 
-class LoginScreen extends StatefulWidget {
+class SignupScreen extends StatefulWidget {
 
-  const LoginScreen({super.key});
+  const SignupScreen({super.key});
 
   @override
-  State<LoginScreen> createState() => _LoginScreenState();
+  State<SignupScreen> createState() => _SignupScreenState();
 }
 
-class _LoginScreenState extends State<LoginScreen> {
+class _SignupScreenState extends State<SignupScreen> {
   String _username = "";
   String _password = "";
 
@@ -30,12 +29,11 @@ class _LoginScreenState extends State<LoginScreen> {
             onPasswordChanged: (value) => setState(() => _password = value),
             onUsernameChanged: (value) => setState(() => _username = value),
           ),
-          const Text("Forgot password?", style: TextStyle(color: Colors.blue)),
           ElevatedButton(
-            onPressed: () => _tryLogin(context),
-            child: const Text("LOGIN")
+            onPressed: () => _trySignup(context),
+            child: const Text("SIGN UP")
           ),
-          const Text("Or login with", textAlign: TextAlign.center),
+          const Text("Or sign up with", textAlign: TextAlign.center),
           const Row(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
@@ -44,27 +42,32 @@ class _LoginScreenState extends State<LoginScreen> {
             ]
           ),
           TextButton(
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupScreen())),
-            child: const Text("Create an account", style: TextStyle(color: Colors.blue), textAlign: TextAlign.center)
+            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen())),
+            child: const Text("Already have an account?", style: TextStyle(color: Colors.blue), textAlign: TextAlign.center)
           ),
         ],
       ),
     );
   }
 
-  void _tryLogin(BuildContext context) async {
+  void _trySignup(BuildContext context) async {
     showLoadingDialog(context);
 
     try {
-      var userModel = Provider.of<UserModel>(context, listen: false);
-      userModel.user = await Client.login(_username, _password);
+      await Client.signup(_username, _password);
 
       if (!mounted) {
         return;
       }
 
       Navigator.of(context).pop();
-      Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomTabScreen()));
+      await showAlertDialog(context, title: "Sign up successful!", message: "Please check your email to verify the account");
+
+      if (!mounted) {
+        return;
+      }
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen()));
     }
     catch (error, stack) {
       Navigator.of(context).pop();

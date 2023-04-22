@@ -34,7 +34,18 @@ class Client {
     refreshToken = Token.fromJson(tokens["refresh"] ?? tokens["refreshToken"]);
     getCategories();
     _isLogin = true;
-    print(json["user"]["birthday"]);
+    return User.fromJson(json["user"]);
+  }
+
+  static Future<User> signup(String email, String password, {String source = "https://www.google.com/"}) async {
+    var json = await getJson(http.post(
+      url("auth/register"),
+      body: {
+        "email": email,
+        "password": password
+      }
+    ));
+
     return User.fromJson(json["user"]);
   }
 

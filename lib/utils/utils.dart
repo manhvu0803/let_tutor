@@ -33,8 +33,8 @@ void showErrorDialog(BuildContext context, Object error) {
   showAlertDialog(context, title: "Error", message: "$error");
 }
 
-void showAlertDialog(BuildContext context, {required String title, required String message}) {
-  showDialog(
+Future<void> showAlertDialog(BuildContext context, {required String title, required String message}) {
+  return showDialog(
     context: context,
     builder: (context) {
       return AlertDialog(
