@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:let_tutor/client/client.dart';
-import 'package:let_tutor/data_model/course.dart';
 import 'package:let_tutor/data_model/user.dart';
 import 'package:let_tutor/data_model/user_model.dart';
 import 'package:let_tutor/screens/screen.dart';
@@ -39,8 +38,6 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
       var user = context.read<UserModel>().user;
       setState(() {
-        print(user.name);
-        print(user.birthday);
         _birthday = user.birthday;
 
         if (user.level.isNotEmpty) {
@@ -48,7 +45,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
         }
 
         _name = user.name;
-        _country = user.country;
+        if (User.countries.containsKey(user.country)) {
+          _country = user.country;
+        }
+        else {
+          _country = User.countries.keys.first;
+        }
       });
     });
   }
@@ -77,20 +79,12 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
                   DropdownButtonFormField(
                     decoration: _inputDecoration,
                     value: _country,
-                    items: const [
-                      DropdownMenuItem(
-                        value: "VN",
-                        child: Text("Viet Nam")
-                      ),
-                      DropdownMenuItem(
-                        value: "US",
-                        child: Text("USA")
-                      ),
-                      DropdownMenuItem(
-                        value: "BW",
-                        child: Text("Botswana")
-                      )
-                    ],
+                    items: User.countries.keys.toNewList((key) {
+                      return DropdownMenuItem(
+                        value: key,
+                        child: Text(User.countries[key]!)
+                      );
+                    }),
                     onChanged: (value) => setState(() => _country = value ?? _country)
                   ),
                   // Phone

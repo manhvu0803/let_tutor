@@ -11,6 +11,12 @@ class User {
     "Proficiency"
   ];
 
+  static Map<String, String> countries = {
+    "VN": "Viet Nam",
+    "US": "USA",
+    "BW": "Botswana",
+  };
+
   String id = "";
   String email = "";
   String name = "";

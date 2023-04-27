@@ -41,6 +41,9 @@ class _ChatScreenState extends State<ChatScreen> {
       id: now.toString(),
       text: "Hello, how can I help you today?",
     ));
+
+    prompts.add({"role": _user.id, "content": "Keep it short and simple"});
+    prompts.add({"role": _chatGpt.id, "content": "Okay"});
   }
 
   @override
@@ -84,15 +87,18 @@ class _ChatScreenState extends State<ChatScreen> {
       _isAiTyping = true;
     });
 
+    prompts.add({"role": _user.id, "content": message.text});
+
     final request = ChatCompleteText(
       maxToken: 400,
-      messages: [{"role": _user.id, "content": message.text}],
+      messages: prompts,
       model: ChatModel.gptTurbo0301,
     );
 
     try {
       final response = await _openAi.onChatCompletion(request: request);
       final responseText = response!.choices[0].message!.content;
+      prompts.add({"role": _chatGpt.id, "content": responseText});
       _replaceLastMessage(_buildResponse(responseText.replaceAll("```", "`")));
     }
     catch (error) {
