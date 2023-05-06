@@ -1,5 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:let_tutor/client/client.dart';
 import 'package:let_tutor/data_model/setting_model.dart';
+import 'package:let_tutor/data_model/user_model.dart';
+import 'package:let_tutor/screens/screen.dart';
+import 'package:persistent_bottom_nav_bar/persistent_tab_view.dart';
 import 'package:provider/provider.dart';
 
 class SettingView extends StatefulWidget {
@@ -37,6 +41,18 @@ class _SettingViewState extends State<SettingView> {
                   )
                 ]
               ),
+            ),
+            ElevatedButton(
+              onPressed:() {
+                Client.logout();
+                Navigator.popUntil(context, (route) => true);
+                PersistentNavBarNavigator.pushNewScreen(
+                  context,
+                  screen: const LoginScreen(),
+                  withNavBar: false
+                );
+              },
+              child: const Text("Logout")
             )
           ],
         ),

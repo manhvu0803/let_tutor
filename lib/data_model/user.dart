@@ -35,7 +35,7 @@ class User {
   String studySchedule = "";
   bool canSendMessage = false;
 
-  User({required this.wallet});
+  User({required this.wallet, this.name = "", this.avatarUrl = "", this.id = ""});
 
   User.fromJson(Map<String, dynamic> json) :
     id = json["userId"] ?? json["id"] ?? "",

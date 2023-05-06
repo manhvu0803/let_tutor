@@ -33,6 +33,27 @@ class Course {
   List<Topic> topics;
   String category;
 
+  Course({
+    this.id = "",
+    this.name = "",
+    this.description = "",
+    this.imageUrl = "",
+    this.leveNumber = 0,
+    this.reason = "",
+    this.purpose = "",
+    this.otherDetails = "",
+    this.defaultPrice = 0,
+    this.coursePrice = 0,
+    this.courseType = "",
+    this.sectionType = "",
+    this.visible = true,
+    this.displayOrder = "",
+    this.topics = const [],
+    this.category = ""
+  }) :
+    createdAt = DateTime(0),
+    updatedAt = DateTime(0);
+
   Course.fromJson(Map<String, dynamic> json) :
     id = json["id"] ?? "",
     name = json["name"] ?? "",

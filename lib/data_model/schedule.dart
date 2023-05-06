@@ -21,6 +21,20 @@ class Schedule {
   bool isBooked;
   User? tutor;
 
+  Schedule({
+    this.id = "",
+    this.studentRequest = "",
+    this.tutorReview = "",
+    DateTime? startTime,
+    DateTime? endTime,
+    this.isBooked = false,
+    this.classReview,
+    this.tutor
+  }) :
+    startTime = startTime ?? DateTime(0),
+    endTime = endTime ?? DateTime(0);
+
+
   Schedule.fromJson(Map<String, dynamic> json) :
     id = json["scheduleDetails"]?[0]?["id"] ?? json["id"],
     studentRequest = json["studentRequest"] ?? "",

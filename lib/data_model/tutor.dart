@@ -28,6 +28,27 @@ class Tutor extends User {
   int totalFeedbacks;
   List<Course> courses;
 
+  Tutor({
+    String id = "",
+    String name = "",
+    String avatarUrl = "",
+    this.bio = "",
+    this.videoUrl = "",
+    this.education = "",
+    this.experience = "",
+    this.accent = "",
+    this.targetStudent = "",
+    this.interests = "",
+    this.languages = const [],
+    this.specialties = const [],
+    this.rating = 0,
+    this.isNative = false,
+    this.isFavorite = false,
+    this.totalFeedbacks = 0,
+    this.courses = const [],
+    super.wallet,
+  }) : super(name: name, avatarUrl: avatarUrl, id: id);
+
   Tutor.fromJson(Map<String, dynamic> json) :
     bio = json["bio"] ?? "",
     videoUrl = json["video"] ?? "",

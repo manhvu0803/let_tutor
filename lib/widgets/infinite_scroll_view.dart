@@ -1,4 +1,3 @@
-import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
 import 'package:let_tutor/data_model/setting_model.dart';
 import 'package:let_tutor/widgets/future_column.dart';
@@ -55,7 +54,7 @@ class _InfiniteScrollViewState<T> extends State<InfiniteScrollView<T>> {
           Consumer<SettingModel>(
             builder: (context, model, child) => SliverAppBar(
               pinned: true,
-              backgroundColor: model.isDarkMode ? null : Colors.white,
+              backgroundColor: model.isDarkMode ? const Color.fromARGB(18, 0, 0, 0) : Colors.white,
               collapsedHeight: widget.collapseHeight,
               expandedHeight: widget.expandedHeight,
               automaticallyImplyLeading: false,

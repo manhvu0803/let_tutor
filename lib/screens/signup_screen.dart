@@ -15,6 +15,7 @@ class SignupScreen extends StatefulWidget {
 class _SignupScreenState extends State<SignupScreen> {
   String _username = "";
   String _password = "";
+  String _rePassword = "";
 
   @override
   Widget build(BuildContext context) {
@@ -26,6 +27,16 @@ class _SignupScreenState extends State<SignupScreen> {
           CredentialView(
             onPasswordChanged: (value) => setState(() => _password = value),
             onUsernameChanged: (value) => setState(() => _username = value),
+          ),
+          TextField(
+            decoration: const InputDecoration(
+              labelText: "Re-enter password",
+              prefixIcon: Icon(Icons.lock)
+            ),
+            onChanged: (value) => setState(() => _rePassword = value),
+            obscureText: true,
+            enableSuggestions: false,
+            autocorrect: false,
           ),
           ElevatedButton(
             onPressed: () => _trySignup(context),
@@ -49,6 +60,11 @@ class _SignupScreenState extends State<SignupScreen> {
   }
 
   void _trySignup(BuildContext context) async {
+    if (_password != _rePassword) {
+      showErrorDialog(context, "Password doesn't match!");
+      return;
+    }
+
     showLoadingDialog(context);
 
     try {

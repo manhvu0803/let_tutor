@@ -39,6 +39,12 @@ class Client {
     return User.fromJson(json["user"]);
   }
 
+  static void logout() async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString("username", "");
+    await pref.setString("password", "");
+  }
+
   static void _saveLoginInfo(String username, String password) async {
     final pref = await SharedPreferences.getInstance();
     await pref.setString("username", username);

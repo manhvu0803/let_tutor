@@ -3,7 +3,9 @@ import 'package:let_tutor/data_model/user.dart';
 import 'package:let_tutor/data_model/wallet.dart';
 
 class UserModel extends ChangeNotifier {
-  User _user = User(wallet: Wallet(createdAt: DateTime.now()));
+  User _user;
+
+  UserModel(User? user) : _user = (user != null) ? user : User(wallet: Wallet(createdAt: DateTime.now()));
 
   User get user => _user;
 

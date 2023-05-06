@@ -145,11 +145,13 @@ class _ReviewPointText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
+    return Wrap(
+      crossAxisAlignment: WrapCrossAlignment.center,
       children: [
         Text("$title ("),
         ...List.generate(rating, (index) => const Icon(Icons.star, color: Colors.yellow)),
-        Text("): $comment")
+        const Text("):"),
+        Text(comment)
       ],
     );
   }

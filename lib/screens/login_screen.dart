@@ -8,7 +8,6 @@ import 'package:let_tutor/widgets/credential_view.dart';
 import 'package:provider/provider.dart';
 
 class LoginScreen extends StatefulWidget {
-
   const LoginScreen({super.key});
 
   @override
@@ -24,6 +23,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Screen(
       child: ListView(
         children: [
+          const SizedBox(height: 200),
           CredentialView(
             onPasswordChanged: (value) => setState(() => _password = value),
             onUsernameChanged: (value) => setState(() => _username = value),

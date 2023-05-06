@@ -6,6 +6,15 @@ class StudentReview {
   int rating;
   String content;
 
+  StudentReview({
+    this.id = "",
+    required this.createdAt,
+    this.studentName = "",
+    this.studentAvatarUrl = "",
+    this.rating = 4,
+    this.content = "",
+  });
+
   StudentReview.fromJson(Map<String, dynamic> json) :
     id = json["id"] ?? "",
     createdAt = DateTime.tryParse(json["createdAt"]) ?? DateTime(0),

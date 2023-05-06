@@ -6,6 +6,15 @@ class TutorReview {
   String overallComment;
   String lessonStatus;
 
+  TutorReview({
+    this.behaviour = const ReviewPoint("", 0),
+    this.listening = const ReviewPoint("", 0),
+    this.vocabulary = const ReviewPoint("", 0),
+    this.speaking = const ReviewPoint("", 0),
+    this.overallComment = "",
+    this.lessonStatus = "",
+  });
+
   TutorReview.fromJson(Map<String, dynamic> json) :
     behaviour = ReviewPoint(json["behaviorComment"], json["behaviorRating"]),
     listening = ReviewPoint(json["listeningComment"], json["listeningRating"]),
@@ -19,7 +28,5 @@ class ReviewPoint {
   final String comment;
   final int rating;
 
-  ReviewPoint(String? comment, int? rating) :
-    comment = comment ?? "",
-    rating = rating ?? 0;
+  const ReviewPoint([this.comment = "", this.rating = 0]);
 }

@@ -13,6 +13,7 @@ class SettingModel extends ChangeNotifier {
     final prefs = await SharedPreferences.getInstance();
     _isDarkMode = prefs.getBool("setting_isDarkMode") ?? false;
     _language = prefs.getString("setting_language") ?? "VI";
+    notifyListeners();
   }
 
   bool get isDarkMode => _isDarkMode;

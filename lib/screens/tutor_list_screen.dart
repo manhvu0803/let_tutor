@@ -80,7 +80,7 @@ class _TutorListScreenState extends State<TutorListScreen> {
                     name: "Specialty:",
                     value: _specialtyFilter,
                     options: categorieStrings,
-                    allowNullOption: true,
+                    allowNullOption: false,
                     onChanged: (specialty) => setState(() => _specialtyFilter = specialty ?? "")
                   ),
                 ),
@@ -118,8 +118,8 @@ class _TutorListScreenState extends State<TutorListScreen> {
 
     var date = await showDatePicker(
       context: context,
-      initialDate: now,
-      firstDate: now,
+      initialDate: DateTime(2023, 5, 1),
+      firstDate: DateTime(2023),
       lastDate: DateTime(now.year + 1)
     );
 

@@ -22,7 +22,10 @@ class FutureColumn<T> extends StatelessWidget {
       buildWidget: (context, data) {
         if (data.isEmpty) {
           return const Center(
-            child: Text("Sorry, we can find anything with these options"),
+            child: Padding(
+              padding: EdgeInsets.all(12.0),
+              child: Text("Sorry, we can find anything more"),
+            ),
           );
         }
 
