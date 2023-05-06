@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_chat_types/flutter_chat_types.dart' as types;
 import 'package:flutter_chat_ui/flutter_chat_ui.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:let_tutor/data_model/setting_model.dart';
 import 'package:let_tutor/screens/screen.dart';
+import 'package:provider/provider.dart';
 
 class ChatScreen extends StatefulWidget {
   const ChatScreen({super.key});
@@ -53,6 +55,7 @@ class _ChatScreenState extends State<ChatScreen> {
       useAppBar: true,
       appBarTitle: "Chat with ChatGPT",
       child: Chat(
+        theme: Provider.of<SettingModel>(context).isDarkMode ? const DarkChatTheme() : const DefaultChatTheme(),
         isAttachmentUploading: _isAiTyping,
         messages: _messages,
         onSendPressed: _onSendButtonPressed,

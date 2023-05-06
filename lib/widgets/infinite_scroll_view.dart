@@ -1,5 +1,8 @@
+import 'package:chat_gpt_sdk/chat_gpt_sdk.dart';
 import 'package:flutter/material.dart';
+import 'package:let_tutor/data_model/setting_model.dart';
 import 'package:let_tutor/widgets/future_column.dart';
+import 'package:provider/provider.dart';
 
 class InfiniteScrollView<T> extends StatefulWidget {
   final double? collapseHeight;
@@ -49,13 +52,15 @@ class _InfiniteScrollViewState<T> extends State<InfiniteScrollView<T>> {
         physics: const AlwaysScrollableScrollPhysics(),
         controller: _scrollController,
         slivers: [
-          SliverAppBar(
-            pinned: true,
-            collapsedHeight: widget.collapseHeight,
-            expandedHeight: widget.expandedHeight,
-            backgroundColor: Colors.white,
-            automaticallyImplyLeading: false,
-            flexibleSpace: widget.flexibleSpace
+          Consumer<SettingModel>(
+            builder: (context, model, child) => SliverAppBar(
+              pinned: true,
+              backgroundColor: model.isDarkMode ? null : Colors.white,
+              collapsedHeight: widget.collapseHeight,
+              expandedHeight: widget.expandedHeight,
+              automaticallyImplyLeading: false,
+              flexibleSpace: widget.flexibleSpace
+            ),
           ),
           SliverList.builder(
             itemCount: _currentPage,

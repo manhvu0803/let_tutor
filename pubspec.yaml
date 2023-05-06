@@ -46,6 +46,7 @@ dependencies:
   flutter_dotenv: ^5.0.2
   flutter_chat_types: ^3.6.1
   video_player: ^2.6.1
+  shared_preferences: ^2.1.1
 
 dev_dependencies:
   flutter_test:

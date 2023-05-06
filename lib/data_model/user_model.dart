@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-
-import 'user.dart';
-import 'wallet.dart';
+import 'package:let_tutor/data_model/user.dart';
+import 'package:let_tutor/data_model/wallet.dart';
 
 class UserModel extends ChangeNotifier {
   User _user = User(wallet: Wallet(createdAt: DateTime.now()));

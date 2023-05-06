@@ -5,6 +5,7 @@ import 'package:http/http.dart' as http;
 import 'package:let_tutor/client/course_client.dart';
 import 'package:let_tutor/data_model/token.dart';
 import 'package:let_tutor/data_model/user.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 export 'tutor_client.dart';
 export 'course_client.dart';
@@ -34,7 +35,14 @@ class Client {
     refreshToken = Token.fromJson(tokens["refresh"] ?? tokens["refreshToken"]);
     getCategories();
     _isLogin = true;
+    _saveLoginInfo(email, password);
     return User.fromJson(json["user"]);
+  }
+
+  static void _saveLoginInfo(String username, String password) async {
+    final pref = await SharedPreferences.getInstance();
+    await pref.setString("username", username);
+    await pref.setString("password", password);
   }
 
   static Future<User> signup(String email, String password, {String source = "https://www.google.com/"}) async {

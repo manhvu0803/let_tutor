@@ -18,12 +18,12 @@ class TutorInfoScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return FutureWidget(
-      fetchData: () => client.getTutor(tutorId),
-      buildWidget: (context, tutor) => DefaultTabController(
+    return Screen(
+      child: DefaultTabController(
         length: 2,
-        child: Screen(
-          child: Column(
+        child: FutureWidget(
+          fetchData: () => client.getTutor(tutorId),
+          buildWidget: (context, tutor) => Column(
             children: [
               TutorCard.fromTutor(
                 tutor,
@@ -107,7 +107,7 @@ class TutorInfoScreen extends StatelessWidget {
             ],
           )
         ),
-      )
+      ),
     );
   }
 }

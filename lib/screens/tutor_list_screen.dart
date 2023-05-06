@@ -44,63 +44,61 @@ class _TutorListScreenState extends State<TutorListScreen> {
           toTime: _toTimeFilter,
           searchTerm: _nameFilter
         ),
-        flexibleSpace: SingleChildScrollView(
-          child: Column(
-            children: [
-              SizedBox(
-                height: 40,
-                child: my.SearchBar(
-                  currentText: _nameFilter,
-                  onSubmitted: (name) => setState(() => _nameFilter = name)
-                )
-              ),
-              Wrap(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.only(left: 8, right: 8),
-                    child: OutlinedButton(
-                      onPressed: () => _pickDate(context),
-                      child: Text((_dateFilter != null) ? _dateFilter!.dateWeekString : "Date")
-                    ),
-                  ),
-                  OutlinedButton(
-                    onPressed: () => _pickTime(context, (time) => _fromTimeFilter = time),
-                    child: Text((_fromTimeFilter != null) ? _fromTimeFilter!.hourString : "From")
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.only(top: 4, left: 4, right: 4),
-                    child: Text("-", style: TextStyle(fontSize: 32)),
-                  ),
-                  OutlinedButton(
-                    onPressed: () => _pickTime(context, (time) => _toTimeFilter = time),
-                    child: Text((_toTimeFilter != null) ? _toTimeFilter!.hourString : "To")
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(left: 16, right: 16),
-                    child: DropdownFilter.iterable(
-                      name: "Specialty:",
-                      value: _specialtyFilter,
-                      options: categorieStrings,
-                      allowNullOption: true,
-                      onChanged: (specialty) => setState(() => _specialtyFilter = specialty ?? "")
-                    ),
-                  ),
-                  Center(
-                    child: ElevatedButton(
-                      onPressed: () => setState(() {
-                        _nameFilter = "";
-                        _specialtyFilter = categorieStrings.first;
-                        _fromTimeFilter = null;
-                        _toTimeFilter = null;
-                        _dateFilter = null;
-                      }),
-                      child: const Text("Reset")
-                    ),
-                  ),
-                ],
+        flexibleSpace: ListView(
+          children: [
+            SizedBox(
+              height: 40,
+              child: my.SearchBar(
+                currentText: _nameFilter,
+                onSubmitted: (name) => setState(() => _nameFilter = name)
               )
-            ],
-          ),
+            ),
+            Wrap(
+              children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 8, right: 8),
+                  child: OutlinedButton(
+                    onPressed: () => _pickDate(context),
+                    child: Text((_dateFilter != null) ? _dateFilter!.dateWeekString : "Date")
+                  ),
+                ),
+                OutlinedButton(
+                  onPressed: () => _pickTime(context, (time) => _fromTimeFilter = time),
+                  child: Text((_fromTimeFilter != null) ? _fromTimeFilter!.hourString : "From")
+                ),
+                const Padding(
+                  padding: EdgeInsets.only(top: 4, left: 4, right: 4),
+                  child: Text("-", style: TextStyle(fontSize: 32)),
+                ),
+                OutlinedButton(
+                  onPressed: () => _pickTime(context, (time) => _toTimeFilter = time),
+                  child: Text((_toTimeFilter != null) ? _toTimeFilter!.hourString : "To")
+                ),
+                Padding(
+                  padding: const EdgeInsets.only(left: 16, right: 16),
+                  child: DropdownFilter.iterable(
+                    name: "Specialty:",
+                    value: _specialtyFilter,
+                    options: categorieStrings,
+                    allowNullOption: true,
+                    onChanged: (specialty) => setState(() => _specialtyFilter = specialty ?? "")
+                  ),
+                ),
+                Center(
+                  child: ElevatedButton(
+                    onPressed: () => setState(() {
+                      _nameFilter = "";
+                      _specialtyFilter = categorieStrings.first;
+                      _fromTimeFilter = null;
+                      _toTimeFilter = null;
+                      _dateFilter = null;
+                    }),
+                    child: const Text("Reset")
+                  ),
+                ),
+              ],
+            )
+          ],
         ),
       )
     );

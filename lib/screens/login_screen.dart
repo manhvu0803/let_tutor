@@ -22,9 +22,7 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Screen(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: ListView(
         children: [
           CredentialView(
             onPasswordChanged: (value) => setState(() => _password = value),
@@ -32,7 +30,7 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
           const Text("Forgot password?", style: TextStyle(color: Colors.blue)),
           ElevatedButton(
-            onPressed: () => _tryLogin(context),
+            onPressed: () => _tryLogin(_username, _password),
             child: const Text("LOGIN")
           ),
           const Text("Or login with", textAlign: TextAlign.center),
@@ -52,23 +50,30 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  void _tryLogin(BuildContext context) async {
+  void _tryLogin(String username, String password, {bool isAuto = false}) async {
     showLoadingDialog(context);
 
     try {
       var userModel = Provider.of<UserModel>(context, listen: false);
-      userModel.user = await Client.login(_username, _password);
+      userModel.user = await Client.login(username, password);
 
       if (!mounted) {
         return;
       }
 
-      Navigator.of(context).pop();
+      Navigator.of(context, rootNavigator: true).pop();
       Navigator.pushReplacement(context, MaterialPageRoute(builder: (context) => const BottomTabScreen()));
     }
     catch (error, stack) {
-      Navigator.of(context).pop();
-      showErrorDialog(context, error);
+      Navigator.of(context, rootNavigator: true).pop();
+
+      if (isAuto) {
+        debugPrint(error.toString());
+      }
+      else {
+        showErrorDialog(context, error);
+      }
+
       debugPrint("Stack trace: $stack");
     }
   }
