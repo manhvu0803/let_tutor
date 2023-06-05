@@ -55,6 +55,7 @@ class _CourseListScreenState extends State<CourseListScreen> {
                     value: _chosenLevel,
                     options: Course.levelStrings.toIndexMap((item) => item),
                     onChanged: (value) => setState(() => _chosenLevel = value),
+                    allowNullOption: false,
                   ),
                   DropdownFilter(
                     name: "Category",

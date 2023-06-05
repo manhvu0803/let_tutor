@@ -20,39 +20,48 @@ class _SettingViewState extends State<SettingView> {
       child: Consumer<SettingModel>(
         builder: (context, model, child) => ListView(
           children: [
-            SwitchListTile(
-              value: model.isDarkMode,
-              onChanged: (value) => model.isDarkMode = value,
-              title: const Text("Dark mode", style: TextStyle(fontSize: 20)),
-            ),
-            ListTile(
-              title: const Text("Languague", style: TextStyle(fontSize: 20)),
-              trailing: DropdownButton(
-                value: "VI",
-                onChanged: (value) => setState(() {}),
-                items: const [
-                  DropdownMenuItem(
-                    value: "VI",
-                    child: Text("Vietnamese"),
-                  ),
-                  DropdownMenuItem(
-                    value: "EN",
-                    child: Text("English"),
-                  )
-                ]
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: SwitchListTile(
+                value: model.isDarkMode,
+                onChanged: (value) => model.isDarkMode = value,
+                title: const Text("Dark mode", style: TextStyle(fontSize: 20)),
               ),
             ),
-            ElevatedButton(
-              onPressed:() {
-                Client.logout();
-                Navigator.popUntil(context, (route) => true);
-                PersistentNavBarNavigator.pushNewScreen(
-                  context,
-                  screen: const LoginScreen(),
-                  withNavBar: false
-                );
-              },
-              child: const Text("Logout")
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: ListTile(
+                title: const Text("Languague", style: TextStyle(fontSize: 20)),
+                trailing: DropdownButton(
+                  value: "VI",
+                  onChanged: (value) => setState(() {}),
+                  items: const [
+                    DropdownMenuItem(
+                      value: "VI",
+                      child: Text("Vietnamese"),
+                    ),
+                    DropdownMenuItem(
+                      value: "EN",
+                      child: Text("English"),
+                    )
+                  ]
+                ),
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: ElevatedButton(
+                onPressed:() {
+                  Client.logout();
+                  Navigator.popUntil(context, (route) => true);
+                  PersistentNavBarNavigator.pushNewScreen(
+                    context,
+                    screen: const LoginScreen(),
+                    withNavBar: false
+                  );
+                },
+                child: const Text("Logout")
+              ),
             )
           ],
         ),

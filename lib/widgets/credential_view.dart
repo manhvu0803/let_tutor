@@ -10,15 +10,21 @@ class CredentialView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        const Text(
-          "Say hello to your English tutors",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40)
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.0),
+          child: Text(
+            "Say hello to your English tutors",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 40)
+          ),
         ),
-        const Text(
-          "Become fluent faster through 1 on 1 video lessons tailored to your goals",
-          textAlign: TextAlign.center,
-          style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)
+        const Padding(
+          padding: EdgeInsets.symmetric(vertical: 20.0),
+          child: Text(
+            "Become fluent faster through 1 on 1 video lessons tailored to your goals",
+            textAlign: TextAlign.center,
+            style: TextStyle(fontWeight: FontWeight.bold, fontSize: 20)
+          ),
         ),
         TextField(
           decoration: const InputDecoration(

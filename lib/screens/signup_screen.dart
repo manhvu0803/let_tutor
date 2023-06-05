@@ -20,10 +20,9 @@ class _SignupScreenState extends State<SignupScreen> {
   @override
   Widget build(BuildContext context) {
     return Screen(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        crossAxisAlignment: CrossAxisAlignment.stretch,
+      child: ListView(
         children: [
+          const SizedBox(height: 100),
           CredentialView(
             onPasswordChanged: (value) => setState(() => _password = value),
             onUsernameChanged: (value) => setState(() => _username = value),
@@ -38,21 +37,31 @@ class _SignupScreenState extends State<SignupScreen> {
             enableSuggestions: false,
             autocorrect: false,
           ),
-          ElevatedButton(
-            onPressed: () => _trySignup(context),
-            child: const Text("SIGN UP")
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: ElevatedButton(
+              onPressed: () => _trySignup(context),
+              child: const Text("SIGN UP")
+            ),
           ),
-          const Text("Or sign up with", textAlign: TextAlign.center),
+          const Padding(
+            padding: EdgeInsets.all(8.0),
+            child: Text("Or sign up with", textAlign: TextAlign.center),
+          ),
           const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Icon(Icons.facebook, size: 48),
-              Icon(Icons.g_translate, size: 48)
+              Icon(Icons.g_translate, size: 48),
+              Icon(Icons.phone_android, size: 48),
             ]
           ),
-          TextButton(
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen())),
-            child: const Text("Already have an account?", style: TextStyle(color: Colors.blue), textAlign: TextAlign.center)
+          Padding(
+            padding: const EdgeInsets.all(16.0),
+            child: TextButton(
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const LoginScreen())),
+              child: const Text("Already have an account?", style: TextStyle(color: Colors.blue), textAlign: TextAlign.center)
+            ),
           ),
         ],
       ),

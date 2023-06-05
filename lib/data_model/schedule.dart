@@ -41,7 +41,7 @@ class Schedule {
     tutorReview = json["tutorReview"] ?? "",
     scoreByTutor = double.parse((json["scoreByTutor"] ?? 0).toString()),
     recordUrl = json["recordUrl"] ?? "",
-    lessonPlanId = json["lessonPlanId"] ?? "",
+    lessonPlanId = json["lessonPlanId"].toString(),
     isDeleted = json["isDeleted"] ?? false,
     classReview = (json["classReview"] != null) ? TutorReview.fromJson(json["classReview"]) : null,
     showRecordUrl = json["showRecordUrl"] ?? false,

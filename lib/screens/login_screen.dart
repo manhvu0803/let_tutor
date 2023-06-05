@@ -23,27 +23,40 @@ class _LoginScreenState extends State<LoginScreen> {
     return Screen(
       child: ListView(
         children: [
-          const SizedBox(height: 200),
+          const SizedBox(height: 150),
           CredentialView(
             onPasswordChanged: (value) => setState(() => _password = value),
             onUsernameChanged: (value) => setState(() => _username = value),
           ),
-          const Text("Forgot password?", style: TextStyle(color: Colors.blue)),
-          ElevatedButton(
-            onPressed: () => _tryLogin(_username, _password),
-            child: const Text("LOGIN")
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Text("Forgot password?", style: TextStyle(color: Colors.blue)),
+          ),
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 20.0),
+            child: ElevatedButton(
+              onPressed: () => _tryLogin(_username, _password),
+              child: const Text("LOGIN")
+            ),
           ),
           const Text("Or login with", textAlign: TextAlign.center),
-          const Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Icon(Icons.facebook, size: 48),
-              Icon(Icons.g_translate, size: 48)
-            ]
+          const Padding(
+            padding: EdgeInsets.symmetric(vertical: 8.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+              children: [
+                Icon(Icons.facebook, size: 48),
+                Icon(Icons.g_translate, size: 48),
+                Icon(Icons.phone_android, size: 48),
+              ]
+            ),
           ),
-          TextButton(
-            onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupScreen())),
-            child: const Text("Create an account", style: TextStyle(color: Colors.blue), textAlign: TextAlign.center)
+          Padding(
+            padding: const EdgeInsets.symmetric(vertical: 16.0),
+            child: TextButton(
+              onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => const SignupScreen())),
+              child: const Text("Create an account", style: TextStyle(color: Colors.blue), textAlign: TextAlign.center)
+            ),
           ),
         ],
       ),
